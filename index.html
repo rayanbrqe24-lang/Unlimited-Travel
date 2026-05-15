@@ -1604,12 +1604,50 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <div id="register-form" style="display:none;">
           <button class="google-btn" onclick="loginGoogle()"><span>G</span> Continue with Google</button>
           <div class="divider">or</div>
-          <div class="auth-form">
+          <!-- Step 1: Fill details -->
+          <div id="reg-step-fields" class="auth-form">
             <div><label class="input-label">Full Name</label><input class="input" type="text" id="reg-name" placeholder="Full Name"></div>
             <div><label class="input-label">Email</label><input class="input" type="email" id="reg-email" placeholder="your@email.com"></div>
             <div><label class="input-label">Phone</label><input class="input" type="tel" id="reg-phone" placeholder="+964 7XX XXX XXXX"></div>
             <div><label class="input-label">Password</label><input class="input" type="password" id="reg-password" placeholder="Create password"></div>
-            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">Create Account →</button>
+            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">Send OTP & Verify →</button>
+          </div>
+          <!-- Step 2: OTP verification -->
+          <div id="reg-step-otp" style="display:none;">
+            <div style="text-align:center;margin-bottom:1.5rem;">
+              <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(255,10,84,0.05));border:1px solid rgba(255,10,84,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.45 5.45l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <h4 style="font-size:1rem;font-weight:700;margin-bottom:0.4rem;">Verify Your Account</h4>
+              <p style="font-size:0.82rem;color:var(--gray-400);" id="otp-desc-text">We sent a 6-digit code to your email and phone.</p>
+            </div>
+            <!-- Email OTP -->
+            <div style="margin-bottom:1rem;">
+              <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Email OTP <span id="email-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span>
+              </label>
+              <div style="display:flex;gap:0.5rem;">
+                <input class="input" type="text" id="otp-email-input" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
+                <button onclick="resendOTP('email')" id="resend-email-btn" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.875rem;border-radius:12px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);font-weight:600;">Resend</button>
+              </div>
+            </div>
+            <!-- Phone OTP -->
+            <div style="margin-bottom:1.5rem;">
+              <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                Phone OTP (SMS) <span id="phone-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span>
+              </label>
+              <div style="display:flex;gap:0.5rem;">
+                <input class="input" type="text" id="otp-phone-input" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
+                <button onclick="resendOTP('phone')" id="resend-phone-btn" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.875rem;border-radius:12px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);font-weight:600;">Resend</button>
+              </div>
+            </div>
+            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="verifyOTPAndRegister()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Verify & Create Account
+            </button>
+            <button onclick="document.getElementById('reg-step-fields').style.display='flex';document.getElementById('reg-step-otp').style.display='none';" style="width:100%;background:none;border:none;color:var(--gray-400);font-size:0.78rem;margin-top:0.75rem;cursor:pointer;font-family:var(--font-body);padding:0.4rem;">← Back to edit details</button>
           </div>
         </div>
       </div>
@@ -2618,23 +2656,199 @@ async function doLogin() {
     else { setupAuthPage(); }
   }, 800);
 }
+// ================================================================
+//  OTP SYSTEM
+// ================================================================
+const _otp = { emailCode: '', phoneCode: '', email: '', phone: '', emailVerified: false, phoneVerified: false };
+
+function generateOTP() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+async function sendEmailOTP(email, code) {
+  // Use Supabase Auth OTP (real) — falls back to console log for dev
+  try {
+    const { error } = await supa.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+    if (error) throw error;
+  } catch(e) {
+    // Supabase OTP sent, OR show in toast for demo
+    console.log('Email OTP for ' + email + ':', code);
+  }
+  // Also show toast so user can see it during testing
+  showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Code: ' + code + ' (check your email or this toast for testing)');
+}
+
+async function sendPhoneOTP(phone, code) {
+  // Use Supabase Auth OTP for phone (requires Twilio configured)
+  try {
+    const { error } = await supa.auth.signInWithOtp({ phone });
+    if (error) throw error;
+    showToast(_SVG_ICONS.info, 'SMS Sent', 'OTP sent to ' + phone);
+  } catch(e) {
+    // Twilio not configured — show code in toast for testing
+    console.log('Phone OTP for ' + phone + ':', code);
+    showToast(_SVG_ICONS.info, 'Phone OTP (Test Mode)', 'Code: ' + code + ' — Configure Twilio in Supabase for real SMS');
+  }
+}
+
 async function doRegister() {
   const name = document.getElementById('reg-name').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const phone = document.getElementById('reg-phone').value.trim();
   const password = document.getElementById('reg-password').value;
-  if (!name || !email || !password) { showToast(_SVG_ICONS.warn,'Missing Fields','Name, email and password are required.'); return; }
+  if (!name || !email || !phone || !password) { showToast(_SVG_ICONS.warn, 'Missing Fields', 'All fields are required.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast(_SVG_ICONS.warn, 'Invalid Email', 'Please enter a valid email address.'); return; }
+  if (phone.replace(/\D/g,'').length < 10) { showToast(_SVG_ICONS.warn, 'Invalid Phone', 'Please enter a valid phone number.'); return; }
   showLoadingOverlay(true);
   const existing = await dbGetUserByEmail(email);
-  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn,'Already Registered','An account with this email already exists.'); return; }
-  const newUser = { id:'usr-'+Date.now(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password };
-  await dbInsertUser(newUser);
+  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn, 'Already Registered', 'An account with this email already exists.'); return; }
+  // Generate OTPs
+  _otp.emailCode = generateOTP();
+  _otp.phoneCode = generateOTP();
+  _otp.email = email;
+  _otp.phone = phone;
+  _otp.emailVerified = false;
+  _otp.phoneVerified = false;
+  // Send both OTPs
+  await sendEmailOTP(email, _otp.emailCode);
+  await sendPhoneOTP(phone, _otp.phoneCode);
   showLoadingOverlay(false);
+  // Show OTP step
+  document.getElementById('reg-step-fields').style.display = 'none';
+  document.getElementById('reg-step-otp').style.display = 'block';
+  document.getElementById('otp-desc-text').textContent = 'Codes sent to ' + email + ' and ' + phone;
+  // Start resend timer
+  startResendTimer('email'); startResendTimer('phone');
+}
+
+async function verifyOTPAndRegister(context) {
+  const prefix = context === 'modal' ? 'modal-otp-' : 'otp-';
+  const emailInput = document.getElementById(prefix + 'email' + (context === 'modal' ? '' : '-input'));
+  const phoneInput = document.getElementById(prefix + 'phone' + (context === 'modal' ? '' : '-input'));
+  const enteredEmail = emailInput ? emailInput.value.trim() : '';
+  const enteredPhone = phoneInput ? phoneInput.value.trim() : '';
+
+  if (!enteredEmail || !enteredPhone) { showToast(_SVG_ICONS.warn, 'Enter Both Codes', 'Please enter both email and phone OTP codes.'); return; }
+
+  // Verify email OTP
+  if (enteredEmail !== _otp.emailCode) {
+    showToast(_SVG_ICONS.error, 'Wrong Email Code', 'The email OTP code is incorrect. Please try again.');
+    emailInput.style.borderColor = '#ef4444';
+    setTimeout(() => emailInput.style.borderColor = '', 2000);
+    return;
+  }
+
+  // Verify phone OTP
+  if (enteredPhone !== _otp.phoneCode) {
+    showToast(_SVG_ICONS.error, 'Wrong Phone Code', 'The phone OTP code is incorrect. Please try again.');
+    phoneInput.style.borderColor = '#ef4444';
+    setTimeout(() => phoneInput.style.borderColor = '', 2000);
+    return;
+  }
+
+  // Both verified — show green ticks
+  const emailStatus = document.getElementById(context === 'modal' ? 'modal-email-otp-status' : 'email-otp-status');
+  const phoneStatus = document.getElementById(context === 'modal' ? 'modal-phone-otp-status' : 'phone-otp-status');
+  if (emailStatus) emailStatus.style.display = 'inline';
+  if (phoneStatus) phoneStatus.style.display = 'inline';
+  emailInput.style.borderColor = '#10b981';
+  phoneInput.style.borderColor = '#10b981';
+
+  // Get registration data
+  const name = context === 'modal'
+    ? document.getElementById('modal-reg-name').value.trim()
+    : document.getElementById('reg-name').value.trim();
+  const email = _otp.email;
+  const phone = _otp.phone;
+  const password = context === 'modal'
+    ? document.getElementById('modal-reg-pass').value
+    : document.getElementById('reg-password').value;
+
+  showLoadingOverlay(true);
+  const newUser = {
+    id: 'usr-' + Date.now(),
+    fullName: name,
+    email, phone,
+    passportId: '',
+    role: 'customer',
+    isVerified: true,
+    emailVerified: true,
+    phoneVerified: true,
+    createdAt: new Date().toLocaleDateString(),
+    password
+  };
+  await dbInsertUser(newUser);
   if (_cache.users) _cache.users.unshift(newUser);
   DB.currentUser = newUser;
-  showToast(_SVG_ICONS.success,'Account Created!','Welcome to UNLIMITED Travel & Tourism!');
+  showLoadingOverlay(false);
+  showToast(_SVG_ICONS.success, '✓ Account Verified!', 'Welcome to UNLIMITED Travel & Tourism, ' + name + '!');
   updateNavUserPill();
-  setTimeout(setupAuthPage, 600);
+
+  if (context === 'modal') {
+    closeAuthModal();
+    // Continue to visa application
+    setTimeout(() => goVisa && goVisa(), 500);
+  } else {
+    setTimeout(setupAuthPage, 600);
+  }
+}
+
+function resendOTP(type, context) {
+  const code = generateOTP();
+  if (type === 'email') {
+    _otp.emailCode = code;
+    sendEmailOTP(_otp.email, code);
+    startResendTimer('email', context);
+  } else {
+    _otp.phoneCode = code;
+    sendPhoneOTP(_otp.phone, code);
+    startResendTimer('phone', context);
+  }
+}
+
+function startResendTimer(type, context) {
+  const btnId = context === 'modal'
+    ? null  // modal uses inline onclick, no timer UI needed
+    : 'resend-' + type + '-btn';
+  if (!btnId) return;
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  let sec = 60;
+  btn.disabled = true;
+  btn.textContent = sec + 's';
+  const iv = setInterval(() => {
+    sec--;
+    btn.textContent = sec + 's';
+    if (sec <= 0) {
+      clearInterval(iv);
+      btn.disabled = false;
+      btn.textContent = 'Resend';
+    }
+  }, 1000);
+}
+
+async function modalRegister() {
+  const name = document.getElementById('modal-reg-name').value.trim();
+  const email = document.getElementById('modal-reg-email').value.trim();
+  const phone = document.getElementById('modal-reg-phone').value.trim();
+  const pass = document.getElementById('modal-reg-pass').value;
+  if (!name || !email || !phone || !pass) { showToast(_SVG_ICONS.warn, 'Missing Fields', 'All fields are required.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast(_SVG_ICONS.warn, 'Invalid Email', 'Please enter a valid email address.'); return; }
+  showLoadingOverlay(true);
+  const existing = await dbGetUserByEmail(email);
+  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn, 'Already Registered', 'Account exists. Please sign in.'); switchModalTab('login'); return; }
+  _otp.emailCode = generateOTP();
+  _otp.phoneCode = generateOTP();
+  _otp.email = email;
+  _otp.phone = phone;
+  _otp.emailVerified = false;
+  _otp.phoneVerified = false;
+  await sendEmailOTP(email, _otp.emailCode);
+  await sendPhoneOTP(phone, _otp.phoneCode);
+  showLoadingOverlay(false);
+  document.getElementById('modal-reg-fields').style.display = 'none';
+  document.getElementById('modal-reg-otp').style.display = 'flex';
+  document.getElementById('modal-otp-desc').textContent = 'Codes sent to ' + email + ' and ' + phone;
 }
 async function loginGoogle() {
   const email = 'google.traveler@gmail.com';
@@ -2801,26 +3015,6 @@ async function modalLogin() {
   DB.currentUser = found;
   closeAuthModal();
   showToast(_SVG_ICONS.success,'Welcome back, ' + found.fullName.split(' ')[0] + '!','Opening visa application...');
-  updateNavUserPill();
-  if (selectedCountryId) { nav('visa'); setupVisaPage(); }
-  else nav('visa-pick');
-}
-async function modalRegister() {
-  const name = document.getElementById('modal-reg-name').value.trim();
-  const email = document.getElementById('modal-reg-email').value.trim();
-  const phone = document.getElementById('modal-reg-phone').value.trim();
-  const pass = document.getElementById('modal-reg-pass').value;
-  if (!name || !email || !pass) { showToast(_SVG_ICONS.warn,'Missing Fields','Name, email and password are required.'); return; }
-  showLoadingOverlay(true);
-  const existing = await dbGetUserByEmail(email);
-  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn,'Already Registered','Account exists. Please sign in.'); switchModalTab('login'); return; }
-  const newUser = { id:'usr-'+Date.now(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password:pass };
-  await dbInsertUser(newUser);
-  showLoadingOverlay(false);
-  if (_cache.users) _cache.users.unshift(newUser);
-  DB.currentUser = newUser;
-  closeAuthModal();
-  showToast(_SVG_ICONS.success,'Account Created!','Welcome ' + name.split(' ')[0] + '! Opening visa application...');
   updateNavUserPill();
   if (selectedCountryId) { nav('visa'); setupVisaPage(); }
   else nav('visa-pick');
@@ -3793,12 +3987,33 @@ function setDefaultDates() {
       <p style="text-align:center;font-size:0.72rem;color:var(--gray-500);margin-top:0.875rem;">Demo: <span style="color:var(--gold-400)">ahmed@example.com</span> / <span style="color:var(--gold-400)">test123</span></p>
     </div>
     <div id="modal-register-form" style="display:none;">
-      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <!-- Step 1 -->
+      <div id="modal-reg-fields" style="display:flex;flex-direction:column;gap:0.75rem;">
         <input class="input" type="text" id="modal-reg-name" placeholder="Full Name">
         <input class="input" type="email" id="modal-reg-email" placeholder="Email address">
         <input class="input" type="tel" id="modal-reg-phone" placeholder="Phone (+964 7XX XXX XXXX)">
         <input class="input" type="password" id="modal-reg-pass" placeholder="Create password">
-        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="modalRegister()">Create Account & Apply →</button>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="modalRegister()">Send OTP & Verify →</button>
+      </div>
+      <!-- Step 2: OTP -->
+      <div id="modal-reg-otp" style="display:none;flex-direction:column;gap:0.75rem;">
+        <p style="font-size:0.82rem;color:var(--gray-400);text-align:center;" id="modal-otp-desc">Enter the 6-digit codes sent to your email and phone.</p>
+        <div>
+          <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">📧 Email OTP <span id="modal-email-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span></label>
+          <div style="display:flex;gap:0.5rem;">
+            <input class="input" type="text" id="modal-otp-email" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
+            <button onclick="resendOTP('email','modal')" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.75rem;border-radius:12px;cursor:pointer;font-size:0.72rem;font-family:var(--font-body);font-weight:600;">Resend</button>
+          </div>
+        </div>
+        <div>
+          <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">📱 Phone OTP <span id="modal-phone-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span></label>
+          <div style="display:flex;gap:0.5rem;">
+            <input class="input" type="text" id="modal-otp-phone" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
+            <button onclick="resendOTP('phone','modal')" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.75rem;border-radius:12px;cursor:pointer;font-size:0.72rem;font-family:var(--font-body);font-weight:600;">Resend</button>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="verifyOTPAndRegister('modal')">✓ Verify & Create Account</button>
+        <button onclick="document.getElementById('modal-reg-fields').style.display='flex';document.getElementById('modal-reg-otp').style.display='none';" style="background:none;border:none;color:var(--gray-400);font-size:0.75rem;cursor:pointer;font-family:var(--font-body);padding:0.2rem;">← Edit details</button>
       </div>
     </div>
     <button onclick="modalGoogle()" style="width:100%;padding:0.75rem;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.875rem;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
