@@ -2969,6 +2969,7 @@ function gotoVisa(n) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 // Real file upload handler
+const uploadState = { photo: false, passport: false, nationalId: false };
 const uploadedFiles = { photo: null, passport: null, nationalId: null };
 function handleFileUpload(type, input) {
   const file = input.files[0];
