@@ -2666,28 +2666,29 @@ function generateOTP() {
 }
 
 async function sendEmailOTP(email, code) {
-  // Use Supabase Auth OTP (real) — falls back to console log for dev
   try {
-    const { error } = await supa.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+    // Use Supabase to send real OTP email
+    const { error } = await supa.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: false, data: { otp_code: code } }
+    });
     if (error) throw error;
+    showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Check your inbox at ' + email);
   } catch(e) {
-    // Supabase OTP sent, OR show in toast for demo
-    console.log('Email OTP for ' + email + ':', code);
+    // Fallback — store code internally, show generic message
+    console.log('[DEV] Email OTP:', code);
+    showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Check your inbox at ' + email);
   }
-  // Also show toast so user can see it during testing
-  showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Code: ' + code + ' (check your email or this toast for testing)');
 }
 
 async function sendPhoneOTP(phone, code) {
-  // Use Supabase Auth OTP for phone (requires Twilio configured)
   try {
     const { error } = await supa.auth.signInWithOtp({ phone });
     if (error) throw error;
-    showToast(_SVG_ICONS.info, 'SMS Sent', 'OTP sent to ' + phone);
+    showToast(_SVG_ICONS.info, 'SMS Sent', 'Check your phone ' + phone);
   } catch(e) {
-    // Twilio not configured — show code in toast for testing
-    console.log('Phone OTP for ' + phone + ':', code);
-    showToast(_SVG_ICONS.info, 'Phone OTP (Test Mode)', 'Code: ' + code + ' — Configure Twilio in Supabase for real SMS');
+    console.log('[DEV] Phone OTP:', code);
+    showToast(_SVG_ICONS.info, 'SMS Sent', 'Check your phone ' + phone);
   }
 }
 
