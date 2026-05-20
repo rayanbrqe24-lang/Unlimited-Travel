@@ -2905,35 +2905,30 @@ async function doRegister() {
     return;
   }
 
-  // Generate OTP and send via Supabase
+  // Generate OTP code
   _otp.code = generateOTP();
   _otp.email = email;
   _otp.name = name;
   _otp.phone = phone;
   _otp.password = password;
 
-  try {
-    // Send OTP via Supabase Auth
-    const { error } = await supa.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: false }
-    });
-    if (error) throw error;
+  // Try Supabase OTP — but always show OTP step regardless
+  supa.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: true }
+  }).then(() => {
     showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
-  } catch(e) {
-    // Supabase OTP sent — show code in console for testing
-    console.log('📧 OTP Code for', email, ':', _otp.code);
+  }).catch(() => {
     showToast(_SVG_ICONS.info, 'Code Sent! 📧', 'Check your email ' + email);
-  }
+    console.log('📧 Test OTP for', email, ':', _otp.code);
+  });
 
-  // Show OTP step
+  // Always show OTP step immediately
   document.getElementById('reg-step-1').style.display = 'none';
   document.getElementById('reg-step-2').style.display = 'block';
   document.getElementById('otp-sent-to').textContent = 'We sent a 6-digit code to ' + email;
   document.getElementById('otp-input').value = '';
-  document.getElementById('otp-input').focus();
-
-  // Start resend timer
+  setTimeout(() => { const inp = document.getElementById('otp-input'); if(inp) inp.focus(); }, 100);
   startResendTimer();
 }
 
@@ -2946,26 +2941,28 @@ async function verifyEmailOTP() {
 
   showLoadingOverlay(true);
 
+  // Try Supabase OTP verification first (real email)
   try {
-    // Verify OTP via Supabase
     const { data, error } = await supa.auth.verifyOtp({
       email: _otp.email,
       token: entered,
       type: 'email'
     });
     if (error) throw error;
-
-    // OTP verified — create user in our DB
+    // Supabase verified ✅
     await completeRegistration();
   } catch(e) {
-    // Supabase verification failed — check our internal code
+    // Supabase failed — check our internal fallback code
     if (entered === _otp.code) {
       await completeRegistration();
     } else {
       showLoadingOverlay(false);
-      showToast(_SVG_ICONS.error, 'Wrong Code', 'The code is incorrect. Please try again.');
-      document.getElementById('otp-input').style.borderColor = '#ef4444';
-      setTimeout(() => document.getElementById('otp-input').style.borderColor = '', 2000);
+      showToast(_SVG_ICONS.error, 'Wrong Code ❌', 'The code is incorrect. Check your email or request a new code.');
+      const inp = document.getElementById('otp-input');
+      inp.style.borderColor = '#ef4444';
+      inp.value = '';
+      inp.focus();
+      setTimeout(() => inp.style.borderColor = '', 3000);
     }
   }
 }
