@@ -401,7 +401,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-display);letter-spacing:-0.02em;}
 .service-card h3,
 .service-card p,
 .service-card .service-cta{padding-left:1.75rem;padding-right:1.75rem;position:relative;z-index:1;}
-.service-card .service-icon{margin-top:1.25rem;margin-bottom:1rem;padding-left:1.75rem;}
+.service-card .service-icon{margin-top:1.25rem;margin-bottom:1rem;margin-left:1.75rem;padding-left:0;}
 .service-card::before{
   content:'';position:absolute;inset:0;
   background:var(--gradient);opacity:0;transition:opacity 0.4s;
@@ -976,12 +976,13 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
 .ab-reject{background:rgba(255,10,84,0.12);color:var(--gold-400);}
 .ab-view{background:rgba(255,255,255,0.07);color:#fff;}
 /* Country admin edit */
-.country-admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+.country-admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
 .country-edit-card{
-  background:rgba(5,11,59,0.35);border:1px solid rgba(255,255,255,0.07);
-  border-radius:14px;padding:1.5rem;
+  background:rgba(5,11,59,0.6);border:1px solid rgba(255,255,255,0.08);
+  border-radius:18px;padding:1.25rem;transition:border-color 0.2s;overflow:hidden;
 }
-.country-edit-card h4{font-size:0.9rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.country-edit-card:hover{border-color:rgba(255,10,84,0.35);}
+.country-edit-card h4{font-size:0.9rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;color:#fff!important;}
 .inline-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;}
 
 /* ====================== NOTIFICATIONS & EMAIL API ====================== */
@@ -1110,7 +1111,69 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
 }
 
 
+
+/* Admin dashboard always dark */
+#page-admin, #page-admin * { color-scheme: dark; }
+#page-admin .dash-sidebar { background:#050b3b!important; }
+#page-admin .dash-main { background:#020617!important; }
+#page-admin .data-table-box { background:rgba(255,255,255,0.03)!important; border-color:rgba(255,255,255,0.07)!important; }
+#page-admin .data-table th { background:rgba(255,255,255,0.04)!important; color:rgba(255,255,255,0.5)!important; -webkit-text-fill-color:rgba(255,255,255,0.5)!important; }
+#page-admin .data-table td { color:#fff!important; -webkit-text-fill-color:#fff!important; border-color:rgba(255,255,255,0.05)!important; }
+#page-admin .data-table tr:hover td { background:rgba(255,255,255,0.02)!important; }
+#page-admin .kpi-card { background:rgba(255,255,255,0.04)!important; border-color:rgba(255,255,255,0.07)!important; }
+#page-admin .kpi-label { color:rgba(255,255,255,0.5)!important; -webkit-text-fill-color:rgba(255,255,255,0.5)!important; }
+#page-admin .kpi-value { color:#fff!important; -webkit-text-fill-color:unset!important; }
+#page-admin .kpi-sub { color:rgba(255,255,255,0.4)!important; -webkit-text-fill-color:rgba(255,255,255,0.4)!important; }
+#page-admin .dash-title { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+#page-admin .dash-header { border-color:rgba(255,255,255,0.07)!important; }
+#page-admin .sidebar-btn { color:rgba(255,255,255,0.6)!important; }
+#page-admin .sidebar-btn.active { color:#fff!important; }
+#page-admin .sidebar-section-label { color:rgba(255,255,255,0.3)!important; }
+#page-admin .input, #page-admin input, #page-admin textarea, #page-admin select { background:rgba(255,255,255,0.06)!important; border-color:rgba(255,255,255,0.12)!important; color:#fff!important; -webkit-text-fill-color:#fff!important; }
+#page-admin .filter-sel { background:rgba(255,255,255,0.06)!important; color:#fff!important; }
+#page-admin h4, #page-admin h3, #page-admin h2, #page-admin p, #page-admin span, #page-admin label, #page-admin div { color:inherit; }
+#page-admin .chart-box { background:rgba(255,255,255,0.03)!important; border-color:rgba(255,255,255,0.07)!important; }
+#page-admin .chart-box h4 { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+#page-admin .country-edit-card { background:rgba(255,255,255,0.04)!important; border-color:rgba(255,255,255,0.08)!important; }
+#page-admin .country-edit-card * { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+#page-admin .country-edit-card strong { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+#page-admin .country-edit-card img { opacity:1!important; }
+#page-admin .data-table-box * { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+body.light-mode:not(:has(#page-admin.active)) { background:#eef1ff!important; color:#1a202c!important; }
+body.light-mode { color:#1a202c!important; }
+body.light-mode *:not(footer):not(footer *):not(.btn-primary):not(.btn-primary *):not(.status-chip):not(.status-chip *):not(.whatsapp-float):not(.whatsapp-float *):not(#page-admin):not(#page-admin *) { color:#1a202c!important; -webkit-text-fill-color:#1a202c!important; }
+body.light-mode .btn-primary,body.light-mode .btn-primary * { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+body.light-mode footer,body.light-mode footer * { color:rgba(255,255,255,0.85)!important; }
+body.light-mode #navbar { background:rgba(240,244,255,0.97)!important; border-bottom:1px solid rgba(0,0,0,0.1)!important; }
+body.light-mode .hero-section { background:linear-gradient(135deg,#dde5ff,#eef1ff,#e0e8ff)!important; }
+body.light-mode .hero-section::before { opacity:0.04!important; }
+body.light-mode .service-card,body.light-mode .kpi-card,body.light-mode .data-table-box,body.light-mode .contact-form-card { background:#fff!important; }
+body.light-mode .input,body.light-mode input,body.light-mode textarea,body.light-mode select { background:#fff!important; border-color:rgba(0,0,0,0.15)!important; color:#1a202c!important; }
+body.light-mode .search-box { background:rgba(255,255,255,0.97)!important; }
+body.light-mode .hero-stat { background:rgba(255,255,255,0.85)!important; }
+body.light-mode .gold-text { color:#FF0A54!important; -webkit-text-fill-color:#FF0A54!important; }
+body.light-mode .hero-stat-num { color:#FF0A54!important; -webkit-text-fill-color:#FF0A54!important; }
+body.light-mode .dest-name,body.light-mode .dest-price,body.light-mode .dest-price strong,body.light-mode .dest-country-tag,body.light-mode .dest-card-overlay * { color:#fff!important; -webkit-text-fill-color:#fff!important; }
+body.light-mode .hero-badge { color:#1a202c!important; -webkit-text-fill-color:#1a202c!important; background:rgba(0,0,0,0.07)!important; border-color:rgba(0,0,0,0.2)!important; }
+body.light-mode #theme-toggle { color:#1a202c!important; }
+
+/* RTL */
+body.rtl-mode { font-family:"Cairo",sans-serif!important; direction:rtl!important; }
+body.rtl-mode .nav-links { flex-direction:row-reverse; }
+body.rtl-mode .nav-actions { flex-direction:row-reverse; }
+body.rtl-mode .hero-content,.section-header,.about-grid,.contact-grid,.footer-grid { direction:rtl; text-align:right; }
+body.rtl-mode .input,body.rtl-mode input,body.rtl-mode textarea { direction:rtl; text-align:right; }
+body.rtl-mode .data-table { direction:rtl; }
+body.rtl-mode .data-table th,body.rtl-mode .data-table td { text-align:right; }
+body.rtl-mode .sidebar-btn { flex-direction:row-reverse; text-align:right; }
+body.rtl-mode .dash-sidebar { border-right:none; border-left:1px solid rgba(255,255,255,0.06); }
+body.rtl-mode .footer-links { text-align:right; }
+body.rtl-mode .why-feature { text-align:right; }
+body.rtl-mode .tl-step { flex-direction:row-reverse; text-align:right; }
+body.rtl-mode .mobile-nav { text-align:right; }
+
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -1138,6 +1201,11 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
       <li><button class="nav-link" id="nl-contact" onclick="nav('contact')">Contact</button></li>
     </ul>
     <div class="nav-actions" id="navActions">
+      <button onclick="toggleTheme()" id="theme-toggle" title="Toggle Light/Dark" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;">
+        <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button onclick="toggleLang()" id="lang-btn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;padding:0 0.75rem;height:38px;border-radius:50px;cursor:pointer;font-size:0.82rem;font-weight:700;font-family:inherit;transition:all 0.2s;flex-shrink:0;">ع</button>
       <div id="userPill"></div>
     </div>
     <div class="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
@@ -1187,6 +1255,65 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
           <button class="btn-primary" onclick="handleSearch()">Explore Now</button>
         </div>
       </div>
+
+      <!-- Service Photo Cards — directly under search -->
+      <div style="display:flex;gap:1rem;margin-top:1.5rem;margin-bottom:2rem;overflow-x:auto;padding-bottom:0.5rem;scrollbar-width:none;">
+        <div onclick="goVisa()" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:rgba(255,10,84,0.95);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.06em;">VISA</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Visa Services</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">120+ Countries</div>
+          </div>
+        </div>
+        <div onclick="nav('services')" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:rgba(99,102,241,0.95);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.06em;">FLIGHTS</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Flight Booking</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">Best Prices</div>
+          </div>
+        </div>
+        <div onclick="nav('services')" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:rgba(16,185,129,0.95);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.06em;">HOTELS</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Hotel Reservation</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">5-Star Resorts</div>
+          </div>
+        </div>
+        <div onclick="nav('services')" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:rgba(245,158,11,0.95);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.06em;">TOURS</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Tour Packages</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">Luxury Curated</div>
+          </div>
+        </div>
+        <div onclick="nav('contact')" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:rgba(139,92,246,0.95);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:0.06em;">TRANSFER</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">Transfer</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">VIP Transport</div>
+          </div>
+        </div>
+        <div onclick="nav('contact')" style="flex-shrink:0;width:200px;border-radius:20px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4);" onmouseover="this.style.transform='translateY(-7px)'" onmouseout="this.style.transform=''">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,0.95) 0%,rgba(2,6,23,0.3) 55%,transparent 100%);"></div>
+          <div style="position:absolute;top:0.875rem;left:0.875rem;background:linear-gradient(135deg,#FFD700,#FFA500);border-radius:8px;padding:0.25rem 0.7rem;font-size:0.7rem;font-weight:700;color:#000;letter-spacing:0.06em;">VIP</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;">
+            <div style="font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;">VIP Assistance</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.7);">Premium Only</div>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-stats">
         <div class="hero-stat">
           <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -1281,11 +1408,11 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
       </div>
       <div class="services-grid aos">
         <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Visa"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/><path d="M11 15h4"/></svg></div><h3>Visa Services</h3><p>Expert processing for 120+ countries with live embassy pricing & tracking.</p><button class="service-cta" onclick="goVisa()">Apply Now →</button></div>
-        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Flights"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div><h3>Flight Booking</h3><p>Best-price flights on all major airlines — Economy, Business & First Class.</p><button class="service-cta" onclick="nav('services')">Book Now →</button></div>
-        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Hotels"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg></div><h3>Hotel Reservation</h3><p>Exclusive rates at the world's finest hotels and 5-star resorts worldwide.</p><button class="service-cta" onclick="nav('services')">Reserve →</button></div>
-        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Tours"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div><h3>Tour Packages</h3><p>Curated luxury tours combining culture, adventure, and unforgettable experiences.</p><button class="service-cta" onclick="nav('services')">Explore →</button></div>
+        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&q=80" alt="Flights"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div><h3>Flight Booking</h3><p>Best-price flights on all major airlines — Economy, Business & First Class.</p><button class="service-cta" onclick="nav('services')">Book Now →</button></div>
+        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Hotels"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg></div><h3>Hotel Reservation</h3><p>Exclusive rates at the world's finest hotels and 5-star resorts worldwide.</p><button class="service-cta" onclick="nav('services')">Reserve →</button></div>
+        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80" alt="Tours"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div><h3>Tour Packages</h3><p>Curated luxury tours combining culture, adventure, and unforgettable experiences.</p><button class="service-cta" onclick="nav('services')">Explore →</button></div>
         <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Honeymoon"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2.5-3h9L17 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M5 9h14"/></svg></div><h3>Transfer</h3><p>Magical romantic getaways in the Maldives, Santorini, Bali, and beyond.</p><button class="service-cta" onclick="nav('contact')">Enquire →</button></div>
-        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Business"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/><path d="M2 12h20"/></svg></div><h3>Business Travel</h3><p>Corporate travel management with priority service and 24/7 dedicated support.</p><button class="service-cta" onclick="nav('contact')">Get Quote →</button></div>
+        <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80" alt="Business"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/><path d="M2 12h20"/></svg></div><h3>Business Travel</h3><p>Corporate travel management with priority service and 24/7 dedicated support.</p><button class="service-cta" onclick="nav('contact')">Get Quote →</button></div>
         <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80" alt="Medical"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Medical Tourism</h3><p>World-class medical care in Turkey, Germany & Thailand with full logistics.</p><button class="service-cta" onclick="nav('contact')">Learn More →</button></div>
         <div class="service-card"><div class="service-card-glow"></div><div class="service-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" alt="VIP"></div><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-8 6 4 6-4 2 8"/><path d="M12 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor"/><path d="M2 10l4 6"/><path d="M22 10l-4 6"/><path d="M12 2v8"/></svg></div><h3>VIP Assistance</h3><p>Ultra-luxury concierge — private jets, yacht charters, presidential suites.</p><button class="service-cta" onclick="nav('contact')">VIP Inquiry →</button></div>
       </div>
@@ -1345,7 +1472,7 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Mountains"></div>
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80" alt="Bali"></div>
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=400&q=80" alt="Greece"></div>
-        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=80" alt="Transfer"></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&q=80" alt="Transfer"></div>
         <div class="gallery-item"><img src="https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=400&q=80" alt="NYC"></div>
       </div>
     </div>
@@ -1504,11 +1631,11 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
     <div class="container">
       <div class="services-full-grid">
         <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Visa"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/><path d="M11 15h4"/></svg></div><h3>Visa Services</h3><p>Expert processing for 120+ countries. Live embassy pricing, express options, and full document support.</p><button class="btn-primary" onclick="goVisa()">Apply Now ✈</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Flights"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div><h3>Flight Booking</h3><p>Best-price tickets on all major carriers. Economy, Business & First Class specialists.</p><button class="btn-primary" onclick="showToast('✈','Coming Soon!','Flight booking launching soon!')">Book Flight</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Hotels"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg></div><h3>Hotel Reservation</h3><p>Exclusive rates at 5-star hotels and luxury resorts. Price-match guarantee included.</p><button class="btn-primary" onclick="showToast('🏨','Coming Soon!','Hotel booking launching soon!')">Book Hotel</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Tours"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div><h3>Tour Packages</h3><p>Curated all-inclusive tours with custom itineraries and professional guides.</p><button class="btn-primary" onclick="nav('contact')">Enquire</button></div></div>
+        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&q=80" alt="Flights"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div><h3>Flight Booking</h3><p>Best-price tickets on all major carriers. Economy, Business & First Class specialists.</p><button class="btn-primary" onclick="showToast('✈','Coming Soon!','Flight booking launching soon!')">Book Flight</button></div></div>
+        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Hotels"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg></div><h3>Hotel Reservation</h3><p>Exclusive rates at 5-star hotels and luxury resorts. Price-match guarantee included.</p><button class="btn-primary" onclick="showToast('🏨','Coming Soon!','Hotel booking launching soon!')">Book Hotel</button></div></div>
+        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80" alt="Tours"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div><h3>Tour Packages</h3><p>Curated all-inclusive tours with custom itineraries and professional guides.</p><button class="btn-primary" onclick="nav('contact')">Enquire</button></div></div>
         <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Honeymoon"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2.5-3h9L17 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M5 9h14"/></svg></div><h3>Transfer</h3><p>Magical romantic getaways — Maldives, Santorini, Bali. Let love lead the way.</p><button class="btn-primary" onclick="nav('contact')">Get Package</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="VIP"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-8 6 4 6-4 2 8"/><path d="M12 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor"/><path d="M2 10l4 6"/><path d="M22 10l-4 6"/><path d="M12 2v8"/></svg></div><h3>VIP Travel Assistance</h3><p>Ultra-luxury concierge — private jets, presidential suites, dedicated managers.</p><button class="btn-primary" onclick="nav('contact')">VIP Inquiry</button></div></div>
+        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" alt="VIP"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-8 6 4 6-4 2 8"/><path d="M12 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor"/><path d="M2 10l4 6"/><path d="M22 10l-4 6"/><path d="M12 2v8"/></svg></div><h3>VIP Travel Assistance</h3><p>Ultra-luxury concierge — private jets, presidential suites, dedicated managers.</p><button class="btn-primary" onclick="nav('contact')">VIP Inquiry</button></div></div>
       </div>
     </div>
   </section>
@@ -1577,7 +1704,10 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
           <button class="btn-primary" style="flex:1;justify-content:center;" onclick="nav('visa')">+ New Visa Application</button>
         </div>
         <div class="my-apps-section">
-          <h4 style="font-size:0.875rem;font-weight:700;margin-bottom:1rem;">My Applications</h4>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <h4 style="font-size:0.875rem;font-weight:700;">My Visa Applications</h4>
+            <button onclick="nav('visa-pick')" style="background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.25);color:var(--gold-400);font-size:0.72rem;padding:0.3rem 0.75rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-weight:600;">+ Apply New</button>
+          </div>
           <div id="my-apps-list" style="font-size:0.825rem;color:var(--gray-400);">No applications yet.</div>
         </div>
       </div>
@@ -1604,50 +1734,12 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <div id="register-form" style="display:none;">
           <button class="google-btn" onclick="loginGoogle()"><span>G</span> Continue with Google</button>
           <div class="divider">or</div>
-          <!-- Step 1: Fill details -->
-          <div id="reg-step-fields" class="auth-form">
+          <div class="auth-form">
             <div><label class="input-label">Full Name</label><input class="input" type="text" id="reg-name" placeholder="Full Name"></div>
             <div><label class="input-label">Email</label><input class="input" type="email" id="reg-email" placeholder="your@email.com"></div>
             <div><label class="input-label">Phone</label><input class="input" type="tel" id="reg-phone" placeholder="+964 7XX XXX XXXX"></div>
             <div><label class="input-label">Password</label><input class="input" type="password" id="reg-password" placeholder="Create password"></div>
-            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">Send OTP & Verify →</button>
-          </div>
-          <!-- Step 2: OTP verification -->
-          <div id="reg-step-otp" style="display:none;">
-            <div style="text-align:center;margin-bottom:1.5rem;">
-              <div style="width:60px;height:60px;background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(255,10,84,0.05));border:1px solid rgba(255,10,84,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.45 5.45l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              </div>
-              <h4 style="font-size:1rem;font-weight:700;margin-bottom:0.4rem;">Verify Your Account</h4>
-              <p style="font-size:0.82rem;color:var(--gray-400);" id="otp-desc-text">We sent a 6-digit code to your email and phone.</p>
-            </div>
-            <!-- Email OTP -->
-            <div style="margin-bottom:1rem;">
-              <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email OTP <span id="email-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span>
-              </label>
-              <div style="display:flex;gap:0.5rem;">
-                <input class="input" type="text" id="otp-email-input" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
-                <button onclick="resendOTP('email')" id="resend-email-btn" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.875rem;border-radius:12px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);font-weight:600;">Resend</button>
-              </div>
-            </div>
-            <!-- Phone OTP -->
-            <div style="margin-bottom:1.5rem;">
-              <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                Phone OTP (SMS) <span id="phone-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span>
-              </label>
-              <div style="display:flex;gap:0.5rem;">
-                <input class="input" type="text" id="otp-phone-input" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
-                <button onclick="resendOTP('phone')" id="resend-phone-btn" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.875rem;border-radius:12px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);font-weight:600;">Resend</button>
-              </div>
-            </div>
-            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="verifyOTPAndRegister()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              Verify & Create Account
-            </button>
-            <button onclick="document.getElementById('reg-step-fields').style.display='flex';document.getElementById('reg-step-otp').style.display='none';" style="width:100%;background:none;border:none;color:var(--gray-400);font-size:0.78rem;margin-top:0.75rem;cursor:pointer;font-family:var(--font-body);padding:0.4rem;">← Back to edit details</button>
+            <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">Create Account →</button>
           </div>
         </div>
       </div>
@@ -1804,9 +1896,9 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <p>Upload clear, high-quality scans. Accepted: JPG, PNG, PDF (max 5MB each).</p>
         <div class="upload-grid">
           <!-- Personal Photo -->
-          <div class="upload-zone" id="uz-photo" onclick="document.getElementById('file-photo').click()">
+          <div class="upload-zone" id="uz-photo">
             <input type="file" id="file-photo" accept="image/*" style="display:none" onchange="handleFileUpload('photo',this)">
-            <div id="uz-photo-content">
+            <div id="uz-photo-content" style="cursor:pointer;" onclick="document.getElementById('file-photo').click()">
               <div style="margin-bottom:0.75rem;color:var(--gold-400);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.3rem;">Personal Photo</h4>
               <p style="font-size:0.78rem;color:var(--gray-400);">Click to upload · JPG, PNG<br>Passport-sized, white background</p>
@@ -1819,9 +1911,9 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
             </div>
           </div>
           <!-- Passport Scan -->
-          <div class="upload-zone" id="uz-passport" onclick="document.getElementById('file-passport').click()">
+          <div class="upload-zone" id="uz-passport">
             <input type="file" id="file-passport" accept="image/*,.pdf" style="display:none" onchange="handleFileUpload('passport',this)">
-            <div id="uz-passport-content">
+            <div id="uz-passport-content" style="cursor:pointer;" onclick="document.getElementById('file-passport').click()">
               <div style="margin-bottom:0.75rem;color:var(--gold-400);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
               <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.3rem;">Passport Scan</h4>
               <p style="font-size:0.78rem;color:var(--gray-400);">Click to upload · JPG, PNG, PDF<br>Bio-data page clearly visible</p>
@@ -1834,9 +1926,9 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
             </div>
           </div>
           <!-- National ID -->
-          <div class="upload-zone" id="uz-nationalId" onclick="document.getElementById('file-nationalId').click()">
+          <div class="upload-zone" id="uz-nationalId">
             <input type="file" id="file-nationalId" accept="image/*,.pdf" style="display:none" onchange="handleFileUpload('nationalId',this)">
-            <div id="uz-nationalId-content">
+            <div id="uz-nationalId-content" style="cursor:pointer;" onclick="document.getElementById('file-nationalId').click()">
               <div style="margin-bottom:0.75rem;color:var(--gold-400);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 11h5"/><path d="M13 15h3"/></svg></div>
               <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:0.3rem;">National ID</h4>
               <p style="font-size:0.78rem;color:var(--gray-400);">Click to upload · JPG, PNG, PDF<br>Both sides of your ID card</p>
@@ -1998,6 +2090,7 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <button class="sidebar-btn" onclick="dashSection('accounts',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M3 21a9 9 0 0 1 18 0"/></svg></span>All Accounts</button>
         <button class="sidebar-btn" onclick="dashSection('notifications',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Notifications<span class="sidebar-badge" id="sb-notifs">0</span></button>
         <button class="sidebar-btn" onclick="dashSection('analytics',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Analytics</button>
+        <button class="sidebar-btn" onclick="dashSection('invoices',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Invoices</button>
         <div style="margin-top:1rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
           <button class="sidebar-btn" onclick="nav('home')"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>View Website</button>
           <button class="sidebar-btn" onclick="nav('login')"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>Logout</button>
@@ -2073,42 +2166,52 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
 
       <!-- Countries -->
       <div id="dash-countries" style="display:none;">
-        <div class="dash-header"><div class="dash-title">Country Pricing & Rules</div></div>
-        <div style="background:rgba(255,10,84,0.05);border:1px solid rgba(255,10,84,0.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.825rem;color:var(--gold-400);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Changes save instantly and are reflected live on the visa application page for all travelers.</div>
+        <div class="dash-header">
+          <div class="dash-title">Country Pricing & Rules</div>
+          <button class="btn-primary" style="font-size:0.8rem;padding:0.5rem 1.1rem;" onclick="toggleAddCountryForm()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Country
+          </button>
+        </div>
+        <div style="background:rgba(255,10,84,0.05);border:1px solid rgba(255,10,84,0.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.825rem;color:var(--gold-400);display:flex;align-items:center;gap:0.5rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Changes save instantly and are reflected live on the visa application page for all travelers.
+        </div>
         <div class="country-admin-grid" id="country-admin-grid"></div>
-        <!-- Add new country -->
-        <div class="data-table-box" style="margin-top:1.5rem;padding:1.5rem;">
-          <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:1.25rem;">+ Add New Destination Country</h4>
-          <div class="inline-row">
-            <div><label class="input-label">Name (English)</label><input class="input" id="nc-name-en" placeholder="e.g. Germany"></div>
-            
-          </div>
-          <div class="inline-row">
-            <div><label class="input-label">Price USD</label><input class="input" id="nc-usd" type="number" value="100"></div>
-            <div><label class="input-label">Price IQD</label><input class="input" id="nc-iqd" type="number" value="130000"></div>
-          </div>
-          <div style="margin-bottom:0.75rem;"><label class="input-label">Processing Time</label><input class="input" id="nc-time" value="5 - 7 Working Days"></div>
-          <div style="margin-bottom:0.75rem;"><label class="input-label">Rules (English)</label><textarea class="input" id="nc-rules" rows="2" style="resize:vertical;" placeholder="Visa requirements..."></textarea></div>
 
-          <!-- Country Photo Upload -->
-          <div style="margin-bottom:1.25rem;">
-            <label class="input-label">Country Photo</label>
-            <div id="nc-photo-zone" onclick="document.getElementById('nc-photo-input').click()" style="border:1.5px dashed rgba(255,10,84,0.35);background:rgba(5,11,59,0.3);border-radius:14px;padding:1.5rem;text-align:center;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;">
-              <div id="nc-photo-placeholder">
-                <div style="color:var(--gray-400);margin-bottom:0.5rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-                <div style="font-size:0.825rem;font-weight:600;color:#fff;margin-bottom:0.25rem;">Click to upload country photo</div>
-                <div style="font-size:0.72rem;color:var(--gray-400);">JPG, PNG, WEBP · Recommended 800×500px</div>
-              </div>
-              <img id="nc-photo-preview" src="" alt="Preview" style="display:none;width:100%;height:140px;object-fit:cover;border-radius:10px;">
-              <div id="nc-photo-done" style="display:none;margin-top:0.5rem;">
-                <span style="color:#10b981;font-size:0.75rem;font-weight:600;display:inline-flex;align-items:center;gap:0.3rem;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Photo ready</span>
-                <button onclick="event.stopPropagation();clearCountryPhoto()" style="margin-left:0.75rem;background:rgba(255,10,84,0.15);border:none;color:var(--gold-400);font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:5px;cursor:pointer;font-family:var(--font-body);">✕ Remove</button>
-              </div>
+        <!-- Add Country Form — hidden by default -->
+        <div id="add-country-form" style="display:none;margin-top:1.5rem;">
+          <div class="data-table-box" style="padding:1.5rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+              <h4 style="font-size:0.9rem;font-weight:700;">+ Add New Destination Country</h4>
+              <button onclick="toggleAddCountryForm()" style="background:rgba(255,255,255,0.07);border:none;color:var(--gray-400);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">✕</button>
             </div>
-            <input type="file" id="nc-photo-input" accept="image/*" style="display:none;" onchange="previewCountryPhoto(this)">
+            <div class="inline-row">
+              <div><label class="input-label">Name (English)</label><input class="input" id="nc-name-en" placeholder="e.g. Germany"></div>
+            </div>
+            <div class="inline-row">
+              <div><label class="input-label">Price USD</label><input class="input" id="nc-usd" type="number" value="100"></div>
+              <div><label class="input-label">Price IQD</label><input class="input" id="nc-iqd" type="number" value="130000"></div>
+            </div>
+            <div style="margin-bottom:0.75rem;"><label class="input-label">Processing Time</label><input class="input" id="nc-time" value="5 - 7 Working Days"></div>
+            <div style="margin-bottom:0.75rem;"><label class="input-label">Rules (English)</label><textarea class="input" id="nc-rules" rows="2" style="resize:vertical;" placeholder="Visa requirements..."></textarea></div>
+            <div style="margin-bottom:1.25rem;">
+              <label class="input-label">Country Photo</label>
+              <div id="nc-photo-zone" onclick="document.getElementById('nc-photo-input').click()" style="border:1.5px dashed rgba(255,10,84,0.35);background:rgba(5,11,59,0.3);border-radius:14px;padding:1.5rem;text-align:center;cursor:pointer;">
+                <div id="nc-photo-placeholder">
+                  <div style="color:var(--gray-400);margin-bottom:0.5rem;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                  <div style="font-size:0.825rem;font-weight:600;color:#fff;margin-bottom:0.25rem;">Click to upload country photo</div>
+                  <div style="font-size:0.72rem;color:var(--gray-400);">JPG, PNG · Recommended 800×500px</div>
+                </div>
+                <img id="nc-photo-preview" src="" alt="Preview" style="display:none;width:100%;height:140px;object-fit:cover;border-radius:10px;">
+              </div>
+              <input type="file" id="nc-photo-input" accept="image/*" style="display:none;" onchange="previewCountryPhoto(this)">
+            </div>
+            <div style="display:flex;gap:0.75rem;">
+              <button class="btn-primary" onclick="addCountry()" style="flex:1;justify-content:center;">✓ Add Country</button>
+              <button class="btn-ghost" onclick="toggleAddCountryForm()" style="padding:0.65rem 1.25rem;">Cancel</button>
+            </div>
           </div>
-
-          <button class="btn-primary" onclick="addCountry()">Add Country ✓</button>
         </div>
       </div>
 
@@ -2167,6 +2270,56 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
         <div class="chart-box">
           <h4>Applications by Country</h4>
           <div class="bar-chart" id="analytics-bar" style="height:130px;"></div>
+          <div class="bar-labels" id="analytics-labels"></div>
+        </div>
+      </div>
+
+      <!-- Invoices -->
+      <div id="dash-invoices" style="display:none;">
+        <div class="dash-header">
+          <div class="dash-title">Invoices</div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <input class="input" type="text" id="inv-search" placeholder="Search by name or order…" style="width:200px;padding:0.4rem 0.75rem;font-size:0.78rem;" oninput="renderInvoicesTable()">
+            <select class="filter-sel" id="inv-filter" onchange="renderInvoicesTable()">
+              <option value="all">All</option>
+              <option value="USD">USD</option>
+              <option value="IQD">IQD</option>
+            </select>
+            <button onclick="exportInvoicesCSV()" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#10b981;padding:0.4rem 0.875rem;border-radius:10px;cursor:pointer;font-size:0.78rem;font-weight:600;font-family:var(--font-body);display:flex;align-items:center;gap:0.4rem;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+        </div>
+        <div class="kpi-grid" style="margin-bottom:1.5rem;">
+          <div class="kpi-card" style="background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(255,10,84,0.05));border:1px solid rgba(255,10,84,0.25)!important;">
+            <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Total Revenue (USD)</div>
+            <div class="kpi-value" style="font-size:2rem;color:#FF0A54!important;-webkit-text-fill-color:#FF0A54!important;" id="inv-total-usd">$0</div>
+            <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;" id="inv-count-usd">0 invoices</div>
+          </div>
+          <div class="kpi-card" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.25)!important;">
+            <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Total Revenue (IQD)</div>
+            <div class="kpi-value" style="font-size:2rem;color:#10b981!important;-webkit-text-fill-color:#10b981!important;" id="inv-total-iqd">0 IQD</div>
+            <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;" id="inv-count-iqd">0 invoices</div>
+          </div>
+          <div class="kpi-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05));border:1px solid rgba(99,102,241,0.25)!important;">
+            <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">This Month</div>
+            <div class="kpi-value" style="font-size:2rem;color:#818cf8!important;-webkit-text-fill-color:#818cf8!important;" id="inv-this-month">$0</div>
+            <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;" id="inv-month-count">0 invoices</div>
+          </div>
+          <div class="kpi-card" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.25)!important;">
+            <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Total Invoices</div>
+            <div class="kpi-value" style="font-size:2rem;color:#fbbf24!important;-webkit-text-fill-color:#fbbf24!important;" id="inv-total-count">0</div>
+            <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;">All time</div>
+          </div>
+        </div>
+        <div class="data-table-box">
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Order</th><th>Customer</th><th>Destination</th><th>Amount</th><th>Currency</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="invoices-tbody"></tbody>
+          </table>
+        </div>
+      </div>
           <div class="bar-labels" id="analytics-labels"></div>
         </div>
       </div>
@@ -2419,7 +2572,9 @@ function showLoadingOverlay(show) {
       <svg width="48" height="36" viewBox="0 0 40 30" fill="none"><path d="M4.6 24.6L14.6 9.6L20 17.6L25.4 9.6L35.4 24.6H27.4L20 13.6L12.6 24.6H4.6Z" fill="url(#lg1ov)"/><defs><linearGradient id="lg1ov" x1="4.6" y1="24.6" x2="35.4" y2="9.6" gradientUnits="userSpaceOnUse"><stop stop-color="#FF0A54"/><stop offset="1" stop-color="#D4145A"/></linearGradient></defs></svg>
       <div style="color:#fff;font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;">Connecting to database…</div>
       <div style="width:160px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#FF0A54,#D4145A);border-radius:2px;animation:dbbar 1.2s ease-in-out infinite;"></div></div>
-      <style>@keyframes dbbar{0%{width:0%;margin-left:0}50%{width:80%;margin-left:10%}100%{width:0%;margin-left:100%}}</style>`;
+      <style>@keyframes dbbar{0%{width:0%;margin-left:0}50%{width:80%;margin-left:10%}100%{width:0%;margin-left:100%}}
+
+</style>`;
     document.body.appendChild(ov);
   }
   ov.style.display = show ? 'flex' : 'none';
@@ -2616,16 +2771,46 @@ async function renderMyApps(u) {
   const container = document.getElementById('my-apps-list');
   container.innerHTML = '<p style="color:var(--gray-500);font-size:0.825rem;">Loading...</p>';
   const myApps = await dbGetAppsByUser(u.id, u.email);
-  if (!myApps.length) { container.innerHTML = '<p style="color:var(--gray-500);font-size:0.825rem;">No applications yet. <button onclick="nav(\'visa\')" style="color:var(--gold-400);background:transparent;border:none;cursor:pointer;font-family:var(--font-body);">Apply for a visa →</button></p>'; return; }
-  container.innerHTML = myApps.map(a => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.8rem;">
-      <div>
-        <div style="font-weight:600;">${a.countryNameEn} — ${a.currency === 'IQD' ? a.amountPaid.toLocaleString() + ' IQD' : '$' + a.amountPaid}</div>
-        <div style="color:var(--gray-500);font-size:0.72rem;">${a.orderNumber} · ${a.createdAt}</div>
+  if (!myApps.length) {
+    container.innerHTML = `<div style="text-align:center;padding:2rem 1rem;">
+      <div style="font-size:3rem;margin-bottom:0.75rem;">🛫</div>
+      <div style="font-weight:600;margin-bottom:0.4rem;">No applications yet</div>
+      <p style="color:var(--gray-500);font-size:0.8rem;margin-bottom:1rem;">Start your visa journey today!</p>
+      <button onclick="nav('visa-pick')" class="btn-primary" style="font-size:0.82rem;padding:0.6rem 1.25rem;">Apply for a Visa →</button>
+    </div>`;
+    return;
+  }
+  const steps = ['Submitted','Under Review','Approved','Ready'];
+  container.innerHTML = myApps.map(a => {
+    const stepIndex = a.status==='Approved'?2:a.status==='Rejected'?-1:a.status==='Completed'?3:1;
+    const isRejected = a.status==='Rejected';
+    return `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.25rem;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+        <div>
+          <div style="font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;">${a.countryNameEn} Visa</div>
+          <div style="font-size:0.72rem;color:var(--gray-500);">${a.orderNumber} · ${a.createdAt}</div>
+        </div>
+        <span class="status-chip ${a.status==='Approved'?'s-approved':a.status==='Rejected'?'s-rejected':'s-pending'}">${a.status}</span>
       </div>
-      <span class="status-chip ${a.status === 'Approved' ? 's-approved' : a.status === 'Rejected' ? 's-rejected' : a.status === 'Completed' ? 's-completed' : 's-pending'}">${a.status}</span>
-    </div>
-  `).join('');
+      ${isRejected ? `<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.8rem;color:#ef4444;">✕ Application Rejected — Please contact support for more information.</div>`
+      : `<div style="margin-bottom:1rem;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+            ${steps.map((s,i)=>`<div style="flex:1;text-align:center;">
+              <div style="width:28px;height:28px;border-radius:50%;margin:0 auto 0.3rem;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;${i<stepIndex?'background:#10b981;color:#fff;':i===stepIndex?'background:var(--gradient);color:#fff;box-shadow:0 0 12px rgba(255,10,84,0.4);':'background:rgba(255,255,255,0.07);color:var(--gray-500);'}">${i<stepIndex?'✓':i+1}</div>
+              <div style="font-size:0.6rem;color:${i<=stepIndex?'#fff':'var(--gray-500)'};font-weight:${i===stepIndex?'700':'400'};">${s}</div>
+            </div>`).join('')}
+          </div>
+          <div style="height:3px;background:rgba(255,255,255,0.07);border-radius:2px;position:relative;margin:0 14px;">
+            <div style="height:100%;border-radius:2px;background:linear-gradient(90deg,#10b981,#34d399);width:${Math.max(0,(stepIndex/3)*100)}%;transition:width 0.5s;"></div>
+          </div>
+        </div>`}
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;font-size:0.75rem;">
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">💰 ${a.currency==='IQD'?a.amountPaid.toLocaleString()+' IQD':'$'+a.amountPaid+' USD'}</span>
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">✈️ ${a.travelDate||'—'}</span>
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">🛂 ${a.passportId||'—'}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 function switchAuthTab(tab) {
   document.getElementById('tab-login').classList.toggle('active', tab === 'login');
@@ -2656,200 +2841,23 @@ async function doLogin() {
     else { setupAuthPage(); }
   }, 800);
 }
-// ================================================================
-//  OTP SYSTEM
-// ================================================================
-const _otp = { emailCode: '', phoneCode: '', email: '', phone: '', emailVerified: false, phoneVerified: false };
-
-function generateOTP() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
-
-async function sendEmailOTP(email, code) {
-  try {
-    // Use Supabase to send real OTP email
-    const { error } = await supa.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: false, data: { otp_code: code } }
-    });
-    if (error) throw error;
-    showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Check your inbox at ' + email);
-  } catch(e) {
-    // Fallback — store code internally, show generic message
-    console.log('[DEV] Email OTP:', code);
-    showToast(_SVG_ICONS.info, 'Email OTP Sent', 'Check your inbox at ' + email);
-  }
-}
-
-async function sendPhoneOTP(phone, code) {
-  try {
-    const { error } = await supa.auth.signInWithOtp({ phone });
-    if (error) throw error;
-    showToast(_SVG_ICONS.info, 'SMS Sent', 'Check your phone ' + phone);
-  } catch(e) {
-    console.log('[DEV] Phone OTP:', code);
-    showToast(_SVG_ICONS.info, 'SMS Sent', 'Check your phone ' + phone);
-  }
-}
-
 async function doRegister() {
   const name = document.getElementById('reg-name').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const phone = document.getElementById('reg-phone').value.trim();
   const password = document.getElementById('reg-password').value;
-  if (!name || !email || !phone || !password) { showToast(_SVG_ICONS.warn, 'Missing Fields', 'All fields are required.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast(_SVG_ICONS.warn, 'Invalid Email', 'Please enter a valid email address.'); return; }
-  if (phone.replace(/\D/g,'').length < 10) { showToast(_SVG_ICONS.warn, 'Invalid Phone', 'Please enter a valid phone number.'); return; }
+  if (!name || !email || !password) { showToast(_SVG_ICONS.warn,'Missing Fields','Name, email and password are required.'); return; }
   showLoadingOverlay(true);
   const existing = await dbGetUserByEmail(email);
-  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn, 'Already Registered', 'An account with this email already exists.'); return; }
-  // Generate OTPs
-  _otp.emailCode = generateOTP();
-  _otp.phoneCode = generateOTP();
-  _otp.email = email;
-  _otp.phone = phone;
-  _otp.emailVerified = false;
-  _otp.phoneVerified = false;
-  // Send both OTPs
-  await sendEmailOTP(email, _otp.emailCode);
-  await sendPhoneOTP(phone, _otp.phoneCode);
-  showLoadingOverlay(false);
-  // Show OTP step
-  document.getElementById('reg-step-fields').style.display = 'none';
-  document.getElementById('reg-step-otp').style.display = 'block';
-  document.getElementById('otp-desc-text').textContent = 'Codes sent to ' + email + ' and ' + phone;
-  // Start resend timer
-  startResendTimer('email'); startResendTimer('phone');
-}
-
-async function verifyOTPAndRegister(context) {
-  const prefix = context === 'modal' ? 'modal-otp-' : 'otp-';
-  const emailInput = document.getElementById(prefix + 'email' + (context === 'modal' ? '' : '-input'));
-  const phoneInput = document.getElementById(prefix + 'phone' + (context === 'modal' ? '' : '-input'));
-  const enteredEmail = emailInput ? emailInput.value.trim() : '';
-  const enteredPhone = phoneInput ? phoneInput.value.trim() : '';
-
-  if (!enteredEmail || !enteredPhone) { showToast(_SVG_ICONS.warn, 'Enter Both Codes', 'Please enter both email and phone OTP codes.'); return; }
-
-  // Verify email OTP
-  if (enteredEmail !== _otp.emailCode) {
-    showToast(_SVG_ICONS.error, 'Wrong Email Code', 'The email OTP code is incorrect. Please try again.');
-    emailInput.style.borderColor = '#ef4444';
-    setTimeout(() => emailInput.style.borderColor = '', 2000);
-    return;
-  }
-
-  // Verify phone OTP
-  if (enteredPhone !== _otp.phoneCode) {
-    showToast(_SVG_ICONS.error, 'Wrong Phone Code', 'The phone OTP code is incorrect. Please try again.');
-    phoneInput.style.borderColor = '#ef4444';
-    setTimeout(() => phoneInput.style.borderColor = '', 2000);
-    return;
-  }
-
-  // Both verified — show green ticks
-  const emailStatus = document.getElementById(context === 'modal' ? 'modal-email-otp-status' : 'email-otp-status');
-  const phoneStatus = document.getElementById(context === 'modal' ? 'modal-phone-otp-status' : 'phone-otp-status');
-  if (emailStatus) emailStatus.style.display = 'inline';
-  if (phoneStatus) phoneStatus.style.display = 'inline';
-  emailInput.style.borderColor = '#10b981';
-  phoneInput.style.borderColor = '#10b981';
-
-  // Get registration data
-  const name = context === 'modal'
-    ? document.getElementById('modal-reg-name').value.trim()
-    : document.getElementById('reg-name').value.trim();
-  const email = _otp.email;
-  const phone = _otp.phone;
-  const password = context === 'modal'
-    ? document.getElementById('modal-reg-pass').value
-    : document.getElementById('reg-password').value;
-
-  showLoadingOverlay(true);
-  const newUser = {
-    id: 'usr-' + Date.now(),
-    fullName: name,
-    email, phone,
-    passportId: '',
-    role: 'customer',
-    isVerified: true,
-    emailVerified: true,
-    phoneVerified: true,
-    createdAt: new Date().toLocaleDateString(),
-    password
-  };
+  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn,'Already Registered','An account with this email already exists.'); return; }
+  const newUser = { id:'usr-'+Date.now(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password };
   await dbInsertUser(newUser);
+  showLoadingOverlay(false);
   if (_cache.users) _cache.users.unshift(newUser);
   DB.currentUser = newUser;
-  showLoadingOverlay(false);
-  showToast(_SVG_ICONS.success, '✓ Account Verified!', 'Welcome to UNLIMITED Travel & Tourism, ' + name + '!');
+  showToast(_SVG_ICONS.success,'Account Created!','Welcome to UNLIMITED Travel & Tourism!');
   updateNavUserPill();
-
-  if (context === 'modal') {
-    closeAuthModal();
-    // Continue to visa application
-    setTimeout(() => goVisa && goVisa(), 500);
-  } else {
-    setTimeout(setupAuthPage, 600);
-  }
-}
-
-function resendOTP(type, context) {
-  const code = generateOTP();
-  if (type === 'email') {
-    _otp.emailCode = code;
-    sendEmailOTP(_otp.email, code);
-    startResendTimer('email', context);
-  } else {
-    _otp.phoneCode = code;
-    sendPhoneOTP(_otp.phone, code);
-    startResendTimer('phone', context);
-  }
-}
-
-function startResendTimer(type, context) {
-  const btnId = context === 'modal'
-    ? null  // modal uses inline onclick, no timer UI needed
-    : 'resend-' + type + '-btn';
-  if (!btnId) return;
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  let sec = 60;
-  btn.disabled = true;
-  btn.textContent = sec + 's';
-  const iv = setInterval(() => {
-    sec--;
-    btn.textContent = sec + 's';
-    if (sec <= 0) {
-      clearInterval(iv);
-      btn.disabled = false;
-      btn.textContent = 'Resend';
-    }
-  }, 1000);
-}
-
-async function modalRegister() {
-  const name = document.getElementById('modal-reg-name').value.trim();
-  const email = document.getElementById('modal-reg-email').value.trim();
-  const phone = document.getElementById('modal-reg-phone').value.trim();
-  const pass = document.getElementById('modal-reg-pass').value;
-  if (!name || !email || !phone || !pass) { showToast(_SVG_ICONS.warn, 'Missing Fields', 'All fields are required.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast(_SVG_ICONS.warn, 'Invalid Email', 'Please enter a valid email address.'); return; }
-  showLoadingOverlay(true);
-  const existing = await dbGetUserByEmail(email);
-  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn, 'Already Registered', 'Account exists. Please sign in.'); switchModalTab('login'); return; }
-  _otp.emailCode = generateOTP();
-  _otp.phoneCode = generateOTP();
-  _otp.email = email;
-  _otp.phone = phone;
-  _otp.emailVerified = false;
-  _otp.phoneVerified = false;
-  await sendEmailOTP(email, _otp.emailCode);
-  await sendPhoneOTP(phone, _otp.phoneCode);
-  showLoadingOverlay(false);
-  document.getElementById('modal-reg-fields').style.display = 'none';
-  document.getElementById('modal-reg-otp').style.display = 'flex';
-  document.getElementById('modal-otp-desc').textContent = 'Codes sent to ' + email + ' and ' + phone;
+  setTimeout(setupAuthPage, 600);
 }
 async function loginGoogle() {
   const email = 'google.traveler@gmail.com';
@@ -3020,6 +3028,26 @@ async function modalLogin() {
   if (selectedCountryId) { nav('visa'); setupVisaPage(); }
   else nav('visa-pick');
 }
+async function modalRegister() {
+  const name = document.getElementById('modal-reg-name').value.trim();
+  const email = document.getElementById('modal-reg-email').value.trim();
+  const phone = document.getElementById('modal-reg-phone').value.trim();
+  const pass = document.getElementById('modal-reg-pass').value;
+  if (!name || !email || !pass) { showToast(_SVG_ICONS.warn,'Missing Fields','Name, email and password are required.'); return; }
+  showLoadingOverlay(true);
+  const existing = await dbGetUserByEmail(email);
+  if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn,'Already Registered','Account exists. Please sign in.'); switchModalTab('login'); return; }
+  const newUser = { id:'usr-'+Date.now(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password:pass };
+  await dbInsertUser(newUser);
+  showLoadingOverlay(false);
+  if (_cache.users) _cache.users.unshift(newUser);
+  DB.currentUser = newUser;
+  closeAuthModal();
+  showToast(_SVG_ICONS.success,'Account Created!','Welcome ' + name.split(' ')[0] + '! Opening visa application...');
+  updateNavUserPill();
+  if (selectedCountryId) { nav('visa'); setupVisaPage(); }
+  else nav('visa-pick');
+}
 async function modalGoogle() {
   const email = 'google.traveler@gmail.com';
   showLoadingOverlay(true);
@@ -3166,6 +3194,7 @@ function gotoVisa(n) {
 // Real file upload handler
 const uploadState = { photo: false, passport: false, nationalId: false };
 const uploadedFiles = { photo: null, passport: null, nationalId: null };
+let _lastApp = null;
 function handleFileUpload(type, input) {
   const file = input.files[0];
   if (!file) return;
@@ -3404,7 +3433,10 @@ function downloadInvoice() {
     .footer p{font-size:10px;color:#94a3b8;line-height:1.6;}
     .status-chip{display:inline-flex;align-items:center;gap:4px;background:#fef3c7;border:1px solid #fde68a;padding:4px 10px;border-radius:50px;font-size:10px;font-weight:700;color:#92400e;}
     @media print{body{background:#fff;padding:0;}.page{box-shadow:none;border-radius:0;}}
-  </style></head>
+  
+
+</style><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
   <body onload="window.print()">
   <div class="page">
     <div class="header">
@@ -3470,10 +3502,26 @@ async function setupAdmin() {
   const sbn = document.getElementById('sb-notifs');
   if (sbn) sbn.textContent = unread || '0';
   document.getElementById('kpi-cards').innerHTML = `
-    <div class="kpi r"><div class="kpi-label">Total Applications</div><div class="kpi-value">${apps.length}</div><div class="kpi-change up">↑ Active pipeline</div></div>
-    <div class="kpi g"><div class="kpi-label">Approved</div><div class="kpi-value">${approved}</div><div class="kpi-change up">↑ ${apps.length ? Math.round(approved/apps.length*100) : 0}% rate</div></div>
-    <div class="kpi a"><div class="kpi-label">Pending Review</div><div class="kpi-value">${pending}</div><div class="kpi-change down">${pending > 0 ? '! Needs action' : '✓ Clear'}</div></div>
-    <div class="kpi b"><div class="kpi-label">Revenue (USD)</div><div class="kpi-value">$${revenueUSD}</div><div class="kpi-change up">+ ${revenueIQD.toLocaleString()} IQD</div></div>
+    <div class="kpi-card" style="background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(255,10,84,0.05));border:1px solid rgba(255,10,84,0.25)!important;">
+      <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Total Applications</div>
+      <div class="kpi-value" style="color:#FF0A54!important;-webkit-text-fill-color:#FF0A54!important;">${apps.length}</div>
+      <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;">↑ Active pipeline</div>
+    </div>
+    <div class="kpi-card" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.25)!important;">
+      <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Approved</div>
+      <div class="kpi-value" style="color:#10b981!important;-webkit-text-fill-color:#10b981!important;">${approved}</div>
+      <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;">↑ ${apps.length ? Math.round(approved/apps.length*100) : 0}% rate</div>
+    </div>
+    <div class="kpi-card" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.25)!important;">
+      <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Pending Review</div>
+      <div class="kpi-value" style="color:#fbbf24!important;-webkit-text-fill-color:#fbbf24!important;">${pending}</div>
+      <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;">${pending > 0 ? '! Needs action' : '✓ Clear'}</div>
+    </div>
+    <div class="kpi-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05));border:1px solid rgba(99,102,241,0.25)!important;">
+      <div class="kpi-label" style="color:rgba(255,255,255,0.6)!important;">Revenue (USD)</div>
+      <div class="kpi-value" style="color:#818cf8!important;-webkit-text-fill-color:#818cf8!important;">$${revenueUSD}</div>
+      <div class="kpi-sub" style="color:rgba(255,255,255,0.5)!important;">+ ${revenueIQD.toLocaleString()} IQD</div>
+    </div>
   `;
   document.getElementById('donut-total').textContent = apps.length;
   document.getElementById('leg-approved').textContent = approved;
@@ -3484,7 +3532,7 @@ async function setupAdmin() {
   renderCountryAdmin();
 }
 function dashSection(section, btn) {
-  ['overview','applications','countries','users','accounts','notifications','analytics'].forEach(s => {
+  ['overview','applications','countries','users','accounts','notifications','analytics','invoices'].forEach(s => {
     const el = document.getElementById('dash-' + s);
     if (el) el.style.display = s === section ? 'block' : 'none';
   });
@@ -3493,6 +3541,7 @@ function dashSection(section, btn) {
   if (section === 'analytics') buildAnalyticsChart();
   if (section === 'accounts') renderAccountsPanel();
   if (section === 'notifications') renderNotificationsPanel();
+  if (section === 'invoices') renderInvoicesTable();
 }
 function renderAppsTable() {
   const search = (document.getElementById('app-search')?.value || '').toLowerCase();
@@ -3797,51 +3846,150 @@ function renderUsersTable() {
     </tr>
   `).join('');
 }
+function toggleAddCountryForm() {
+  const form = document.getElementById('add-country-form');
+  const visible = form.style.display !== 'none';
+  form.style.display = visible ? 'none' : 'block';
+  if (!visible) form.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
 function renderCountryAdmin() {
   const countries = _cache.countries || [];
   document.getElementById('country-admin-grid').innerHTML = countries.map(c => `
     <div class="country-edit-card">
-      <h4>${c.flag || '🌍'} ${c.nameEn} <span style="font-size:0.65rem;color:var(--gray-500);font-weight:400;">${c.processingTime}</span></h4>
-      <div style="margin-bottom:0.875rem;">
-        <label class="input-label">Country Photo</label>
-        <div style="position:relative;border-radius:10px;overflow:hidden;height:90px;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,10,84,0.25);cursor:pointer;" onclick="document.getElementById('eu-${c.id}-photo-input').click()">
-          ${c.photoUrl
-            ? `<img src="${c.photoUrl}" style="width:100%;height:100%;object-fit:cover;">`
-            : `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:0.3rem;"><span style="color:var(--gray-400);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="12" cy="13" r="3"/></svg></span><span style="font-size:0.7rem;color:var(--gray-400);">Click to upload photo</span></div>`
-          }
-          <div style="position:absolute;bottom:0;right:0;background:rgba(255,10,84,0.85);padding:0.2rem 0.5rem;font-size:0.65rem;color:#fff;border-radius:5px 0 0 0;">Change</div>
-        </div>
-        <input type="file" id="eu-${c.id}-photo-input" accept="image/*" style="display:none;" onchange="updateCountryPhoto('${c.id}',this)">
+      ${c.photoUrl ? `<img src="${c.photoUrl}" style="width:100%;height:110px;object-fit:cover;border-radius:10px;margin-bottom:0.875rem;display:block;">` : `<div style="width:100%;height:110px;background:rgba(255,255,255,0.06);border-radius:10px;margin-bottom:0.875rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">${c.flag||'🌍'}</div>`}
+      <div style="font-size:1rem;margin-bottom:0.25rem;color:#fff;font-weight:700;">${c.flag||'🌍'} ${c.nameEn}</div>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.45);margin-bottom:0.75rem;">${c.processingTime}</div>
+      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+        <span style="background:rgba(255,10,84,0.15);border:1px solid rgba(255,10,84,0.3);border-radius:6px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:600;color:#fff;">$${c.priceUSD} USD</span>
+        <span style="background:rgba(255,10,84,0.15);border:1px solid rgba(255,10,84,0.3);border-radius:6px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:600;color:#fff;">${(c.priceIQD||0).toLocaleString()} IQD</span>
       </div>
-      <div class="inline-row">
-        <div><label class="input-label">Price USD</label><input class="input" id="eu-${c.id}-usd" value="${c.priceUSD}" type="number" style="font-size:0.8rem;padding:0.5rem 0.75rem;"></div>
-        <div><label class="input-label">Price IQD</label><input class="input" id="eu-${c.id}-iqd" value="${c.priceIQD}" type="number" style="font-size:0.8rem;padding:0.5rem 0.75rem;"></div>
-      </div>
-      <div style="margin-bottom:0.75rem;"><label class="input-label">Processing Time</label><input class="input" id="eu-${c.id}-time" value="${c.processingTime}" style="font-size:0.8rem;padding:0.5rem 0.75rem;"></div>
-      <div style="margin-bottom:0.875rem;"><label class="input-label">Rules (EN)</label><textarea class="input" id="eu-${c.id}-rules" rows="2" style="resize:vertical;font-size:0.8rem;padding:0.5rem 0.75rem;">${c.rulesEn}</textarea></div>
-      <button class="btn-primary" style="font-size:0.775rem;padding:0.5rem 1rem;" onclick="saveCountry('${c.id}')">Save Changes ✓</button>
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:1rem;line-height:1.5;">${(c.rulesEn||'').slice(0,70)}${(c.rulesEn||'').length>70?'...':''}</div>
+      <button class="btn-primary" style="width:100%;justify-content:center;font-size:0.78rem;padding:0.5rem;" onclick="openEditCountryModal('${c.id}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Country
+      </button>
     </div>
   `).join('');
 }
-function updateCountryPhoto(id, input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = async function(e) {
-    await dbUpdateCountry(id, { photoUrl: e.target.result });
-    if (_cache.countries) _cache.countries = _cache.countries.map(c => c.id===id ? {...c, photoUrl: e.target.result} : c);
-    showToast(_SVG_ICONS.photo,'Photo Updated!','Country photo saved successfully.');
-    renderCountryAdmin();
-    renderCountryPicker();
+
+function openEditCountryModal(id) {
+  const c = (_cache.countries||[]).find(x=>x.id===id);
+  if (!c) return;
+  const modal = document.getElementById('edit-country-modal');
+  document.getElementById('ec-id').value = id;
+  document.getElementById('ec-name-en').value = c.nameEn||'';
+  document.getElementById('ec-usd').value = c.priceUSD||'';
+  document.getElementById('ec-iqd').value = c.priceIQD||'';
+  document.getElementById('ec-time').value = c.processingTime||'';
+  document.getElementById('ec-rules').value = c.rulesEn||'';
+  const preview = document.getElementById('ec-photo-preview');
+  if (c.photoUrl) { preview.src = c.photoUrl; preview.style.display='block'; }
+  else preview.style.display = 'none';
+  modal.style.display = 'flex';
+}
+
+async function saveEditCountry() {
+  const id = document.getElementById('ec-id').value;
+  const updates = {
+    nameEn: document.getElementById('ec-name-en').value.trim(),
+    priceUSD: parseInt(document.getElementById('ec-usd').value)||0,
+    priceIQD: parseInt(document.getElementById('ec-iqd').value)||0,
+    processingTime: document.getElementById('ec-time').value.trim(),
+    rulesEn: document.getElementById('ec-rules').value.trim(),
   };
-  reader.readAsDataURL(file);
+  const photoInput = document.getElementById('ec-photo-input');
+  if (photoInput && photoInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      updates.photoUrl = e.target.result;
+      await dbUpdateCountry(id, updates);
+      if (_cache.countries) _cache.countries = _cache.countries.map(c=>c.id===id?{...c,...updates}:c);
+      document.getElementById('edit-country-modal').style.display='none';
+      showToast(_SVG_ICONS.success,'Country Updated!',updates.nameEn+' saved.');
+      renderCountryAdmin();
+    };
+    reader.readAsDataURL(photoInput.files[0]);
+  } else {
+    await dbUpdateCountry(id, updates);
+    if (_cache.countries) _cache.countries = _cache.countries.map(c=>c.id===id?{...c,...updates}:c);
+    document.getElementById('edit-country-modal').style.display='none';
+    showToast(_SVG_ICONS.success,'Country Updated!',updates.nameEn+' saved.');
+    renderCountryAdmin();
+  }
 }
-function saveCountry(id) {
-  const countries = _cache.countries || [];
-  // saved to Supabase above
-  showToast(_SVG_ICONS.success,'Saved!','Country pricing updated live for all travelers.');
-  renderCountryAdmin();
+
+// ================================================================
+//  INVOICES
+// ================================================================
+function renderInvoicesTable() {
+  const apps = _cache.apps||[];
+  const search = (document.getElementById('inv-search')?.value||'').toLowerCase();
+  const filter = document.getElementById('inv-filter')?.value||'all';
+  const now = new Date();
+  const thisMonth = now.getMonth(), thisYear = now.getFullYear();
+  const filtered = apps.filter(a => {
+    const matchSearch = !search || a.customerName.toLowerCase().includes(search) || a.orderNumber.toLowerCase().includes(search) || a.email.toLowerCase().includes(search);
+    const matchFilter = filter==='all' || a.currency===filter;
+    return matchSearch && matchFilter;
+  });
+  const usdApps = apps.filter(a=>a.currency==='USD');
+  const iqdApps = apps.filter(a=>a.currency==='IQD');
+  const totalUSD = usdApps.reduce((s,a)=>s+(a.amountPaid||0),0);
+  const totalIQD = iqdApps.reduce((s,a)=>s+(a.amountPaid||0),0);
+  const monthApps = apps.filter(a=>{ const d=new Date(a.createdAt); return d.getMonth()===thisMonth&&d.getFullYear()===thisYear; });
+  const monthRev = monthApps.reduce((s,a)=>s+(a.currency==='USD'?a.amountPaid:a.amountPaid/1300),0);
+  const el = id=>document.getElementById(id);
+  if(el('inv-total-usd')) el('inv-total-usd').textContent='$'+totalUSD.toLocaleString();
+  if(el('inv-count-usd')) el('inv-count-usd').textContent=usdApps.length+' invoices';
+  if(el('inv-total-iqd')) el('inv-total-iqd').textContent=totalIQD.toLocaleString()+' IQD';
+  if(el('inv-count-iqd')) el('inv-count-iqd').textContent=iqdApps.length+' invoices';
+  if(el('inv-this-month')) el('inv-this-month').textContent='$'+monthRev.toFixed(0);
+  if(el('inv-month-count')) el('inv-month-count').textContent=monthApps.length+' this month';
+  if(el('inv-total-count')) el('inv-total-count').textContent=apps.length;
+  const tbody=document.getElementById('invoices-tbody');
+  if(!tbody) return;
+  if(!filtered.length){ tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--gray-500);padding:2rem;">No invoices found</td></tr>'; return; }
+  tbody.innerHTML = filtered.map((a,i)=>`
+    <tr>
+      <td style="color:var(--gray-500);font-size:0.72rem;">${i+1}</td>
+      <td><span class="gold-text" style="font-weight:700;font-size:0.78rem;">${a.orderNumber}</span></td>
+      <td><div style="font-weight:600;font-size:0.82rem;">${a.customerName}</div><div style="font-size:0.7rem;color:var(--gray-500);">${a.email}</div></td>
+      <td style="font-size:0.82rem;">${a.countryNameEn}</td>
+      <td style="font-weight:700;color:#10b981;font-size:0.875rem;">${a.currency==='IQD'?a.amountPaid.toLocaleString()+' IQD':'$'+a.amountPaid}</td>
+      <td><span style="background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);border-radius:6px;padding:0.15rem 0.5rem;font-size:0.7rem;font-weight:600;">${a.currency}</span></td>
+      <td style="font-size:0.75rem;color:var(--gray-400);">${a.createdAt}</td>
+      <td><span class="status-chip ${a.status==='Approved'?'s-approved':a.status==='Rejected'?'s-rejected':'s-pending'}" style="font-size:0.68rem;">${a.status}</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem;">
+          <button class="action-btn ab-view" onclick="downloadInvoiceById('${a.orderNumber}')" style="font-size:0.7rem;padding:0.25rem 0.6rem;">⬇ Invoice</button>
+          <button class="action-btn ab-view" onclick="viewAppDetails('${a.orderNumber}')" style="font-size:0.7rem;padding:0.25rem 0.6rem;">View</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
 }
+
+function downloadInvoiceById(orderNumber) {
+  const app = (_cache.apps||[]).find(a=>a.orderNumber===orderNumber);
+  if (!app) return;
+  _lastApp = app; downloadInvoice();
+}
+
+function exportInvoicesCSV() {
+  const apps = _cache.apps||[];
+  if (!apps.length) { showToast(_SVG_ICONS.warn,'No Data','No invoices to export.'); return; }
+  const headers = ['Order','Customer','Email','Phone','Destination','Amount','Currency','Status','Date'];
+  const rows = apps.map(a=>[a.orderNumber,a.customerName,a.email,a.phone||'',a.countryNameEn,a.amountPaid,a.currency,a.status,a.createdAt]);
+  const csv = [headers,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href=url; link.download='UNLIMITED-Invoices-'+new Date().toISOString().slice(0,10)+'.csv';
+  link.click(); URL.revokeObjectURL(url);
+  showToast(_SVG_ICONS.success,'Exported!',apps.length+' invoices exported.');
+}
+
 // Country photo upload helpers
 let newCountryPhotoUrl = null;
 function previewCountryPhoto(input) {
@@ -3964,6 +4112,87 @@ function setDefaultDates() {
   const d3 = new Date(); d3.setFullYear(d3.getFullYear()+5);
   if (ve) ve.value = d3.toISOString().split('T')[0];
 }
+
+// ================================================================
+//  THEME TOGGLE
+// ================================================================
+//  THEME — Dark is DEFAULT, always
+// ================================================================
+// Remove any old light mode preference — dark is the default
+if (!localStorage.getItem('theme')) {
+  localStorage.setItem('theme', 'dark');
+}
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  document.getElementById('theme-icon-dark').style.display = isLight ? 'none' : 'block';
+  document.getElementById('theme-icon-light').style.display = isLight ? 'block' : 'none';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light-mode');
+  document.addEventListener('DOMContentLoaded', function() {
+    const d = document.getElementById('theme-icon-dark');
+    const l = document.getElementById('theme-icon-light');
+    if(d) d.style.display = 'none';
+    if(l) l.style.display = 'block';
+  });
+}
+
+// ================================================================
+//  ARABIC LANGUAGE TOGGLE
+// ================================================================
+const AR = {
+  'Home':'الرئيسية','About':'من نحن','Services':'خدماتنا','Contact':'تواصل معنا',
+  'Login':'تسجيل الدخول','Login / Register':'تسجيل / إنشاء حساب',
+  'Discover Your Dream':'اكتشف وجهة','Destination':'أحلامك',
+  'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.':'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
+  'Explore Now':'استكشف الآن','Where do you want to go?':'إلى أين تريد السفر؟',
+  'Destinations':'وجهة','Happy Customers':'عميل سعيد','Years Experience':'سنة خبرة','Expert Support':'دعم متخصص',
+  'Our Premium Services':'خدماتنا المميزة','What We Offer':'ما نقدمه',
+  'Visa Services':'خدمات التأشيرة','Flight Booking':'حجز الطيران',
+  'Hotel Reservation':'حجز الفنادق','Tour Packages':'باقات السياحة',
+  'Transfer Services':'خدمة التوصيل','Business Travel':'سفر الأعمال',
+  'Medical Tourism':'السياحة العلاجية','VIP Assistance':'المساعدة VIP',
+  'View All Services →':'عرض جميع الخدمات ←',
+  'Apply Now →':'قدّم الآن ←','Book Now →':'احجز الآن ←','Reserve →':'احجز ←',
+  'Explore →':'استكشف ←','Enquire →':'استفسر ←','Get Quote →':'احصل على عرض ←',
+  'Learn More →':'اعرف المزيد ←','VIP Inquiry →':'استفسار VIP ←',
+  'Top Destinations':'أبرز الوجهات','Why Choose Us':'لماذا تختارنا',
+  'Frequently Asked Questions':'الأسئلة المتكررة','Get In Touch':'تواصل معنا',
+  'Send Message':'إرسال الرسالة','Full Name':'الاسم الكامل',
+  'Email Address':'البريد الإلكتروني','Phone Number':'رقم الهاتف','Your Message':'رسالتك',
+};
+
+let _isAr = localStorage.getItem('lang') === 'ar';
+
+function toggleLang() {
+  _isAr = !_isAr;
+  localStorage.setItem('lang', _isAr ? 'ar' : 'en');
+  location.reload(); // simplest reliable approach
+}
+
+window.addEventListener('load', function() {
+  const btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = _isAr ? 'EN' : 'ع';
+  if (_isAr) {
+    document.body.classList.add('rtl-mode');
+    document.documentElement.setAttribute('dir','rtl');
+    document.documentElement.setAttribute('lang','ar');
+    function walkTranslate(node) {
+      if (node.nodeType === 3) {
+        const t = node.textContent.trim();
+        if (t && AR[t]) node.textContent = node.textContent.replace(t, AR[t]);
+      } else if (node.nodeType === 1 && !['SCRIPT','STYLE','SVG','PATH'].includes(node.tagName.toUpperCase())) {
+        node.childNodes.forEach(walkTranslate);
+        if ((node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') && AR[node.placeholder]) {
+          node.placeholder = AR[node.placeholder];
+        }
+      }
+    }
+    walkTranslate(document.body);
+  }
+});
+
 </script>
 
 <!-- Auth modal — global, works from any page -->
@@ -3988,33 +4217,12 @@ function setDefaultDates() {
       <p style="text-align:center;font-size:0.72rem;color:var(--gray-500);margin-top:0.875rem;">Demo: <span style="color:var(--gold-400)">ahmed@example.com</span> / <span style="color:var(--gold-400)">test123</span></p>
     </div>
     <div id="modal-register-form" style="display:none;">
-      <!-- Step 1 -->
-      <div id="modal-reg-fields" style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
         <input class="input" type="text" id="modal-reg-name" placeholder="Full Name">
         <input class="input" type="email" id="modal-reg-email" placeholder="Email address">
         <input class="input" type="tel" id="modal-reg-phone" placeholder="Phone (+964 7XX XXX XXXX)">
         <input class="input" type="password" id="modal-reg-pass" placeholder="Create password">
-        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="modalRegister()">Send OTP & Verify →</button>
-      </div>
-      <!-- Step 2: OTP -->
-      <div id="modal-reg-otp" style="display:none;flex-direction:column;gap:0.75rem;">
-        <p style="font-size:0.82rem;color:var(--gray-400);text-align:center;" id="modal-otp-desc">Enter the 6-digit codes sent to your email and phone.</p>
-        <div>
-          <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">📧 Email OTP <span id="modal-email-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span></label>
-          <div style="display:flex;gap:0.5rem;">
-            <input class="input" type="text" id="modal-otp-email" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
-            <button onclick="resendOTP('email','modal')" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.75rem;border-radius:12px;cursor:pointer;font-size:0.72rem;font-family:var(--font-body);font-weight:600;">Resend</button>
-          </div>
-        </div>
-        <div>
-          <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">📱 Phone OTP <span id="modal-phone-otp-status" style="margin-left:auto;font-size:0.7rem;color:#10b981;display:none;">✓ Verified</span></label>
-          <div style="display:flex;gap:0.5rem;">
-            <input class="input" type="text" id="modal-otp-phone" maxlength="6" placeholder="6-digit code" style="flex:1;letter-spacing:0.2em;font-size:1.1rem;text-align:center;" oninput="this.value=this.value.replace(/\D/g,'')">
-            <button onclick="resendOTP('phone','modal')" style="white-space:nowrap;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);color:var(--gold-400);padding:0 0.75rem;border-radius:12px;cursor:pointer;font-size:0.72rem;font-family:var(--font-body);font-weight:600;">Resend</button>
-          </div>
-        </div>
-        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="verifyOTPAndRegister('modal')">✓ Verify & Create Account</button>
-        <button onclick="document.getElementById('modal-reg-fields').style.display='flex';document.getElementById('modal-reg-otp').style.display='none';" style="background:none;border:none;color:var(--gray-400);font-size:0.75rem;cursor:pointer;font-family:var(--font-body);padding:0.2rem;">← Edit details</button>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="modalRegister()">Create Account & Apply →</button>
       </div>
     </div>
     <button onclick="modalGoogle()" style="width:100%;padding:0.75rem;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.875rem;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
@@ -4028,6 +4236,31 @@ function setDefaultDates() {
     <button onclick="document.getElementById('app-detail-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">✕</button>
     <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> Application Details</h3>
     <div id="app-detail-content"></div>
+  </div>
+</div>
+<!-- Edit Country Modal -->
+<div id="edit-country-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.88);backdrop-filter:blur(10px);z-index:9000;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:520px;background:rgba(5,11,59,0.97);border:1px solid rgba(255,10,84,0.2);border-radius:24px;padding:2rem;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.6);">
+    <button onclick="document.getElementById('edit-country-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">✕</button>
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;">✏️ Edit Country</h3>
+    <input type="hidden" id="ec-id">
+    <div style="margin-bottom:0.75rem;"><label class="input-label">Country Name (English)</label><input class="input" id="ec-name-en" placeholder="e.g. Germany"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+      <div><label class="input-label">Price USD</label><input class="input" id="ec-usd" type="number"></div>
+      <div><label class="input-label">Price IQD</label><input class="input" id="ec-iqd" type="number"></div>
+    </div>
+    <div style="margin-bottom:0.75rem;"><label class="input-label">Processing Time</label><input class="input" id="ec-time" placeholder="e.g. 5-7 Working Days"></div>
+    <div style="margin-bottom:0.75rem;"><label class="input-label">Rules (English)</label><textarea class="input" id="ec-rules" rows="3" style="resize:vertical;" placeholder="Visa requirements..."></textarea></div>
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Country Photo</label>
+      <img id="ec-photo-preview" src="" style="display:none;width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:0.5rem;">
+      <div onclick="document.getElementById('ec-photo-input').click()" style="border:1.5px dashed rgba(255,10,84,0.35);border-radius:10px;padding:0.875rem;text-align:center;cursor:pointer;font-size:0.8rem;color:var(--gray-400);">📷 Click to change photo</div>
+      <input type="file" id="ec-photo-input" accept="image/*" style="display:none;" onchange="document.getElementById('ec-photo-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('ec-photo-preview').style.display='block'">
+    </div>
+    <div style="display:flex;gap:0.75rem;">
+      <button class="btn-primary" style="flex:1;justify-content:center;" onclick="saveEditCountry()">✓ Save Changes</button>
+      <button class="btn-ghost" onclick="document.getElementById('edit-country-modal').style.display='none'" style="padding:0.65rem 1.25rem;">Cancel</button>
+    </div>
   </div>
 </div>
 
