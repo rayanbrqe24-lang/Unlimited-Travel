@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 /* ========================================================
    DESIGN SYSTEM — based on your index.css
@@ -1222,7 +1223,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
 </div>
 
 <!-- WhatsApp -->
-<a class="whatsapp-float" href="https://wa.me/9647501234567" target="_blank" title="WhatsApp">
+<a class="whatsapp-float" href="https://wa.me/9647502307506" target="_blank" title="WhatsApp">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
 </a>
 
@@ -1251,7 +1252,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
       <div class="hero-search">
         <div class="search-box">
           <span style="padding:0 0 0 1rem;color:var(--gold-400);display:flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-          <input type="text" placeholder="Where do you want to go?" id="heroSearch">
+          <input type="text" placeholder="Where do you want to go?" id="heroSearch" onkeydown="if(event.key==='Enter')handleSearch()">
           <button class="btn-primary" onclick="handleSearch()">Explore Now</button>
         </div>
       </div>
@@ -1402,7 +1403,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
   <section class="section" style="background:rgba(5,11,59,0.15);">
     <div class="container">
       <div class="section-header aos">
-        <div class="badge">✨ What We Offer</div>
+        <div class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> What We Offer</div>
         <h2 style="margin-top:1rem;">Our Premium <span class="gold-text">Services</span></h2>
         <p>Comprehensive travel solutions tailored to your every need, delivered with world-class expertise.</p>
       </div>
@@ -1548,10 +1549,10 @@ body.rtl-mode .mobile-nav { text-align:right; }
         <div>
           <h4>Contact</h4>
           <ul class="footer-links">
-            <li><a href="tel:+9647501234567">+964 750 123 4567</a></li>
+            <li><a href="tel:+9647502307506">+964 750 123 4567</a></li>
             <li><a href="mailto:info@unlimited-travel.iq">info@unlimited-travel.iq</a></li>
             <li><a href="#">Baghdad, Al-Mansour</a></li>
-            <li><a href="https://wa.me/9647501234567">WhatsApp Us</a></li>
+            <li><a href="https://wa.me/9647502307506">WhatsApp Us</a></li>
           </ul>
         </div>
       </div>
@@ -1622,24 +1623,262 @@ body.rtl-mode .mobile-nav { text-align:right; }
 <div id="page-services" class="page">
   <div class="page-hero">
     <div class="container">
-      <div class="badge">What We Offer</div>
-      <h1 style="margin-top:1rem;">Explore Our <span class="gold-text">UNLIMITED</span> Services</h1>
-      <p>Premium travel solutions designed for the modern explorer — from seamless visa processing to world-class luxury experiences.</p>
+      <div class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> What We Offer</div>
+      <h1 style="margin-top:1rem;">Our Premium <span class="gold-text">Services</span></h1>
+      <p>Premium travel solutions designed for the modern explorer.</p>
     </div>
   </div>
   <section class="section">
     <div class="container">
-      <div class="services-full-grid">
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Visa"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/><path d="M11 15h4"/></svg></div><h3>Visa Services</h3><p>Expert processing for 120+ countries. Live embassy pricing, express options, and full document support.</p><button class="btn-primary" onclick="goVisa()">Apply Now ✈</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&q=80" alt="Flights"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div><h3>Flight Booking</h3><p>Best-price tickets on all major carriers. Economy, Business & First Class specialists.</p><button class="btn-primary" onclick="showToast('✈','Coming Soon!','Flight booking launching soon!')">Book Flight</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Hotels"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg></div><h3>Hotel Reservation</h3><p>Exclusive rates at 5-star hotels and luxury resorts. Price-match guarantee included.</p><button class="btn-primary" onclick="showToast('🏨','Coming Soon!','Hotel booking launching soon!')">Book Hotel</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80" alt="Tours"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div><h3>Tour Packages</h3><p>Curated all-inclusive tours with custom itineraries and professional guides.</p><button class="btn-primary" onclick="nav('contact')">Enquire</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Honeymoon"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2.5-3h9L17 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M5 9h14"/></svg></div><h3>Transfer</h3><p>Magical romantic getaways — Maldives, Santorini, Bali. Let love lead the way.</p><button class="btn-primary" onclick="nav('contact')">Get Package</button></div></div>
-        <div class="sf-card"><div class="sf-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" alt="VIP"></div><div class="sf-body"><div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-8 6 4 6-4 2 8"/><path d="M12 4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor"/><path d="M2 10l4 6"/><path d="M22 10l-4 6"/><path d="M12 2v8"/></svg></div><h3>VIP Travel Assistance</h3><p>Ultra-luxury concierge — private jets, presidential suites, dedicated managers.</p><button class="btn-primary" onclick="nav('contact')">VIP Inquiry</button></div></div>
+      <!-- SERVICE CARDS -->
+      <div id="svc-cards-grid" class="services-full-grid">
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80" alt="Visa"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/><path d="M11 15h4"/></svg></div>
+            <h3>Visa Services</h3>
+            <p>Expert processing for 120+ countries. Live embassy pricing, express options, and full document support.</p>
+            <button class="btn-primary" onclick="goVisa()">Apply Now →</button>
+          </div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=400&q=80" alt="Flights"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div>
+            <h3>Flight Booking</h3>
+            <p>Best-price tickets on all major carriers. Economy, Business & First Class specialists.</p>
+            <button class="btn-primary" onclick="openSvcForm('flights')">Book Flight →</button>
+          </div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80" alt="Hotels"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14"/><path d="M2 22h20"/><path d="M9 22v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><rect x="7" y="8" width="3" height="3"/><rect x="14" y="8" width="3" height="3"/></svg></div>
+            <h3>Hotel Reservation</h3>
+            <p>Exclusive rates at 5-star hotels and luxury resorts. Price-match guarantee included.</p>
+            <button class="btn-primary" onclick="openSvcForm('hotels')">Book Hotel →</button>
+          </div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&q=80" alt="Transfer"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2.5-3h9L17 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></div>
+            <h3>Transfer Service</h3>
+            <p>Airport pickup, private cars and VIP transport anywhere in Iraq and abroad.</p>
+            <button class="btn-primary" onclick="openSvcForm('transfer')">Book Transfer →</button>
+          </div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80" alt="Tours"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></div>
+            <h3>Tour Packages</h3>
+            <p>Curated all-inclusive tours with custom itineraries and professional guides.</p>
+            <button class="btn-primary" onclick="openSvcForm('tours')">Enquire Tours →</button>
+          </div>
+        </div>
+        <div class="sf-card">
+          <div class="sf-img"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" alt="VIP"></div>
+          <div class="sf-body">
+            <div class="sf-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-8 6 4 6-4 2 8"/><circle cx="12" cy="4" r="2" fill="currentColor"/></svg></div>
+            <h3>VIP Assistance</h3>
+            <p>Ultra-luxury concierge — private jets, presidential suites, dedicated managers.</p>
+            <button class="btn-primary" onclick="openSvcForm('tours')">VIP Inquiry →</button>
+          </div>
+        </div>
       </div>
+
+      <!-- INQUIRY FORM (hidden by default, shows after clicking a service) -->
+      <div id="svc-inquiry-form" style="display:none;margin-top:3rem;">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;">
+          <button onclick="closeSvcForm()" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;padding:0.5rem 1rem;border-radius:10px;cursor:pointer;font-family:var(--font-body);font-size:0.82rem;display:flex;align-items:center;gap:0.4rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back to Services
+          </button>
+          <h3 id="svc-form-title" style="font-size:1.2rem;font-weight:700;"></h3>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2rem;">
+
+            <!-- FLIGHTS FORM -->
+            <div id="svc-panel-flights" style="display:none;">
+              <div style="display:grid;gap:0.75rem;">
+
+                <!-- One Way / Round Trip -->
+                <div style="display:flex;gap:0.5rem;">
+                  <button type="button" id="svc-trip-oneway" onclick="svcSelectTrip('oneway')" style="flex:1;padding:0.6rem;border-radius:10px;border:2px solid rgba(255,10,84,0.5);background:rgba(255,10,84,0.1);color:#FF0A54;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.3rem;transition:all 0.2s;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>One Way
+                  </button>
+                  <button type="button" id="svc-trip-roundtrip" onclick="svcSelectTrip('roundtrip')" style="flex:1;padding:0.6rem;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);font-size:0.82rem;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.3rem;transition:all 0.2s;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>Round Trip
+                  </button>
+                </div>
+
+                <!-- From / To -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">From</label><input class="input" id="fl-from" placeholder="Baghdad (BGW)"></div>
+                  <div><label class="input-label">To</label><input class="input" id="fl-to" placeholder="Istanbul (IST)"></div>
+                </div>
+
+                <!-- Dates -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Departure Date</label><input class="input" type="date" id="fl-depart"></div>
+                  <div id="fl-return-wrap" style="display:none;"><label class="input-label">Return Date</label><input class="input" type="date" id="fl-return"></div>
+                </div>
+
+                <!-- Passengers Dropdown -->
+                <div>
+                  <label class="input-label">Passengers & Class</label>
+                  <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;">
+                    <div id="svc-pax-header" onclick="toggleSvcPax()" style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;cursor:pointer;">
+                      <span id="svc-pax-text" style="font-size:0.875rem;color:#fff;font-weight:600;">1 Adult · Economy</span>
+                      <svg id="svc-pax-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gray-400);transition:transform 0.2s;"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div id="svc-pax-dropdown" style="display:none;border-top:1px solid rgba(255,255,255,0.07);padding:0.75rem 1rem 1rem;">
+                      <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-bottom:0.75rem;">Select exact number for best prices</p>
+
+                      <!-- Adults -->
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <div><div style="font-size:0.85rem;font-weight:600;color:#fff;">Adults</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.4);">12+ years</div></div>
+                        <div style="display:flex;align-items:center;gap:0.875rem;">
+                          <button type="button" onclick="svcChangePax('adults',-1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);background:transparent;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">−</button>
+                          <span id="svc-adults" style="font-size:1rem;font-weight:700;color:#fff;min-width:18px;text-align:center;">1</span>
+                          <button type="button" onclick="svcChangePax('adults',1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,10,84,0.6);background:rgba(255,10,84,0.1);color:#FF0A54;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">+</button>
+                        </div>
+                      </div>
+
+                      <!-- Children -->
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <div><div style="font-size:0.85rem;font-weight:600;color:#fff;">Children</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.4);">2–11 years</div></div>
+                        <div style="display:flex;align-items:center;gap:0.875rem;">
+                          <button type="button" onclick="svcChangePax('children',-1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);background:transparent;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">−</button>
+                          <span id="svc-children" style="font-size:1rem;font-weight:700;color:#fff;min-width:18px;text-align:center;">0</span>
+                          <button type="button" onclick="svcChangePax('children',1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,10,84,0.6);background:rgba(255,10,84,0.1);color:#FF0A54;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">+</button>
+                        </div>
+                      </div>
+
+                      <!-- Infants -->
+                      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <div><div style="font-size:0.85rem;font-weight:600;color:#fff;">Infants on lap</div><div style="font-size:0.7rem;color:rgba(255,255,255,0.4);">Under 2 years</div></div>
+                        <div style="display:flex;align-items:center;gap:0.875rem;">
+                          <button type="button" onclick="svcChangePax('infants',-1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);background:transparent;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">−</button>
+                          <span id="svc-infants" style="font-size:1rem;font-weight:700;color:#fff;min-width:18px;text-align:center;">0</span>
+                          <button type="button" onclick="svcChangePax('infants',1)" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,10,84,0.6);background:rgba(255,10,84,0.1);color:#FF0A54;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">+</button>
+                        </div>
+                      </div>
+
+                      <!-- Cabin Class -->
+                      <select class="input" id="svc-cabin-class" onchange="svcUpdatePaxText()" style="width:100%;margin-top:0.75rem;">
+                        <option>Economy</option>
+                        <option>Premium Economy</option>
+                        <option>Business</option>
+                        <option>First Class</option>
+                      </select>
+
+                      <button type="button" onclick="toggleSvcPax()" class="btn-primary" style="width:100%;justify-content:center;margin-top:0.75rem;padding:0.6rem;">Done</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div><label class="input-label">Your Name & Phone</label><input class="input" id="fl-contact" placeholder="Name — +964 7XX XXX XXXX"></div>
+                <button class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);" onclick="sendWhatsApp('flight')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                  Search Flights
+                </button>
+              </div>
+            </div>
+
+            <!-- HOTELS FORM -->
+            <div id="svc-panel-hotels" style="display:none;">
+              <div style="display:grid;gap:0.75rem;">
+                <div><label class="input-label">Destination City</label><input class="input" id="ht-city" placeholder="e.g. Dubai, Istanbul, London"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Check-in</label><input class="input" type="date" id="ht-checkin"></div>
+                  <div><label class="input-label">Check-out</label><input class="input" type="date" id="ht-checkout"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Rooms</label><select class="input" id="ht-rooms"><option>1 Room</option><option>2 Rooms</option><option>3 Rooms</option><option>4+ Rooms</option></select></div>
+                  <div><label class="input-label">Category</label><select class="input" id="ht-stars"><option>5 Star ⭐⭐⭐⭐⭐</option><option>4 Star ⭐⭐⭐⭐</option><option>3 Star ⭐⭐⭐</option><option>Any Budget</option></select></div>
+                </div>
+                <div><label class="input-label">Special Requests</label><input class="input" id="ht-notes" placeholder="Sea view, honeymoon setup, etc."></div>
+                <div><label class="input-label">Your Name & Phone</label><input class="input" id="ht-contact" placeholder="Name — +964 7XX XXX XXXX"></div>
+                <button class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);" onclick="sendWhatsApp('hotel')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                  Search Hotels
+                </button>
+              </div>
+            </div>
+
+            <!-- TRANSFER FORM -->
+            <div id="svc-panel-transfer" style="display:none;">
+              <div style="display:grid;gap:0.75rem;">
+                <div><label class="input-label">Pickup Location</label><input class="input" id="tr-from" placeholder="e.g. Erbil Airport"></div>
+                <div><label class="input-label">Drop-off Location</label><input class="input" id="tr-to" placeholder="e.g. Rotana Hotel, Erbil"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Date</label><input class="input" type="date" id="tr-date"></div>
+                  <div><label class="input-label">Time</label><input class="input" type="time" id="tr-time"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Passengers</label><select class="input" id="tr-pax"><option>1-3 Passengers</option><option>4-6 Passengers</option><option>7+ Passengers</option></select></div>
+                  <div><label class="input-label">Vehicle</label><select class="input" id="tr-type"><option>Standard Car</option><option>SUV / 4x4</option><option>Van / Minibus</option><option>VIP Luxury</option></select></div>
+                </div>
+                <div><label class="input-label">Your Name & Phone</label><input class="input" id="tr-contact" placeholder="Name — +964 7XX XXX XXXX"></div>
+                <button class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);" onclick="sendWhatsApp('transfer')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                  Book Transfer
+                </button>
+              </div>
+            </div>
+
+            <!-- TOURS FORM -->
+            <div id="svc-panel-tours" style="display:none;">
+              <div style="display:grid;gap:0.75rem;">
+                <div><label class="input-label">Destination</label><input class="input" id="to-dest" placeholder="e.g. Turkey, Maldives, Europe"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Travel Date</label><input class="input" type="date" id="to-date"></div>
+                  <div><label class="input-label">Duration</label><select class="input" id="to-duration"><option>3-5 Days</option><option>6-7 Days</option><option>8-10 Days</option><option>2 Weeks+</option></select></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                  <div><label class="input-label">Travelers</label><select class="input" id="to-pax"><option>1 Person</option><option>2 People (Couple)</option><option>Family (3-5)</option><option>Group (6+)</option></select></div>
+                  <div><label class="input-label">Tour Type</label><select class="input" id="to-type"><option>Leisure</option><option>Honeymoon</option><option>Adventure</option><option>Cultural</option><option>Medical</option></select></div>
+                </div>
+                <div><label class="input-label">Budget (per person)</label><select class="input" id="to-budget"><option>$500-$1,000</option><option>$1,000-$2,000</option><option>$2,000-$5,000</option><option>$5,000+ Luxury</option></select></div>
+                <div><label class="input-label">Your Name & Phone</label><input class="input" id="to-contact" placeholder="Name — +964 7XX XXX XXXX"></div>
+                <button class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);" onclick="sendWhatsApp('tour')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                  Search Tours
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: WhatsApp info -->
+          <div style="background:linear-gradient(135deg,rgba(37,211,102,0.1),rgba(18,140,126,0.05));border:1px solid rgba(37,211,102,0.2);border-radius:20px;padding:1.75rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+              <div style="width:48px;height:48px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              </div>
+              <div><h4 style="font-size:1rem;font-weight:700;color:#fff;">Instant WhatsApp Response</h4><p style="font-size:0.75rem;color:var(--gray-400);">Fill the form — we reply in minutes</p></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.875rem;margin-bottom:1.5rem;">
+              <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:#fff;"><span style="width:32px;height:32px;background:rgba(37,211,102,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Reply within 5 minutes</div>
+              <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:#fff;"><span style="width:32px;height:32px;background:rgba(37,211,102,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Available 24/7</div>
+              <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:#fff;"><span style="width:32px;height:32px;background:rgba(37,211,102,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Best price guaranteed</div>
+              <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:#fff;"><span style="width:32px;height:32px;background:rgba(37,211,102,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>Arabic & English support</div>
+            </div>
+            <a href="https://wa.me/9647502307506" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.875rem;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:14px;text-decoration:none;color:#fff;font-weight:700;font-size:0.9rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              Chat with Us Now
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </div>
+
 
 <!-- ================================================================
      CONTACT PAGE
@@ -1657,7 +1896,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
       <div class="contact-grid">
         <div class="contact-info-cards">
           <div class="ci-card"><div class="ci-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><h4>Baghdad Office</h4><p>Al-Mansour District, Baghdad<br>Open: 9AM–6PM, Sat–Thu</p></div></div>
-          <div class="ci-card"><div class="ci-icon">📞</div><div><h4>Phone</h4><p>+964 750 123 4567<br>+964 771 987 6543</p></div></div>
+          <div class="ci-card"><div class="ci-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.45 5.45l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><h4>Phone</h4><p>+964 750 123 4567<br>+964 771 987 6543</p></div></div>
           <div class="ci-card"><div class="ci-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><h4>Email</h4><p>info@unlimited-travel.iq<br>visa@unlimited-travel.iq</p></div></div>
           <div class="ci-card"><div class="ci-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><h4>WhatsApp</h4><p>+964 750 123 4567<br>24/7 Quick Response</p></div></div>
           <div style="background:rgba(255,10,84,0.04);border:1px solid rgba(255,10,84,0.15);border-radius:14px;height:160px;display:flex;align-items:center;justify-content:center;color:var(--gray-400);font-size:0.875rem;text-align:center;">
@@ -1756,7 +1995,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
             </div>
             <div style="margin-bottom:1.25rem;">
               <label class="input-label" style="display:flex;align-items:center;gap:0.4rem;">
-                📧 Email Verification Code
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email Verification Code
                 <span id="otp-verified-badge" style="display:none;margin-left:auto;color:#10b981;font-size:0.7rem;font-weight:600;">✓ Verified</span>
               </label>
               <input class="input" type="text" id="otp-input" maxlength="6" placeholder="Enter 6-digit code" style="letter-spacing:0.3em;font-size:1.2rem;text-align:center;font-weight:700;" oninput="this.value=this.value.replace(/\D/g,'')">
@@ -1901,17 +2140,18 @@ body.rtl-mode .mobile-nav { text-align:right; }
       <!-- Step 2: Travel Details -->
       <div class="visa-section" id="vstep-2" style="display:none;">
         <h3>Travel Details</h3>
-        <p>Fill in your trip dates and visa type.</p>
+        <p>Fill in your trip dates, visa type and passenger details.</p>
         <div class="form-3col">
           <div><label class="input-label">Visa Type</label><select class="input" id="v-visa-type"><option>Tourist</option><option>Business</option><option>Medical</option><option>Student</option><option>Transit</option></select></div>
           <div><label class="input-label">Travel Date</label><input class="input" id="v-travel" type="date"></div>
-          <div><label class="input-label">Return Date</label><input class="input" id="v-return" type="date"></div>
+          <div id="v-return-wrap" style="display:none;"><label class="input-label">Return Date</label><input class="input" id="v-return" type="date"></div>
         </div>
         <div class="form-2col">
           <div><label class="input-label">Passport Expiry</label><input class="input" id="v-expiry" type="date"></div>
-          <div><label class="input-label">Duration of Stay</label><select class="input"><option>1-7 days</option><option>8-14 days</option><option>15-30 days</option><option>30-90 days</option></select></div>
+          <div><label class="input-label">Duration of Stay</label><select class="input" id="v-duration"><option>1-7 days</option><option>8-14 days</option><option>15-30 days</option><option>30-90 days</option></select></div>
         </div>
-        <!-- Country requirements reminder -->
+
+
         <div id="selected-country-rules" style="background:rgba(255,10,84,0.05);border:1px solid rgba(255,10,84,0.15);border-radius:12px;padding:1rem;font-size:0.825rem;color:var(--gray-400);margin-top:1rem;"></div>
         <div class="step-actions">
           <button class="btn-ghost" onclick="gotoVisa(1)">← Back</button>
@@ -2776,14 +3016,115 @@ function sendContact() {
   showToast(_SVG_ICONS.success,'Message Sent!','We will contact you within 1 hour.'); 
 }
 function handleSearch() {
-  const q = document.getElementById('heroSearch').value;
-  if (q) showToast(_SVG_ICONS.info,'Searching...','Finding experiences in ' + q + '...');
-  else nav('services');
+  const q = document.getElementById('heroSearch').value.trim().toLowerCase();
+  if (!q) { nav('visa-pick'); return; }
+
+  // Search in countries list
+  const countries = _cache.countries || [];
+  const match = countries.find(c =>
+    c.nameEn.toLowerCase().includes(q) ||
+    (c.nameAr && c.nameAr.includes(q)) ||
+    c.id.toLowerCase() === q
+  );
+
+  if (match) {
+    // Found a country — go directly to visa application
+    selectedCountryId = match.id;
+    showToast(_SVG_ICONS.success, match.flag + ' ' + match.nameEn + ' Found!', 'Starting your visa application...');
+    setTimeout(() => {
+      if (!DB.currentUser) { nav('auth'); return; }
+      nav('visa');
+      setupVisaPage();
+    }, 600);
+    return;
+  }
+
+  // Check services keywords
+  const svcKeywords = {
+    flights: ['flight','fly','plane','ticket','airplane','طيران','رحلة'],
+    hotels: ['hotel','room','stay','accommodation','فندق','سكن'],
+    transfer: ['transfer','car','taxi','pickup','ride','سيارة','نقل'],
+    tours: ['tour','package','trip','travel','رحلة','سياحة'],
+  };
+
+  for (const [type, keywords] of Object.entries(svcKeywords)) {
+    if (keywords.some(k => q.includes(k))) {
+      nav('services');
+      setTimeout(() => openSvcForm(type), 300);
+      return;
+    }
+  }
+
+  // Default — go to country picker with search pre-filled
+  nav('visa-pick');
+  setTimeout(() => {
+    const searchInput = document.getElementById('cp-search');
+    if (searchInput) {
+      searchInput.value = document.getElementById('heroSearch').value;
+      searchInput.dispatchEvent(new Event('input'));
+    }
+  }, 300);
 }
 
 // ================================================================
-//  AUTH
+//  PASSENGER COUNTER & CLASS SELECTOR
 // ================================================================
+const _pax = { adults: 1, children: 0, infants: 0, class: 'Economy', tripType: 'oneway' };
+
+function selectTripType(type) {
+  _pax.tripType = type;
+  const oneway = document.getElementById('trip-oneway');
+  const round = document.getElementById('trip-roundtrip');
+  const returnField = document.getElementById('v-return-wrap');
+  if (oneway) {
+    oneway.style.background = type==='oneway' ? 'rgba(255,10,84,0.1)' : 'rgba(255,255,255,0.04)';
+    oneway.style.borderColor = type==='oneway' ? 'rgba(255,10,84,0.5)' : 'rgba(255,255,255,0.1)';
+    oneway.style.color = type==='oneway' ? '#FF0A54' : 'rgba(255,255,255,0.5)';
+  }
+  if (round) {
+    round.style.background = type==='roundtrip' ? 'rgba(255,10,84,0.1)' : 'rgba(255,255,255,0.04)';
+    round.style.borderColor = type==='roundtrip' ? 'rgba(255,10,84,0.5)' : 'rgba(255,255,255,0.1)';
+    round.style.color = type==='roundtrip' ? '#FF0A54' : 'rgba(255,255,255,0.5)';
+  }
+  if (returnField) returnField.style.display = type==='roundtrip' ? 'block' : 'none';
+}
+
+function togglePaxDropdown() {
+  const dd = document.getElementById('pax-dropdown');
+  const chevron = document.getElementById('pax-chevron');
+  if (!dd) return;
+  const isOpen = dd.style.display !== 'none';
+  dd.style.display = isOpen ? 'none' : 'block';
+  if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function changeCount(type, delta) {
+  _pax[type] = Math.max(0, (_pax[type] || 0) + delta);
+  if (type === 'adults') _pax.adults = Math.max(1, _pax.adults);
+  if (type === 'infants') _pax.infants = Math.min(_pax.adults, _pax.infants);
+  const el = document.getElementById('count-' + type);
+  if (el) el.textContent = _pax[type];
+  updatePaxSummary();
+}
+
+function selectClass(cls) {
+  _pax.class = cls;
+  const sel = document.getElementById('cabin-class-select');
+  if (sel) sel.value = cls;
+  updatePaxSummary();
+}
+
+function updatePaxSummary() {
+  const parts = [];
+  if (_pax.adults) parts.push(_pax.adults + ' Adult' + (_pax.adults > 1 ? 's' : ''));
+  if (_pax.children) parts.push(_pax.children + ' Child' + (_pax.children > 1 ? 'ren' : ''));
+  if (_pax.infants) parts.push(_pax.infants + ' Infant' + (_pax.infants > 1 ? 's' : ''));
+  const summary = parts.join(' + ') + ' · ' + _pax.class;
+  const header = document.getElementById('pax-header-text');
+  if (header) header.textContent = summary;
+  const el = document.getElementById('pax-summary');
+  if (el) el.innerHTML = '<strong style="color:#fff;">' + parts.join(' + ') + '</strong> · ' + _pax.class + ' Class';
+}
 function setupAuthPage() {
   const u = DB.currentUser;
   document.getElementById('auth-logged-in').style.display = u ? 'block' : 'none';
@@ -2802,7 +3143,7 @@ async function renderMyApps(u) {
   const myApps = await dbGetAppsByUser(u.id, u.email);
   if (!myApps.length) {
     container.innerHTML = `<div style="text-align:center;padding:2rem 1rem;">
-      <div style="font-size:3rem;margin-bottom:0.75rem;">🛫</div>
+      <div style="margin-bottom:0.75rem;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div>
       <div style="font-weight:600;margin-bottom:0.4rem;">No applications yet</div>
       <p style="color:var(--gray-500);font-size:0.8rem;margin-bottom:1rem;">Start your visa journey today!</p>
       <button onclick="nav('visa-pick')" class="btn-primary" style="font-size:0.82rem;padding:0.6rem 1.25rem;">Apply for a Visa →</button>
@@ -2834,9 +3175,9 @@ async function renderMyApps(u) {
           </div>
         </div>`}
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;font-size:0.75rem;">
-        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">💰 ${a.currency==='IQD'?a.amountPaid.toLocaleString()+' IQD':'$'+a.amountPaid+' USD'}</span>
-        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">✈️ ${a.travelDate||'—'}</span>
-        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);">🛂 ${a.passportId||'—'}</span>
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);"><svg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><line x1='12' y1='1' x2='12' y2='23'/><path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg> ${a.currency==='IQD'?a.amountPaid.toLocaleString()+' IQD':'$'+a.amountPaid+' USD'}</span>
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);"><svg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z'/></svg> ${a.travelDate||'—'}</span>
+        <span style="background:rgba(255,10,84,0.08);border:1px solid rgba(255,10,84,0.15);border-radius:6px;padding:0.2rem 0.6rem;color:var(--gray-300);"><svg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='2' y='5' width='20' height='14' rx='2'/><path d='M2 10h20'/></svg> ${a.passportId||'—'}</span>
       </div>
     </div>`;
   }).join('');
@@ -2918,9 +3259,10 @@ async function doRegister() {
     options: { shouldCreateUser: true }
   }).then(() => {
     showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
-  }).catch(() => {
-    showToast(_SVG_ICONS.info, 'Code Sent! 📧', 'Check your email ' + email);
+  }).catch((err) => {
     console.log('📧 Test OTP for', email, ':', _otp.code);
+    // Show code on screen for testing since email failed
+    showToast(_SVG_ICONS.info, 'Your Code: ' + _otp.code, 'Email failed — use this code to verify (dev mode)');
   });
 
   // Always show OTP step immediately
@@ -2928,6 +3270,9 @@ async function doRegister() {
   document.getElementById('reg-step-2').style.display = 'block';
   document.getElementById('otp-sent-to').textContent = 'We sent a 6-digit code to ' + email;
   document.getElementById('otp-input').value = '';
+  // Show fallback code display
+  const fallback = document.getElementById('otp-fallback');
+  if (fallback) fallback.style.display = 'none'; // hide until we know email failed
   setTimeout(() => { const inp = document.getElementById('otp-input'); if(inp) inp.focus(); }, 100);
   startResendTimer();
 }
@@ -3517,7 +3862,8 @@ function processPayment() {
     dateOfBirth: document.getElementById('v-dob').value,
     countryId: selectedCountryId,
     countryNameEn: country ? country.nameEn : selectedCountryId,
-    travelDate: document.getElementById('v-travel').value || '2026-07-01',
+    passengers: _pax.adults + (_pax.children ? ' + ' + _pax.children + ' children' : '') + (_pax.infants ? ' + ' + _pax.infants + ' infants' : ''),
+    cabinClass: _pax.class,
     returnDate: document.getElementById('v-return').value || '2026-07-15',
     passportExpiry: document.getElementById('v-expiry').value || '2031-01-01',
     personalPhotoUrl: uploadedFiles.photo ? uploadedFiles.photo.name : 'photo_upload.jpg',
@@ -3806,17 +4152,17 @@ function viewAppDetails(orderNumber) {
     <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);">Uploaded Documents</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem;">
       <div style="background:rgba(255,255,255,0.03);border:1px solid ${hasPhoto?'rgba(16,185,129,0.3)':'rgba(255,10,84,0.2)'};border-radius:12px;padding:1rem;text-align:center;">
-        ${hasPhoto && app.personalPhotoUrl.startsWith('data:') ? `<img src="${app.personalPhotoUrl}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto 0.5rem;display:block;border:2px solid #10b981;">` : `<div style="font-size:2rem;margin-bottom:0.5rem;">${hasPhoto?'🖼️':'📷'}</div>`}
+        ${hasPhoto && app.personalPhotoUrl.startsWith('data:') ? `<img src="${app.personalPhotoUrl}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto 0.5rem;display:block;border:2px solid #10b981;">` : `<div style="font-size:2rem;margin-bottom:0.5rem;">${hasPhoto?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>'}</div>`}
         <div style="font-size:0.72rem;font-weight:600;color:${hasPhoto?'#10b981':'var(--gray-400)'}">Personal Photo</div>
         <div style="font-size:0.62rem;color:var(--gray-500);margin-top:0.2rem;word-break:break-all;">${hasPhoto?app.personalPhotoUrl.split('/').pop():'Not uploaded'}</div>
       </div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid ${hasPassport?'rgba(16,185,129,0.3)':'rgba(255,10,84,0.2)'};border-radius:12px;padding:1rem;text-align:center;">
-        <div style="font-size:2rem;margin-bottom:0.5rem;">${hasPassport?'✅':'📄'}</div>
+        <div style="font-size:2rem;margin-bottom:0.5rem;">${hasPassport?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'}</div>
         <div style="font-size:0.72rem;font-weight:600;color:${hasPassport?'#10b981':'var(--gray-400)'}">Passport Scan</div>
         <div style="font-size:0.62rem;color:var(--gray-500);margin-top:0.2rem;word-break:break-all;">${hasPassport?app.passportCopyUrl.split('/').pop():'Not uploaded'}</div>
       </div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid ${hasId?'rgba(16,185,129,0.3)':'rgba(255,10,84,0.2)'};border-radius:12px;padding:1rem;text-align:center;">
-        <div style="font-size:2rem;margin-bottom:0.5rem;">${hasId?'✅':'🪪'}</div>
+        <div style="font-size:2rem;margin-bottom:0.5rem;">${hasId?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 11h5"/><path d="M13 15h3"/></svg>'}</div>
         <div style="font-size:0.72rem;font-weight:600;color:${hasId?'#10b981':'var(--gray-400)'}">National ID</div>
         <div style="font-size:0.62rem;color:var(--gray-500);margin-top:0.2rem;word-break:break-all;">${hasId?app.nationalIdUrl.split('/').pop():'Not uploaded'}</div>
       </div>
@@ -3849,38 +4195,86 @@ function viewAppDetails(orderNumber) {
 //  (set MANAGER_EMAIL constant below to override)
 // ================================================================
 // ================================================================
-//  EMAIL API (Simulated — replace EmailJS keys with real ones)
+//  EMAIL INVOICE — Using EmailJS (free, works from browser)
+//  Setup: https://www.emailjs.com
+//  1. Create free account → get Service ID, Template ID, Public Key
+//  2. Create email template with variables below
+//  3. Replace the 3 constants below with your real values
 // ================================================================
-const MANAGER_EMAIL = 'manager@unlimited-travel.iq';
-const MANAGER_NAME = 'UNLIMITED Manager';
+const EMAILJS_SERVICE_ID  = 'service_8m1bmyg';
+const EMAILJS_TEMPLATE_ID = 'template_6k80e4d';
+const EMAILJS_PUBLIC_KEY  = 'vMT3KuoBpyK81gxIS';
+const MANAGER_EMAIL = 'rayanbrqe11@gmail.com';
+const MANAGER_NAME  = 'UNLIMITED Manager';
 
 async function sendEmailInvoice(app) {
-  // ---- REAL INTEGRATION: replace below with EmailJS or backend call ----
-  // Example with EmailJS:
-  // emailjs.send('service_id','template_invoice', {
-  //   to_email: app.email, to_name: app.customerName,
-  //   order_number: app.orderNumber, country: app.countryNameEn,
-  //   amount: app.currency === 'USD' ? '$'+app.amountPaid : app.amountPaid.toLocaleString()+' IQD',
-  //   travel_date: app.travelDate
-  // });
-  // emailjs.send('service_id','template_manager_alert', { manager_email: MANAGER_EMAIL, ... });
+  const amtDisplay = app.currency==='IQD' ? app.amountPaid.toLocaleString()+' IQD' : '$'+app.amountPaid+' USD';
+  const baseAmt    = app.currency==='IQD' ? (app.amountPaid-13000).toLocaleString()+' IQD' : '$'+(app.amountPaid-10)+' USD';
+  const procAmt    = app.currency==='IQD' ? '13,000 IQD' : '$10 USD';
 
-  // ---- SIMULATED: store notification in localStorage ----
+  // ── Try EmailJS (real email) ──────────────────────────────────
+  if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
+    try {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Email to customer
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email:     app.email,
+        to_name:      app.customerName,
+        order_number: app.orderNumber,
+        country:      app.countryNameEn,
+        visa_type:    'Tourist Visa',
+        travel_date:  app.travelDate,
+        return_date:  app.returnDate || '—',
+        base_amount:  baseAmt,
+        proc_amount:  procAmt,
+        total_amount: amtDisplay,
+        currency:     app.currency,
+        payment_method: 'FIB Bank',
+        date:         new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+      });
+
+      // Email to manager
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email:     MANAGER_EMAIL,
+        to_name:      MANAGER_NAME,
+        order_number: app.orderNumber,
+        country:      app.countryNameEn,
+        visa_type:    'Tourist Visa',
+        travel_date:  app.travelDate,
+        return_date:  app.returnDate || '—',
+        base_amount:  baseAmt,
+        proc_amount:  procAmt,
+        total_amount: amtDisplay,
+        currency:     app.currency,
+        payment_method: 'FIB Bank',
+        date:         new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+        customer_name: app.customerName,
+        customer_email: app.email,
+        customer_phone: app.phone,
+      });
+
+      console.log('✅ Invoice emails sent to', app.email, 'and', MANAGER_EMAIL);
+    } catch(e) {
+      console.warn('EmailJS failed:', e);
+    }
+  }
+
+  // ── Always save notification in DB ────────────────────────────
   const notif = {
     id: 'notif-' + Date.now(),
     type: 'purchase',
     title: 'New Purchase Completed',
-    desc: app.customerName + ' paid ' + (app.currency === 'USD' ? '$'+app.amountPaid : app.amountPaid.toLocaleString()+' IQD') + ' for ' + app.countryNameEn + ' visa',
+    desc: app.customerName + ' paid ' + amtDisplay + ' for ' + app.countryNameEn + ' visa',
     order: app.orderNumber,
     email: app.email,
     managerEmail: MANAGER_EMAIL,
-    customerEmailSent: true,
-    managerEmailSent: true,
+    customerEmailSent: EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY',
+    managerEmailSent:  EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY',
     createdAt: new Date().toLocaleString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),
     read: false
   };
   await dbInsertNotification(notif);
-  // Update badge
   const unread = await dbUnreadNotifCount();
   const sb = document.getElementById('sb-notifs');
   if (sb) sb.textContent = unread;
@@ -4019,8 +4413,8 @@ function renderCountryAdmin() {
   const countries = _cache.countries || [];
   document.getElementById('country-admin-grid').innerHTML = countries.map(c => `
     <div class="country-edit-card">
-      ${c.photoUrl ? `<img src="${c.photoUrl}" style="width:100%;height:110px;object-fit:cover;border-radius:10px;margin-bottom:0.875rem;display:block;">` : `<div style="width:100%;height:110px;background:rgba(255,255,255,0.06);border-radius:10px;margin-bottom:0.875rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">${c.flag||'🌍'}</div>`}
-      <div style="font-size:1rem;margin-bottom:0.25rem;color:#fff;font-weight:700;">${c.flag||'🌍'} ${c.nameEn}</div>
+      ${c.photoUrl ? `<img src="${c.photoUrl}" style="width:100%;height:110px;object-fit:cover;border-radius:10px;margin-bottom:0.875rem;display:block;">` : `<div style="width:100%;height:110px;background:rgba(255,255,255,0.06);border-radius:10px;margin-bottom:0.875rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">${c.flag||'🌐'}</div>`}
+      <div style="font-size:1rem;margin-bottom:0.25rem;color:#fff;font-weight:700;">${c.flag||'🌐'} ${c.nameEn}</div>
       <div style="font-size:0.72rem;color:rgba(255,255,255,0.45);margin-bottom:0.75rem;">${c.processingTime}</div>
       <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;flex-wrap:wrap;">
         <span style="background:rgba(255,10,84,0.15);border:1px solid rgba(255,10,84,0.3);border-radius:6px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:600;color:#fff;">$${c.priceUSD} USD</span>
@@ -4333,6 +4727,156 @@ function toggleLang() {
   location.reload(); // simplest reliable approach
 }
 
+function openSvcForm(type) {
+  if (!DB.currentUser) {
+    showToast(_SVG_ICONS.warn, 'Login Required', 'Please sign in to send your inquiry.');
+    setTimeout(() => nav('auth'), 800);
+    return;
+  }
+  document.getElementById('svc-cards-grid').style.display = 'none';
+  document.getElementById('svc-inquiry-form').style.display = 'block';
+  ['flights','hotels','transfer','tours'].forEach(t => {
+    const el = document.getElementById('svc-panel-' + t);
+    if (el) el.style.display = t === type ? 'block' : 'none';
+  });
+  const titles = { flights:'✈️ Flight Booking', hotels:'🏨 Hotel Reservation', transfer:'🚗 Transfer Service', tours:'🗺️ Tour Packages' };
+  document.getElementById('svc-form-title').textContent = titles[type] || '';
+  document.getElementById('svc-inquiry-form').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function closeSvcForm() {
+  document.getElementById('svc-cards-grid').style.display = 'grid';
+  document.getElementById('svc-inquiry-form').style.display = 'none';
+  document.getElementById('svc-cards-grid').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// Services page flight form helpers
+const _svcPax = { adults:1, children:0, infants:0 };
+
+function svcSelectTrip(type) {
+  const oneway = document.getElementById('svc-trip-oneway');
+  const round = document.getElementById('svc-trip-roundtrip');
+  const ret = document.getElementById('fl-return-wrap');
+  [oneway, round].forEach((btn, i) => {
+    if (!btn) return;
+    const active = (i===0 && type==='oneway') || (i===1 && type==='roundtrip');
+    btn.style.background = active ? 'rgba(255,10,84,0.1)' : 'rgba(255,255,255,0.04)';
+    btn.style.borderColor = active ? 'rgba(255,10,84,0.5)' : 'rgba(255,255,255,0.1)';
+    btn.style.color = active ? '#FF0A54' : 'rgba(255,255,255,0.5)';
+  });
+  if (ret) ret.style.display = type==='roundtrip' ? 'block' : 'none';
+}
+
+function toggleSvcPax() {
+  const dd = document.getElementById('svc-pax-dropdown');
+  const ch = document.getElementById('svc-pax-chevron');
+  if (!dd) return;
+  const open = dd.style.display !== 'none';
+  dd.style.display = open ? 'none' : 'block';
+  if (ch) ch.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+function svcChangePax(type, delta) {
+  _svcPax[type] = Math.max(0, (_svcPax[type]||0) + delta);
+  if (type==='adults') _svcPax.adults = Math.max(1, _svcPax.adults);
+  if (type==='infants') _svcPax.infants = Math.min(_svcPax.adults, _svcPax.infants);
+  const el = document.getElementById('svc-' + type);
+  if (el) el.textContent = _svcPax[type];
+  svcUpdatePaxText();
+}
+
+function svcUpdatePaxText() {
+  const cls = document.getElementById('svc-cabin-class')?.value || 'Economy';
+  const parts = [];
+  if (_svcPax.adults) parts.push(_svcPax.adults + ' Adult' + (_svcPax.adults>1?'s':''));
+  if (_svcPax.children) parts.push(_svcPax.children + ' Child' + (_svcPax.children>1?'ren':''));
+  if (_svcPax.infants) parts.push(_svcPax.infants + ' Infant' + (_svcPax.infants>1?'s':''));
+  const el = document.getElementById('svc-pax-text');
+  if (el) el.textContent = parts.join(' + ') + ' · ' + cls;
+}
+
+// ================================================================
+//  SERVICES PAGE — WhatsApp inquiry
+// ================================================================
+const WA_NUMBER = '9647502307506';
+
+function sendWhatsApp(type) {
+  if (!DB.currentUser) {
+    showToast(_SVG_ICONS.warn, 'Login Required', 'Please sign in to send your inquiry.');
+    setTimeout(() => nav('auth'), 800);
+    return;
+  }
+  let msg = '';
+  switch(type) {
+    case 'flight': {
+      const from = document.getElementById('fl-from')?.value||'—';
+      const to = document.getElementById('fl-to')?.value||'—';
+      const depart = document.getElementById('fl-depart')?.value||'—';
+      const ret = document.getElementById('fl-return')?.value||'';
+      const cls = document.getElementById('svc-cabin-class')?.value||'Economy';
+      const contact = document.getElementById('fl-contact')?.value||DB.currentUser?.fullName||'—';
+      const paxParts = [];
+      if (_svcPax.adults) paxParts.push(_svcPax.adults + ' Adult' + (_svcPax.adults>1?'s':''));
+      if (_svcPax.children) paxParts.push(_svcPax.children + ' Child' + (_svcPax.children>1?'ren':''));
+      if (_svcPax.infants) paxParts.push(_svcPax.infants + ' Infant' + (_svcPax.infants>1?'s':''));
+      msg = `✈️ *Flight Booking Request*\n\nFrom: ${from}\nTo: ${to}\nDeparture: ${depart}${ret?'\nReturn: '+ret:'\n(One Way)'}\nPassengers: ${paxParts.join(' + ')}\nClass: ${cls}\nContact: ${contact}\n\n_Sent via UNLIMITED Travel_`;
+      break;
+    }
+    case 'hotel': {
+      const city = document.getElementById('ht-city')?.value||'—';
+      const checkin = document.getElementById('ht-checkin')?.value||'—';
+      const checkout = document.getElementById('ht-checkout')?.value||'—';
+      const rooms = document.getElementById('ht-rooms')?.value||'1';
+      const stars = document.getElementById('ht-stars')?.value||'5 Star';
+      const notes = document.getElementById('ht-notes')?.value||'';
+      const contact = document.getElementById('ht-contact')?.value||DB.currentUser?.fullName||'—';
+      msg = `🏨 *Hotel Reservation Request*\n\nCity: ${city}\nCheck-in: ${checkin}\nCheck-out: ${checkout}\nRooms: ${rooms}\nCategory: ${stars}${notes?'\nRequests: '+notes:''}\nContact: ${contact}\n\n_Sent via UNLIMITED Travel_`;
+      break;
+    }
+    case 'transfer': {
+      const from = document.getElementById('tr-from')?.value||'—';
+      const to = document.getElementById('tr-to')?.value||'—';
+      const date = document.getElementById('tr-date')?.value||'—';
+      const time = document.getElementById('tr-time')?.value||'—';
+      const pax = document.getElementById('tr-pax')?.value||'—';
+      const vtype = document.getElementById('tr-type')?.value||'—';
+      const contact = document.getElementById('tr-contact')?.value||DB.currentUser?.fullName||'—';
+      msg = `🚗 *Transfer Booking Request*\n\nFrom: ${from}\nTo: ${to}\nDate: ${date} at ${time}\nPassengers: ${pax}\nVehicle: ${vtype}\nContact: ${contact}\n\n_Sent via UNLIMITED Travel_`;
+      break;
+    }
+    case 'tour': {
+      const dest = document.getElementById('to-dest')?.value||'—';
+      const date = document.getElementById('to-date')?.value||'—';
+      const dur = document.getElementById('to-duration')?.value||'—';
+      const pax = document.getElementById('to-pax')?.value||'—';
+      const ttype = document.getElementById('to-type')?.value||'—';
+      const budget = document.getElementById('to-budget')?.value||'—';
+      const contact = document.getElementById('to-contact')?.value||DB.currentUser?.fullName||'—';
+      msg = `🗺️ *Tour Package Inquiry*\n\nDestination: ${dest}\nDate: ${date}\nDuration: ${dur}\nTravelers: ${pax}\nType: ${ttype}\nBudget: ${budget}\nContact: ${contact}\n\n_Sent via UNLIMITED Travel_`;
+      break;
+    }
+    case 'visa':
+      msg = `📋 *Visa Inquiry*\n\nHello, I need help with a visa application.\n\n_Sent via UNLIMITED Travel_`;
+      break;
+  }
+  if (!msg) return;
+  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function switchSvcTab(tab) {
+  ['flights','hotels','transfer','tours','visa'].forEach(t => {
+    const btn = document.getElementById('svc-tab-' + t);
+    const panel = document.getElementById('svc-panel-' + t);
+    if (btn) {
+      btn.style.background = t === tab ? 'var(--gradient)' : 'transparent';
+      btn.style.color = t === tab ? '#fff' : 'var(--gray-400)';
+    }
+    if (panel) panel.style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+
+
 window.addEventListener('load', function() {
   const btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = _isAr ? 'EN' : 'ع';
@@ -4404,7 +4948,7 @@ window.addEventListener('load', function() {
 <div id="edit-country-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.88);backdrop-filter:blur(10px);z-index:9000;align-items:center;justify-content:center;padding:2rem;">
   <div style="width:100%;max-width:520px;background:rgba(5,11,59,0.97);border:1px solid rgba(255,10,84,0.2);border-radius:24px;padding:2rem;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.6);">
     <button onclick="document.getElementById('edit-country-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);">✕</button>
-    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;">✏️ Edit Country</h3>
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;">Edit Country</h3>
     <input type="hidden" id="ec-id">
     <div style="margin-bottom:0.75rem;"><label class="input-label">Country Name (English)</label><input class="input" id="ec-name-en" placeholder="e.g. Germany"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
@@ -4416,7 +4960,7 @@ window.addEventListener('load', function() {
     <div style="margin-bottom:1.25rem;">
       <label class="input-label">Country Photo</label>
       <img id="ec-photo-preview" src="" style="display:none;width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:0.5rem;">
-      <div onclick="document.getElementById('ec-photo-input').click()" style="border:1.5px dashed rgba(255,10,84,0.35);border-radius:10px;padding:0.875rem;text-align:center;cursor:pointer;font-size:0.8rem;color:var(--gray-400);">📷 Click to change photo</div>
+      <div onclick="document.getElementById('ec-photo-input').click()" style="border:1.5px dashed rgba(255,10,84,0.35);border-radius:10px;padding:0.875rem;text-align:center;cursor:pointer;font-size:0.8rem;color:var(--gray-400);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Click to change photo</div>
       <input type="file" id="ec-photo-input" accept="image/*" style="display:none;" onchange="document.getElementById('ec-photo-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('ec-photo-preview').style.display='block'">
     </div>
     <div style="display:flex;gap:0.75rem;">
