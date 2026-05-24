@@ -4212,52 +4212,51 @@ async function sendEmailInvoice(app) {
   const baseAmt    = app.currency==='IQD' ? (app.amountPaid-13000).toLocaleString()+' IQD' : '$'+(app.amountPaid-10)+' USD';
   const procAmt    = app.currency==='IQD' ? '13,000 IQD' : '$10 USD';
 
-  // ── Try EmailJS (real email) ──────────────────────────────────
-  if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY' && typeof emailjs !== 'undefined') {
-    try {
-      emailjs.init(EMAILJS_PUBLIC_KEY);
+  // ── Send via EmailJS ──────────────────────────────────────────
+  try {
+    if (typeof emailjs === 'undefined') throw new Error('EmailJS not loaded');
 
-      // Email to customer
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email:     app.email,
-        to_name:      app.customerName,
-        order_number: app.orderNumber,
-        country:      app.countryNameEn,
-        visa_type:    'Tourist Visa',
-        travel_date:  app.travelDate,
-        return_date:  app.returnDate || '—',
-        base_amount:  baseAmt,
-        proc_amount:  procAmt,
-        total_amount: amtDisplay,
-        currency:     app.currency,
-        payment_method: 'FIB Bank',
-        date:         new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-      });
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
-      // Email to manager
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_email:     MANAGER_EMAIL,
-        to_name:      MANAGER_NAME,
-        order_number: app.orderNumber,
-        country:      app.countryNameEn,
-        visa_type:    'Tourist Visa',
-        travel_date:  app.travelDate,
-        return_date:  app.returnDate || '—',
-        base_amount:  baseAmt,
-        proc_amount:  procAmt,
-        total_amount: amtDisplay,
-        currency:     app.currency,
-        payment_method: 'FIB Bank',
-        date:         new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-        customer_name: app.customerName,
-        customer_email: app.email,
-        customer_phone: app.phone,
-      });
+    const templateParams = {
+      to_name:        app.customerName,
+      to_email:       app.email,
+      order_number:   app.orderNumber,
+      country:        app.countryNameEn,
+      visa_type:      'Tourist Visa',
+      travel_date:    app.travelDate || '—',
+      return_date:    app.returnDate || '—',
+      base_amount:    baseAmt,
+      proc_amount:    procAmt,
+      total_amount:   amtDisplay,
+      currency:       app.currency,
+      payment_method: 'FIB Bank',
+      date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+      customer_name:  app.customerName,
+      customer_email: app.email,
+      customer_phone: app.phone || '—',
+    };
 
-      console.log('✅ Invoice emails sent to', app.email, 'and', MANAGER_EMAIL);
-    } catch(e) {
-      console.warn('EmailJS failed:', e);
-    }
+    // Send to customer
+    const res1 = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      ...templateParams,
+      to_email: app.email,
+    });
+    console.log('✅ Customer email sent:', res1.status, res1.text);
+
+    // Send to manager
+    const res2 = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      ...templateParams,
+      to_email: MANAGER_EMAIL,
+      to_name: MANAGER_NAME,
+    });
+    console.log('✅ Manager email sent:', res2.status, res2.text);
+
+    showToast(_SVG_ICONS.success, 'Invoice Sent! 📧', 'Invoice emailed to ' + app.email);
+
+  } catch(e) {
+    console.error('❌ EmailJS error:', e);
+    showToast(_SVG_ICONS.warn, 'Email Note', 'Invoice ready to download — email sending failed: ' + (e.text || e.message || e));
   }
 
   // ── Always save notification in DB ────────────────────────────
