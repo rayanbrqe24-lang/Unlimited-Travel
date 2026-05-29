@@ -5030,66 +5030,7 @@ window.addEventListener('load', function() {
      Paste this entire block just before </body> in your main file
      ================================================================ -->
 
-<!-- ① AI VISA ASSISTANT CHAT WIDGET -->
-<div id="ai-chat-bubble" onclick="toggleAIChat()" title="AI Visa Assistant"
-  style="position:fixed;bottom:5.5rem;right:2rem;z-index:900;
-  width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(135deg,#FF0A54,#D4145A);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(255,10,84,0.45);cursor:pointer;
-  transition:all .3s;font-size:1.4rem;">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1" fill="white"/><circle cx="12" cy="10" r="1" fill="white"/><circle cx="15" cy="10" r="1" fill="white"/></svg>
-  <span id="ai-unread-dot" style="display:none;position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#10b981;border:2px solid var(--navy-950);"></span>
-</div>
-
-<div id="ai-chat-panel" style="display:none;position:fixed;bottom:9rem;right:2rem;z-index:901;
-  width:360px;height:520px;
-  background:rgba(5,11,59,0.97);border:1px solid rgba(255,10,84,0.25);
-  border-radius:22px;overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,0.6);
-  display:none;flex-direction:column;animation:fadeIn .3s ease;">
-  <div style="padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(212,20,90,0.1));
-    border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:.75rem;">
-    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FF0A54,#D4145A);
-      display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/><circle cx="19" cy="5" r="3" fill="#10b981"/></svg>
-    </div>
-    <div style="flex:1;">
-      <div style="font-weight:700;font-size:.875rem;color:#fff;">Layla — Visa AI</div>
-      <div style="font-size:.7rem;color:#10b981;display:flex;align-items:center;gap:.3rem;">
-        <span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;"></span>
-        Online · Responds instantly
-      </div>
-    </div>
-    <button onclick="toggleAIChat()" style="background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.6);
-      width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;
-      display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-  </div>
-  <div id="ai-messages" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem;
-    scrollbar-width:thin;scrollbar-color:rgba(255,10,84,.3) transparent;"></div>
-  <div style="padding:.875rem;border-top:1px solid rgba(255,255,255,.06);">
-    <div style="display:flex;gap:.5rem;margin-bottom:.625rem;flex-wrap:wrap;">
-      <button class="ai-quick" onclick="aiSend('How long does a UAE visa take?')">🇦🇪 UAE visa</button>
-      <button class="ai-quick" onclick="aiSend('What documents do I need?')">📄 Documents</button>
-      <button class="ai-quick" onclick="aiSend('Schengen visa requirements')">🇪🇺 Schengen</button>
-      <button class="ai-quick" onclick="aiSend('Track my application')">📍 Track</button>
-    </div>
-    <div style="display:flex;gap:.5rem;">
-      <input id="ai-input" type="text" placeholder="Ask me anything about visas…"
-        style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-        border-radius:12px;padding:.6rem .875rem;color:#fff;font-size:.82rem;font-family:inherit;outline:none;"
-        onkeydown="if(event.key==='Enter')aiSendInput()"
-        onfocus="this.style.borderColor='rgba(255,10,84,.5)'"
-        onblur="this.style.borderColor='rgba(255,255,255,.1)'">
-      <button onclick="aiSendInput()"
-        style="background:linear-gradient(135deg,#FF0A54,#D4145A);border:none;border-radius:12px;
-        padding:.6rem .875rem;color:#fff;cursor:pointer;display:flex;align-items:center;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
-
+<!-- AI chat removed -->
 <!-- ② VISA TRACKER PAGE -->
 <div id="page-tracker" class="page">
   <div class="page-hero">
@@ -5236,8 +5177,6 @@ body.rtl-mode .footer-grid{direction:rtl;text-align:right;}
 body.rtl-mode .hero-stats{direction:rtl;}
 body.rtl-mode .upload-grid{direction:rtl;}
 body.rtl-mode .country-picker-grid{direction:rtl;}
-body.rtl-mode #ai-chat-panel{right:auto!important;left:2rem!important;}
-body.rtl-mode #ai-chat-bubble{right:auto!important;left:2rem!important;}
 body.rtl-mode .whatsapp-float{right:auto!important;left:2rem!important;}
 body.rtl-mode .toast-container{right:auto!important;left:1.5rem!important;}
 </style>
@@ -5249,130 +5188,20 @@ body.rtl-mode .toast-container{right:auto!important;left:1.5rem!important;}
 let aiChatOpen = false;
 let aiConversation = [];
 
-const AI_KNOWLEDGE = {
-  'uae':{ name:'UAE / Dubai', flag:'🇦🇪', price:'$120', time:'2-3 working days', docs:'Valid passport (6+ months), personal photo, return ticket, hotel booking.' },
-  'turkey':{ name:'Turkey', flag:'🇹🇷', price:'$85', time:'24-48 hours', docs:'Valid passport, personal photo, return ticket. Health insurance required.' },
-  'schengen':{ name:'Schengen (Europe)', flag:'🇪🇺', price:'$185+', time:'5-10 working days', docs:'Passport, photo, travel insurance €30K+, bank statement (3 months), hotel & flight bookings.' },
-  'uk':{ name:'United Kingdom', flag:'🇬🇧', price:'$250', time:'10-15 working days', docs:'Biometrics at embassy, bank statement, sponsorship letter if visiting family.' },
-  'usa':{ name:'USA', flag:'🇺🇸', price:'$320', time:'15-30 working days', docs:'DS-160 form, embassy interview, biometrics, bank statement, employment letter.' },
-  'egypt':{ name:'Egypt', flag:'🇪🇬', price:'$45', time:'1-2 working days', docs:'Valid passport, personal photo. Visa on arrival also available.' },
-};
 
-function getAIResponse(msg) {
-  var m = msg.toLowerCase();
-  if (/^(hi|hello|hey|salam)/.test(m)) {
-    return 'Hello! I am <strong>Layla</strong>, your AI visa assistant. I can help with visa requirements, fees, processing times, and tracking. Which country are you applying to?';
-  }
-  if (m.indexOf('track') >= 0 || m.indexOf('status') >= 0) {
-    return 'To track your application, click <strong>Track</strong> in the menu and enter your order number (e.g. FIB-VISA-4827).';
-  }
-  if (m.indexOf('document') >= 0 || m.indexOf('papers') >= 0) {
-    return '<strong>Standard documents needed:</strong><br>1. Valid passport (6+ months)<br>2. Passport-size photo<br>3. National ID (both sides)<br>4. Return flight ticket<br>5. Hotel booking<br>6. Bank statement (3 months)';
-  }
-  if (m.indexOf('coupon') >= 0 || m.indexOf('discount') >= 0 || m.indexOf('promo') >= 0) {
-    return 'Use code <strong>UNLIMITED10</strong> for 10% off! Or <strong>FIRSTTIME</strong> for a free processing fee. Enter the code at the payment step.';
-  }
-  if (m.indexOf('uae') >= 0 || m.indexOf('dubai') >= 0) {
-    return '<strong>UAE Visa</strong> — $120 | 2-3 working days<br>Docs: Passport, photo, return ticket, hotel booking.';
-  }
-  if (m.indexOf('turkey') >= 0 || m.indexOf('istanbul') >= 0) {
-    return '<strong>Turkey Visa</strong> — $85 | 24-48 hours<br>Docs: Passport, photo, health insurance.';
-  }
-  if (m.indexOf('schengen') >= 0 || m.indexOf('europe') >= 0 || m.indexOf('germany') >= 0) {
-    return '<strong>Schengen Visa</strong> — $185 | 5-10 working days<br>Docs: Passport, photo, travel insurance EUR30K+, bank statement.';
-  }
-  if (m.indexOf('uk') >= 0 || m.indexOf('london') >= 0) {
-    return '<strong>UK Visa</strong> — $250 | 10-15 working days<br>Docs: Biometrics at embassy, bank statement.';
-  }
-  if (m.indexOf('usa') >= 0 || m.indexOf('america') >= 0) {
-    return '<strong>USA Visa</strong> — $320 | 15-30 working days<br>Docs: DS-160 form, embassy interview, biometrics.';
-  }
-  if (m.indexOf('egypt') >= 0) {
-    return '<strong>Egypt Visa</strong> — $45 | 1-2 working days<br>Docs: Passport, photo. Visa on arrival also available!';
-  }
-  if (m.indexOf('price') >= 0 || m.indexOf('cost') >= 0 || m.indexOf('fee') >= 0) {
-    return '<strong>Visa Fees:</strong><br>Egypt $45 | Turkey $85 | UAE $120 | Schengen $185 | UK $250 | USA $320';
-  }
-  if (m.indexOf('reject') >= 0 || m.indexOf('refused') >= 0) {
-    return 'Rejections are usually due to incomplete documents or insufficient bank balance. Contact our WhatsApp team for a free reapplication consultation.';
-  }
-  if (m.indexOf('how long') >= 0 || m.indexOf('processing') >= 0) {
-    return '<strong>Processing Times:</strong><br>Egypt 1-2 days | Turkey 24-48h | UAE 2-3 days | Schengen 5-10 days | UK 10-15 days | USA 15-30 days';
-  }
-  var opts = ['Which country are you applying to? I can give you exact requirements!', 'Great question! Tell me your destination country and I will help.', 'I am here 24/7! Which country do you need a visa for?'];
-  return opts[Math.floor(Math.random() * opts.length)];
-}
-
-function toggleAIChat() {
-  aiChatOpen = !aiChatOpen;
-  const panel = document.getElementById('ai-chat-panel');
-  panel.style.display = aiChatOpen ? 'flex' : 'none';
-  const dot = document.getElementById('ai-unread-dot');
-  if (dot) dot.style.display = 'none';
-  if (aiChatOpen && aiConversation.length === 0) {
-    setTimeout(() => addAIMessage('bot', 'Hello! I am <strong>Layla</strong>, your AI visa assistant. Ask me about visa requirements, fees, processing times, or track your application!'), 400);
-  }
-}
-
-function addAIMessage(role, text) {
-  const msgs = document.getElementById('ai-messages');
-  if (!msgs) return;
-  const div = document.createElement('div');
-  div.className = 'ai-bubble ' + role;
-  div.innerHTML = text.replace(/
-/g, '<br>');
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  aiConversation.push({ role, text });
-}
-
-function addAITyping() {
-  const msgs = document.getElementById('ai-messages');
-  if (!msgs) return;
-  const t = document.createElement('div');
-  t.className = 'ai-typing'; t.id = 'ai-typing-indicator';
-  t.innerHTML = '<span></span><span></span><span></span>';
-  msgs.appendChild(t);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeAITyping() {
-  const t = document.getElementById('ai-typing-indicator');
-  if (t) t.remove();
-}
-
-function aiSend(msg) {
-  if (!aiChatOpen) { aiChatOpen = true; document.getElementById('ai-chat-panel').style.display = 'flex'; }
-  addAIMessage('user', msg);
-  addAITyping();
-  setTimeout(() => {
-    removeAITyping();
-    addAIMessage('bot', getAIResponse(msg));
-  }, 900 + Math.random() * 600);
-}
-
-function aiSendInput() {
-  const inp = document.getElementById('ai-input');
-  const msg = inp.value.trim();
-  if (!msg) return;
-  inp.value = '';
-  aiSend(msg);
-}
-
-// Show unread dot after 4s to attract attention
-setTimeout(() => {
-  const dot = document.getElementById('ai-unread-dot');
-  if (dot && !aiChatOpen) dot.style.display = 'block';
-}, 4000);
 
 // ================================================================
 //  ② VISA APPLICATION TRACKER
 // ================================================================
-function trackApplication() {
+async function trackApplication() {
   const input = document.getElementById('tracker-input').value.trim().toUpperCase();
   const result = document.getElementById('tracker-result');
   if (!input) { showToastSVG('warn', 'Enter Order Number', 'Please enter your order number first.'); return; }
-
+  result.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-400);">Searching...</div>';
+  // Always reload fresh from DB
+  if (!_cache.apps || _cache.apps.length === 0) {
+    _cache.apps = await dbGetApps();
+  }
   const apps = _cache.apps || [];
   const app = apps.find(a => a.orderNumber.toUpperCase() === input);
   result.innerHTML = '';
@@ -5521,12 +5350,19 @@ function closeReviewModal() {
 
 function submitReview() {
   var u = DB.currentUser;
-  var text = document.getElementById('review-text').value.trim();
-  var service = document.getElementById('review-service').value;
+  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in first.'); return; }
+  var textEl = document.getElementById('review-text');
+  var serviceEl = document.getElementById('review-service');
+  var text = textEl ? textEl.value.trim() : '';
+  var service = serviceEl ? serviceEl.value : 'Visa Services';
   if (!text || text.length < 15) { showToastSVG('warn', 'Too Short', 'Please write at least 15 characters.'); return; }
-  var review = { id:'rev-'+Date.now(), name:u.fullName, location:'Iraq', service:service, rating:_reviewRating, text:text, date:new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'}), approved:false };
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var now = new Date();
+  var dateStr = months[now.getMonth()] + ' ' + now.getFullYear();
+  var review = { id:'rev-'+Date.now(), name:u.fullName, location:'Iraq', service:service, rating:_reviewRating, text:text, date:dateStr, approved:false };
   _reviews.push(review);
   closeReviewModal();
+  if (textEl) textEl.value = '';
   showToastSVG('star', 'Review Submitted!', 'Thank you! Your review is pending approval.');
   renderReviewsSection();
   var badge = document.getElementById('sb-reviews');
