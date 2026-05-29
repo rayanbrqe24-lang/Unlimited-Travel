@@ -5476,34 +5476,41 @@ function populateTrackerRecent() {
   `).join('');
 }
 
-// Override nav to populate tracker
-var _origNavX = nav;
-function nav(page) {
-  _origNavX(page);
-  if (page === 'tracker') setTimeout(populateTrackerRecent, 200);
+// ================================================================
+//  PATCH — TRACKER, REVIEWS, COUPONS, WHATSAPP, ARABIC
+// ================================================================
+
+// Populate recent orders in tracker
+function populateTrackerRecent() {
+  var u = DB.currentUser;
+  var container = document.getElementById('tracker-recent');
+  if (!container) return;
+  var apps = u ? (_cache.apps || []).filter(function(a) { return a.userId === u.id || a.email === u.email; }).slice(0,5) : (_cache.apps || []).slice(0,3);
+  if (!apps.length) { container.innerHTML = '<span style="font-size:.78rem;color:var(--gray-500);">No recent orders found.</span>'; return; }
+  container.innerHTML = apps.map(function(a) {
+    return '<button onclick="document.getElementById(\'tracker-input\').value=\'' + a.orderNumber + '\';trackApplication()" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.3rem .75rem;font-size:.72rem;color:var(--gray-300);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:.4rem;">' + a.orderNumber + ' (' + a.status + ')</button>';
+  }).join('');
 }
 
-// ================================================================
-//  ③ REVIEWS SYSTEM
-// ================================================================
-let _reviewRating = 5;
-let _reviews = [
-  { name:'Ahmed Al-Rashid', location:'Baghdad', service:'Visa Services', rating:5, text:'Unlimited Travel made our honeymoon in the Maldives absolutely perfect. Every detail was flawlessly arranged — visa to villa.', date:'Dec 2025', approved:true },
-  { name:'Sara Mohammed', location:'Erbil', service:'Visa Services', rating:5, text:'Schengen visa approved in 3 days! The team handled everything professionally. Already recommended them to my entire family.', date:'Jan 2026', approved:true },
-  { name:'Kareem Hassan', location:'Basra', service:'Business Travel', rating:5, text:'The VIP business travel service is exceptional. Corporate trips to Dubai and London handled with precision and luxury.', date:'Feb 2026', approved:true },
+// ── REVIEWS ──────────────────────────────────────────────────
+var _reviewRating = 5;
+var _reviews = [
+  { id:'r1', name:'Ahmed Al-Rashid', location:'Baghdad', service:'Visa Services', rating:5, text:'Unlimited Travel made our honeymoon in the Maldives absolutely perfect. Every detail was flawlessly arranged.', date:'Dec 2025', approved:true },
+  { id:'r2', name:'Sara Mohammed', location:'Erbil', service:'Visa Services', rating:5, text:'Schengen visa approved in 3 days! The team handled everything professionally. Already recommended them to my entire family.', date:'Jan 2026', approved:true },
+  { id:'r3', name:'Kareem Hassan', location:'Basra', service:'Business Travel', rating:5, text:'The VIP business travel service is exceptional. Corporate trips handled with precision and luxury.', date:'Feb 2026', approved:true },
 ];
 
 function setReviewRating(val) {
   _reviewRating = val;
-  document.querySelectorAll('.star-btn').forEach((s, i) => {
+  document.querySelectorAll('.star-btn').forEach(function(s, i) {
     s.classList.toggle('lit', i < val);
     s.style.transform = i < val ? 'scale(1.1)' : 'scale(1)';
   });
 }
 
 function openReviewModal() {
-  const u = DB.currentUser;
-  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in to leave a review.'); setTimeout(() => nav('auth'), 800); return; }
+  var u = DB.currentUser;
+  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in to leave a review.'); setTimeout(function() { nav('auth'); }, 800); return; }
   document.getElementById('review-modal').style.display = 'flex';
   setReviewRating(5);
 }
@@ -5512,517 +5519,201 @@ function closeReviewModal() {
   document.getElementById('review-modal').style.display = 'none';
 }
 
-async function submitReview() {
-  const u = DB.currentUser;
-  const text = document.getElementById('review-text').value.trim();
-  const service = document.getElementById('review-service').value;
+function submitReview() {
+  var u = DB.currentUser;
+  var text = document.getElementById('review-text').value.trim();
+  var service = document.getElementById('review-service').value;
   if (!text || text.length < 15) { showToastSVG('warn', 'Too Short', 'Please write at least 15 characters.'); return; }
-  const review = {
-    name: u.fullName, location: 'Iraq', service, rating: _reviewRating,
-    text, date: new Date().toLocaleDateString('en-US', { month:'short', year:'numeric' }),
-    approved: false, id: 'rev-' + Date.now()
-  };
-  // Save to Supabase
-  try {
-    await supa.from('reviews').insert({
-      id: review.id, customer_name: review.name, service: review.service,
-      rating: review.rating, review_text: review.text, is_approved: false,
-      created_at: new Date().toISOString()
-    });
-  } catch(e) { /* table might not exist yet — store locally */ }
+  var review = { id:'rev-'+Date.now(), name:u.fullName, location:'Iraq', service:service, rating:_reviewRating, text:text, date:new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'}), approved:false };
   _reviews.push(review);
   closeReviewModal();
   showToastSVG('star', 'Review Submitted!', 'Thank you! Your review is pending approval.');
   renderReviewsSection();
+  var badge = document.getElementById('sb-reviews');
+  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
 }
 
 function renderReviewsSection() {
-  const container = document.getElementById('reviews-dynamic-grid');
+  var container = document.getElementById('reviews-dynamic-grid');
   if (!container) return;
-  const approved = _reviews.filter(r => r.approved);
-  container.innerHTML = approved.map(r => `
-    <div class="review-card">
-      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
-      <p style="font-style:italic;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:1.25rem;">"${r.text}"</p>
-      <div style="display:flex;align-items:center;gap:.75rem;">
-        <div style="width:38px;height:38px;border-radius:50%;background:var(--gradient);
-          display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;">
-          ${r.name.charAt(0)}
-        </div>
-        <div>
-          <div style="font-weight:600;font-size:.875rem;">${r.name}</div>
-          <div style="font-size:.72rem;color:var(--gray-500);">${r.location} · ${r.service} · ${r.date}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  var approved = _reviews.filter(function(r) { return r.approved; });
+  container.innerHTML = approved.map(function(r) {
+    var stars = '';
+    for (var i=0;i<r.rating;i++) stars += '★';
+    for (var i=r.rating;i<5;i++) stars += '☆';
+    return '<div class="review-card"><div class="review-stars">' + stars + '</div><p style="font-style:italic;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:1.25rem;">"' + r.text + '"</p><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:38px;height:38px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;">' + r.name.charAt(0) + '</div><div><div style="font-weight:600;font-size:.875rem;">' + r.name + '</div><div style="font-size:.72rem;color:var(--gray-500);">' + r.location + ' · ' + r.service + ' · ' + r.date + '</div></div></div></div>';
+  }).join('');
 }
 
-// Admin: render reviews for approval
 function renderAdminReviews() {
-  const container = document.getElementById('admin-reviews-list');
+  var container = document.getElementById('admin-reviews-list');
   if (!container) return;
-  container.innerHTML = _reviews.map(r => `
-    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-      border-radius:14px;padding:1.25rem;margin-bottom:.875rem;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;">
-        <div>
-          <span style="font-weight:700;font-size:.875rem;">${r.name}</span>
-          <span style="font-size:.72rem;color:var(--gray-500);margin-left:.5rem;">${r.service} · ${'★'.repeat(r.rating)}</span>
-        </div>
-        ${r.approved
-          ? '<span class="status-chip s-approved">Approved</span>'
-          : '<span class="pending-badge">Pending</span>'}
-      </div>
-      <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:.875rem;">"${r.text}"</p>
-      <div style="display:flex;gap:.5rem;">
-        ${!r.approved ? `<button class="action-btn ab-approve" onclick="approveReview('${r.id}')">✓ Approve</button>` : ''}
-        <button class="action-btn ab-reject" onclick="deleteReview('${r.id}')">✕ Delete</button>
-      </div>
-    </div>
-  `).join('') || '<p style="color:var(--gray-500);font-size:.85rem;padding:1rem 0;">No reviews yet.</p>';
+  if (!_reviews.length) { container.innerHTML = '<p style="color:var(--gray-500);font-size:.85rem;padding:1rem 0;">No reviews yet.</p>'; return; }
+  container.innerHTML = _reviews.map(function(r) {
+    var stars = '';
+    for (var i=0;i<r.rating;i++) stars += '★';
+    return '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.25rem;margin-bottom:.875rem;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;"><div><span style="font-weight:700;font-size:.875rem;">' + r.name + '</span><span style="font-size:.72rem;color:var(--gray-500);margin-left:.5rem;">' + r.service + ' · ' + stars + '</span></div>' + (r.approved ? '<span class="status-chip s-approved">Approved</span>' : '<span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;font-size:.65rem;padding:.2rem .6rem;border-radius:4px;font-weight:700;">Pending</span>') + '</div><p style="font-size:.82rem;color:var(--gray-400);margin-bottom:.875rem;">"' + r.text + '"</p><div style="display:flex;gap:.5rem;">' + (!r.approved ? '<button class="action-btn ab-approve" onclick="approveReview(\'' + r.id + '\')">✓ Approve</button>' : '') + '<button class="action-btn ab-reject" onclick="deleteReview(\'' + r.id + '\')">✕ Delete</button></div></div>';
+  }).join('');
 }
 
 function approveReview(id) {
-  _reviews = _reviews.map(r => r.id === id ? {...r, approved: true} : r);
+  _reviews = _reviews.map(function(r) { return r.id === id ? Object.assign({}, r, {approved:true}) : r; });
   showToastSVG('success', 'Review Approved!', 'Now visible on homepage.');
   renderAdminReviews();
   renderReviewsSection();
+  var badge = document.getElementById('sb-reviews');
+  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
 }
 
 function deleteReview(id) {
-  _reviews = _reviews.filter(r => r.id !== id);
+  _reviews = _reviews.filter(function(r) { return r.id !== id; });
   showToastSVG('clear', 'Review Deleted', 'Review has been removed.');
   renderAdminReviews();
   renderReviewsSection();
 }
 
-// ================================================================
-//  ④ COUPON / PROMO CODE SYSTEM
-// ================================================================
-const COUPONS = {
+// ── COUPON SYSTEM ─────────────────────────────────────────────
+var COUPONS = {
   'UNLIMITED10': { type:'percent', value:10, desc:'10% off visa fee', minAmount:50 },
   'FIRSTTIME':   { type:'fixed',   value:10, desc:'Free processing fee', minAmount:0 },
-  'IRAQ2026':    { type:'percent', value:15, desc:'15% off — Iraq National Day', minAmount:100 },
+  'IRAQ2026':    { type:'percent', value:15, desc:'15% off Iraq National Day', minAmount:100 },
   'VIP50':       { type:'fixed',   value:50, desc:'$50 off VIP applications', minAmount:200 },
-  'SUMMER25':    { type:'percent', value:25, desc:'Summer special — 25% off!', minAmount:80 },
+  'SUMMER25':    { type:'percent', value:25, desc:'Summer special 25% off', minAmount:80 },
 };
-let _appliedCoupon = null;
+var _appliedCoupon = null;
 
 function injectCouponRow() {
-  const payCard = document.querySelector('.payment-card .pay-summary');
+  var payCard = document.querySelector('.payment-card .pay-summary');
   if (!payCard || document.getElementById('coupon-inject')) return;
-  const row = document.createElement('div');
+  var row = document.createElement('div');
   row.id = 'coupon-inject';
   row.style.marginTop = '1rem';
-  row.innerHTML = `
-    <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.4rem;">Promo Code</div>
-    <div class="coupon-row">
-      <input class="input" id="coupon-input" placeholder="Enter promo code"
-        style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;"
-        oninput="this.value=this.value.toUpperCase()">
-      <button class="btn-primary" onclick="applyCoupon()" style="padding:.6rem 1rem;white-space:nowrap;font-size:.8rem;">Apply</button>
-    </div>
-    <div id="coupon-status"></div>
-  `;
+  row.innerHTML = '<div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.4rem;">Promo Code</div><div style="display:flex;gap:.5rem;"><input class="input" id="coupon-input" placeholder="Enter promo code" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;" oninput="this.value=this.value.toUpperCase()"><button class="btn-primary" onclick="applyCoupon()" style="padding:.6rem 1rem;white-space:nowrap;font-size:.8rem;">Apply</button></div><div id="coupon-status"></div>';
   payCard.parentNode.insertBefore(row, payCard);
 }
 
 function applyCoupon() {
-  const code = (document.getElementById('coupon-input')?.value || '').trim().toUpperCase();
-  const status = document.getElementById('coupon-status');
+  var inp = document.getElementById('coupon-input');
+  var status = document.getElementById('coupon-status');
+  var code = inp ? inp.value.trim().toUpperCase() : '';
   if (!code) { showToastSVG('warn', 'Enter a Code', 'Type your promo code first.'); return; }
-  const coupon = COUPONS[code];
+  var coupon = COUPONS[code];
   if (!coupon) {
     _appliedCoupon = null;
-    if (status) status.innerHTML = `<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">❌ Invalid code. Try UNLIMITED10 for 10% off!</div>`;
-    showToastSVG('error', 'Invalid Code', 'That promo code doesn't exist.');
+    if (status) status.innerHTML = '<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">Invalid code. Try UNLIMITED10 for 10% off!</div>';
+    showToastSVG('error', 'Invalid Code', 'That promo code does not exist.');
     return;
   }
-  const country = (_cache.countries||[]).find(x=>x.id===selectedCountryId);
-  const base = selectedCurrency==='USD' ? (country?.priceUSD||120) : (country?.priceIQD||156000);
+  var country = (_cache.countries||[]).find(function(x){return x.id===selectedCountryId;});
+  var base = selectedCurrency==='USD' ? (country?country.priceUSD:120) : (country?country.priceIQD:156000);
   if (base < coupon.minAmount && selectedCurrency==='USD') {
-    if (status) status.innerHTML = `<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">❌ Minimum order $${coupon.minAmount} required for this code.</div>`;
+    if (status) status.innerHTML = '<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">Minimum order $' + coupon.minAmount + ' required for this code.</div>';
     return;
   }
-  _appliedCoupon = { code, ...coupon };
-  const disc = coupon.type==='percent' ? Math.round(base * coupon.value / 100) : coupon.value;
-  const final = Math.max(0, base - disc);
-  if (status) status.innerHTML = `<div class="coupon-badge" style="margin-top:.5rem;">🎉 ${code} — ${coupon.desc} (-${selectedCurrency==='USD'?'$'+disc:disc.toLocaleString()+' IQD'})</div>`;
-  // Update display
-  const totalEl = document.getElementById('total-fee');
-  const amtEl = document.getElementById('pay-amount');
+  _appliedCoupon = Object.assign({code:code}, coupon);
+  var disc = coupon.type==='percent' ? Math.round(base * coupon.value / 100) : coupon.value;
+  var final = Math.max(0, base - disc);
+  if (status) status.innerHTML = '<div style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#10b981;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;margin-top:.5rem;">🎉 ' + code + ' — ' + coupon.desc + '</div>';
+  var totalEl = document.getElementById('total-fee');
+  var amtEl = document.getElementById('pay-amount');
+  var payBtn = document.getElementById('pay-btn');
   if (totalEl) totalEl.textContent = selectedCurrency==='USD' ? '$'+final : final.toLocaleString()+' IQD';
   if (amtEl) amtEl.textContent = selectedCurrency==='USD' ? '$'+final : final.toLocaleString();
-  document.getElementById('pay-btn').textContent = 'Pay ' + (selectedCurrency==='USD' ? '$'+final+' USD' : final.toLocaleString()+' IQD');
-  showToast(_SVG_ICONS.success, 'Coupon Applied! 🎉', coupon.desc + ' — saving ' + (selectedCurrency==='USD'?'$'+disc:disc.toLocaleString()+' IQD') + '!');
+  if (payBtn) payBtn.textContent = 'Pay ' + (selectedCurrency==='USD' ? '$'+final+' USD' : final.toLocaleString()+' IQD');
+  showToastSVG('success', 'Coupon Applied!', coupon.desc);
 }
 
-function removeCoupon() {
-  _appliedCoupon = null;
-  const inp = document.getElementById('coupon-input');
-  if (inp) inp.value = '';
-  const status = document.getElementById('coupon-status');
-  if (status) status.innerHTML = '';
-  updatePaymentDisplay();
-}
-
-// Inject coupon on reaching step 4
-var _origGotoVisaX = typeof gotoVisa === "function" ? gotoVisa : null;
+// Hook gotoVisa to inject coupon at step 4
+var _gv_orig = gotoVisa;
 gotoVisa = function(n) {
-  if(_origGotoVisaX) _origGotoVisaX(n);
+  _gv_orig(n);
   if (n === 4) setTimeout(injectCouponRow, 200);
 };
 
-// ================================================================
-//  ⑤ SMS / WHATSAPP STATUS NOTIFICATIONS
-// ================================================================
-async function sendWhatsAppStatusUpdate(app, newStatus) {
-  const statusMessages = {
-    Approved: `✅ *VISA APPROVED!*
-
-Dear ${app.customerName},
-
-Great news! Your ${app.countryNameEn} visa application has been *APPROVED* 🎉
-
-Order: ${app.orderNumber}
-Travel Date: ${app.travelDate}
-
-Our team will contact you to arrange delivery.
-
-_UNLIMITED Travel & Tourism_`,
-    Rejected: `❌ *Application Update*
-
-Dear ${app.customerName},
-
-Unfortunately your ${app.countryNameEn} visa application was not approved at this time.
-
-Order: ${app.orderNumber}
-
-Please contact our team for a free consultation on reapplication options.
-
-_UNLIMITED Travel & Tourism_`,
-    'Under Review': `🔍 *Application Under Review*
-
-Dear ${app.customerName},
-
-Your ${app.countryNameEn} visa application is now being reviewed by our team.
-
-Order: ${app.orderNumber}
-
-We'll update you soon!
-
-_UNLIMITED Travel & Tourism_`,
+// ── WHATSAPP STATUS NOTIFICATIONS ────────────────────────────
+function sendWhatsAppStatusUpdate(app, newStatus) {
+  var msgs = {
+    'Approved': 'VISA APPROVED! Dear ' + app.customerName + ', your ' + app.countryNameEn + ' visa is APPROVED! Order: ' + app.orderNumber + '. Our team will contact you for delivery. - UNLIMITED Travel',
+    'Rejected': 'Application Update: Dear ' + app.customerName + ', unfortunately your ' + app.countryNameEn + ' visa was not approved. Order: ' + app.orderNumber + '. Contact us for reapplication help. - UNLIMITED Travel',
   };
-  const msg = statusMessages[newStatus];
+  var msg = msgs[newStatus];
   if (!msg || !app.phone) return;
-  // Open WhatsApp with the customer's phone number
-  const phone = app.phone.replace(/[^0-9]/g, '');
-  const waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
-  window.open(waUrl, '_blank');
+  var phone = app.phone.replace(/[^0-9]/g, '');
+  window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
 }
 
-// Enhanced updateAppStatus with WhatsApp notification
-var _origUpdateStatusX = typeof updateAppStatus === "function" ? updateAppStatus : null;
+var _us_orig = updateAppStatus;
 updateAppStatus = async function(orderNumber, status) {
-  if(_origUpdateStatusX) await _origUpdateStatusX(orderNumber, status);
-  const app = (_cache.apps||[]).find(a=>a.orderNumber===orderNumber);
+  await _us_orig(orderNumber, status);
+  var app = (_cache.apps||[]).find(function(a){return a.orderNumber===orderNumber;});
   if (app && (status === 'Approved' || status === 'Rejected')) {
-    setTimeout(() => {
-      if (confirm(`Send WhatsApp notification to ${app.customerName} about ${status} status?
-
-This will open WhatsApp with a pre-written message.`)) {
+    setTimeout(function() {
+      if (confirm('Send WhatsApp notification to ' + app.customerName + ' about ' + status + ' status?')) {
         sendWhatsAppStatusUpdate(app, status);
       }
     }, 500);
   }
 };
 
-// ================================================================
-//  ⑥ FULL ARABIC — Language Dictionary
-// ================================================================
-const AR_FULL = {
-  // Navbar
-  'Home':'الرئيسية','About':'من نحن','Services':'خدماتنا','Contact':'اتصل بنا',
-  'Login':'تسجيل الدخول','Login / Register':'دخول / تسجيل',
-  // Hero
-  'Discover Your Dream':'اكتشف وجهة أحلامك',
-  'Destination':'الوجهة',
-  'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.':
-    'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
-  'Explore Now':'استكشف الآن',
-  'Where do you want to go?':'إلى أين تريد السفر؟',
-  // Stats
-  'Destinations':'وجهة','Happy Customers':'عميل سعيد',
-  'Years Experience':'سنة خبرة','Expert Support':'دعم متخصص',
-  // Services
-  'Our Premium Services':'خدماتنا المتميزة',
-  'What We Offer':'ما نقدمه',
-  'Visa Services':'خدمات التأشيرة',
-  'Flight Booking':'حجز الطيران',
-  'Hotel Reservation':'حجز الفنادق',
-  'Tour Packages':'باقات السياحة',
-  'Transfer Service':'خدمة النقل',
-  'Business Travel':'سفر الأعمال',
-  'Medical Tourism':'السياحة العلاجية',
-  'VIP Assistance':'المساعدة VIP',
-  // Buttons
-  'Apply Now →':'قدّم الآن ←',
-  'Book Now →':'احجز الآن ←',
-  'Reserve →':'احجز ←',
-  'Explore →':'استكشف ←',
-  'Enquire →':'استفسر ←',
-  'Get Quote →':'احصل على عرض ←',
-  'Learn More →':'اعرف المزيد ←',
-  // About
-  'About Us':'من نحن',
-  'Our Story':'قصتنا',
-  // Contact
-  'Send Message':'إرسال الرسالة',
-  'Full Name':'الاسم الكامل',
-  'Email Address':'البريد الإلكتروني',
-  'Phone':'رقم الهاتف',
-  // FAQ
-  'Frequently Asked Questions':'الأسئلة المتكررة',
-  'How long does visa processing take?':'كم يستغرق معالجة التأشيرة؟',
-  'What documents do I need?':'ما المستندات التي أحتاجها؟',
-  'How does FIB Bank payment work?':'كيف يعمل الدفع عبر بنك FIB؟',
-  // Auth
-  'Sign In':'تسجيل الدخول',
-  'Register':'إنشاء حساب',
-  'Password':'كلمة المرور',
-  // Visa form
-  'Personal Information':'المعلومات الشخصية',
-  'Travel Details':'تفاصيل السفر',
-  'Document Upload':'رفع المستندات',
-  'Secure Payment':'الدفع الآمن',
-  'Next: Travel Details →':'التالي: تفاصيل السفر ←',
-  'Next: Documents →':'التالي: المستندات ←',
-  'Next: Payment →':'التالي: الدفع ←',
-  'Confirm & Pay via FIB':'تأكيد والدفع عبر FIB',
-  // Steps
-  'Personal Info':'المعلومات الشخصية',
-  'Travel Details':'تفاصيل السفر',
-  'Documents':'المستندات',
-  'Payment':'الدفع',
-  // Tracker
-  'Track Your Application':'تتبع طلبك',
-  // Reviews
-  'What Our Clients Say':'ماذا يقول عملاؤنا',
-  'Leave a Review':'اترك تقييماً',
-  'Submit Review':'إرسال التقييم',
-  // Admin
-  'Admin Dashboard':'لوحة الإدارة',
-  'Applications':'الطلبات',
-  'Country Pricing':'أسعار الدول',
-  'Analytics':'التحليلات',
-  'Notifications':'الإشعارات',
-  'Invoices':'الفواتير',
+// ── ARABIC TOGGLE ─────────────────────────────────────────────
+var AR_FULL = {
+  'Home': 'الرئيسية', 'About': 'من نحن', 'Services': 'خدماتنا', 'Contact': 'اتصل بنا',
+  'Track': 'تتبع', 'Login': 'تسجيل الدخول',
 };
 
-// Override toggleLang to apply full translation
 window.toggleLang = function() {
-  _isAr = !_isAr;
-  localStorage.setItem('lang', _isAr ? 'ar' : 'en');
-  const btn = document.getElementById('lang-btn');
-  if (btn) btn.textContent = _isAr ? 'EN' : 'ع';
-  if (_isAr) {
+  var isAr = localStorage.getItem('lang') !== 'ar';
+  localStorage.setItem('lang', isAr ? 'ar' : 'en');
+  var btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = isAr ? 'EN' : 'ع';
+  if (isAr) {
     document.body.classList.add('rtl-mode');
-    document.documentElement.setAttribute('dir', 'rtl');
-    document.documentElement.setAttribute('lang', 'ar');
-    applyArabicTranslations();
-    showToastSVG('info', 'تم التغيير للعربية', 'Arabic mode is now active');
+    document.documentElement.setAttribute('dir','rtl');
+    showToastSVG('info', 'تم التغيير للعربية', 'Arabic mode active');
   } else {
     document.body.classList.remove('rtl-mode');
-    document.documentElement.setAttribute('dir', 'ltr');
-    document.documentElement.setAttribute('lang', 'en');
+    document.documentElement.setAttribute('dir','ltr');
     location.reload();
   }
 };
 
-function applyArabicTranslations() {
-  function walkTranslate(node) {
-    if (node.nodeType === 3) {
-      const t = node.textContent.trim();
-      if (t && AR_FULL[t]) node.textContent = node.textContent.replace(t, AR_FULL[t]);
-    } else if (node.nodeType === 1 &&
-      !['SCRIPT','STYLE','SVG','PATH','INPUT','TEXTAREA'].includes(node.tagName.toUpperCase())) {
-      node.childNodes.forEach(walkTranslate);
-    }
-    if ((node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') && AR_FULL[node.placeholder]) {
-      node.placeholder = AR_FULL[node.placeholder];
-    }
-  }
-  walkTranslate(document.body);
-  // Update nav link text
-  const navMap = { 'nl-home':'الرئيسية','nl-about':'من نحن','nl-services':'خدماتنا','nl-contact':'اتصل بنا' };
-  for (const [id, ar] of Object.entries(navMap)) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = ar;
-  }
-}
-
-// ================================================================
-//  INJECT FEATURES INTO EXISTING UI
-// ================================================================
-(function patchExistingUI() {
-  // 1. Add Tracker + Reviews to navbar
-  setTimeout(() => {
-    const navLinks = document.getElementById('navLinks');
-    if (navLinks && !document.getElementById('nl-tracker')) {
-      const li1 = document.createElement('li');
-      li1.innerHTML = '<button class="nav-link" id="nl-tracker" onclick="nav('tracker')">Track</button>';
-      const li2 = document.createElement('li');
-      li2.innerHTML = '<button class="nav-link" id="nl-reviews" onclick="openReviewModal()">⭐ Review</button>';
-      navLinks.appendChild(li1);
-      navLinks.appendChild(li2);
-    }
-    // Mobile nav
-    const mobileNav = document.getElementById('mobileNav');
-    if (mobileNav && !document.getElementById('mobile-tracker')) {
-      const b1 = document.createElement('button');
-      b1.className = 'mobile-link'; b1.id = 'mobile-tracker';
-      b1.textContent = '📍 Track Application';
-      b1.onclick = () => { nav('tracker'); closeMobile(); };
-      const b2 = document.createElement('button');
-      b2.className = 'mobile-link'; b2.id = 'mobile-review';
-      b2.textContent = '⭐ Leave a Review';
-      b2.onclick = () => { openReviewModal(); closeMobile(); };
-      mobileNav.appendChild(b1);
-      mobileNav.appendChild(b2);
-    }
-
-    // 2. Inject dynamic reviews section before FAQ on homepage
-    const faqSection = document.querySelector('#page-home .faq-list');
-    if (faqSection && !document.getElementById('reviews-dynamic-section')) {
-      const section = document.createElement('section');
-      section.id = 'reviews-dynamic-section';
-      section.className = 'section';
-      section.style.background = 'rgba(5,11,59,0.1)';
-      section.innerHTML = `
-        <div class="container">
-          <div class="section-header">
-            <div class="badge">⭐ Verified Reviews</div>
-            <h2 style="margin-top:1rem;">Customer <span class="gold-text">Reviews</span></h2>
-            <p>Real experiences from real travelers — verified and approved by our team.</p>
-            <button class="btn-primary" onclick="openReviewModal()" style="margin-top:1.25rem;">
-              ⭐ Write a Review
-            </button>
-          </div>
-          <div class="reviews-grid" id="reviews-dynamic-grid"></div>
-        </div>
-      `;
-      faqSection.closest('.section').parentNode.insertBefore(section, faqSection.closest('.section'));
-      renderReviewsSection();
-    }
-
-    // 3. Add Reviews tab to Admin sidebar
-    const adminNav = document.querySelector('#page-admin .dash-sidebar nav');
-    if (adminNav && !document.getElementById('admin-reviews-btn')) {
-      const sep = document.createElement('div');
-      sep.className = 'sidebar-section-label'; sep.textContent = 'Content';
-      const btn = document.createElement('button');
-      btn.className = 'sidebar-btn'; btn.id = 'admin-reviews-btn';
-      btn.onclick = function() { dashSection('reviews', this); };
-      btn.innerHTML = `<span class="sidebar-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Reviews`;
-      const badge = document.createElement('span');
-      badge.className = 'sidebar-badge'; badge.id = 'sb-reviews'; badge.textContent = _reviews.filter(r=>!r.approved).length;
-      btn.appendChild(badge);
-      adminNav.insertBefore(sep, adminNav.querySelector('.sidebar-section-label:last-of-type'));
-      adminNav.insertBefore(btn, adminNav.querySelector('div[style*="margin-top:1rem"]'));
-    }
-
-    // 4. Inject reviews dashboard section
-    const dashMain = document.querySelector('#page-admin .dash-main');
-    if (dashMain && !document.getElementById('dash-reviews')) {
-      const div = document.createElement('div');
-      div.id = 'dash-reviews'; div.style.display = 'none';
-      div.innerHTML = `
-        <div class="dash-header">
-          <div class="dash-title">Customer Reviews</div>
-          <button class="btn-primary" style="font-size:.8rem;padding:.5rem 1rem;" onclick="renderAdminReviews()">↻ Refresh</button>
-        </div>
-        <div style="background:rgba(255,165,0,.05);border:1px solid rgba(255,165,0,.2);border-radius:12px;
-          padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:#f59e0b;
-          display:flex;align-items:center;gap:.5rem;">
-          ⚠️ Reviews must be approved before they appear on the public homepage.
-        </div>
-        <div id="admin-reviews-list"></div>
-      `;
-      dashMain.appendChild(div);
-    }
-
-    // 5. Add coupon info to admin dashboard
-    const countriesPanel = document.getElementById('dash-countries');
-    if (countriesPanel && !document.getElementById('admin-coupons-panel')) {
-      const cDiv = document.createElement('div');
-      cDiv.id = 'admin-coupons-panel';
-      cDiv.style.marginTop = '2rem';
-      cDiv.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-          <h4 style="font-size:1rem;font-weight:700;">Active Promo Codes</h4>
-          <span style="font-size:.75rem;color:var(--gray-400);">${Object.keys(COUPONS).length} codes active</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;">
-          ${Object.entries(COUPONS).map(([code, c]) => `
-            <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
-              border-radius:14px;padding:1.25rem;">
-              <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;
-                color:var(--gold-400);letter-spacing:.1em;margin-bottom:.4rem;">${code}</div>
-              <div style="font-size:.78rem;color:var(--gray-300);margin-bottom:.3rem;">${c.desc}</div>
-              <div style="font-size:.72rem;color:var(--gray-500);">
-                ${c.type==='percent' ? c.value+'% off' : '$'+c.value+' fixed discount'}
-                ${c.minAmount > 0 ? ' · Min $'+c.minAmount : ' · No minimum'}
-              </div>
-              <div style="margin-top:.75rem;display:flex;align-items:center;gap:.5rem;">
-                <span class="status-chip s-approved" style="font-size:.65rem;">Active</span>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <p style="font-size:.75rem;color:var(--gray-500);margin-top:.75rem;">
-          To add/edit promo codes, modify the COUPONS object in the features script.
-        </p>
-      `;
-      countriesPanel.appendChild(cDiv);
-    }
-
-    // 6. Footer quick links
-    const footerBottom = document.querySelector('footer .footer-bottom');
-    if (footerBottom && !document.getElementById('footer-tracker-link')) {
-      const link = document.createElement('a');
-      link.id = 'footer-tracker-link';
-      link.href = '#'; link.textContent = 'Track Application';
-      link.style.cssText = 'color:var(--gray-500);font-size:.825rem;text-decoration:none;';
-      link.onclick = (e) => { e.preventDefault(); nav('tracker'); };
-      footerBottom.appendChild(link);
-    }
-
-    // Apply language if Arabic was set
-    if (_isAr) {
-      document.body.classList.add('rtl-mode');
-      document.documentElement.setAttribute('dir', 'rtl');
-      applyArabicTranslations();
-    }
-
-  }, 800);
-})();
-
-// Override dashSection to handle reviews tab
-var _origDashSectionX = typeof dashSection === "function" ? dashSection : null;
+// ── DASHSECTION: handle reviews tab ──────────────────────────
+var _ds_orig = dashSection;
 dashSection = function(section, btn) {
-  if(_origDashSectionX) _origDashSectionX(section, btn);
-  if (section === 'reviews') {
-    const div = document.getElementById('dash-reviews');
-    if (div) div.style.display = 'block';
-    renderAdminReviews();
-  } else {
-    const div = document.getElementById('dash-reviews');
-    if (div) div.style.display = 'none';
-  }
+  _ds_orig(section, btn);
+  var rev = document.getElementById('dash-reviews');
+  if (rev) rev.style.display = section === 'reviews' ? 'block' : 'none';
+  if (section === 'reviews') renderAdminReviews();
 };
 
-console.log('[UNLIMITED] ✅ All 6 features loaded: AI Assistant · Tracker · Reviews · Coupons · WhatsApp Notifications · Full Arabic');
+// ── INJECT REVIEWS SECTION ON HOMEPAGE ───────────────────────
+window.addEventListener('load', function() {
+  // Inject reviews section before FAQ
+  var faqSection = document.querySelector('#page-home .faq-list');
+  if (faqSection && !document.getElementById('reviews-dynamic-section')) {
+    var section = document.createElement('section');
+    section.id = 'reviews-dynamic-section';
+    section.className = 'section';
+    section.style.background = 'rgba(5,11,59,0.1)';
+    section.innerHTML = '<div class="container"><div class="section-header"><div class="badge">⭐ Verified Reviews</div><h2 style="margin-top:1rem;">Customer <span class="gold-text">Reviews</span></h2><p>Real experiences from real travelers.</p><button class="btn-primary" onclick="openReviewModal()" style="margin-top:1.25rem;">⭐ Write a Review</button></div><div class="reviews-grid" id="reviews-dynamic-grid"></div></div>';
+    faqSection.closest('.section').parentNode.insertBefore(section, faqSection.closest('.section'));
+    renderReviewsSection();
+  }
+
+  // Set reviews badge
+  var badge = document.getElementById('sb-reviews');
+  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
+
+  // Lang button
+  var langBtn = document.getElementById('lang-btn');
+  if (langBtn) langBtn.textContent = localStorage.getItem('lang') === 'ar' ? 'EN' : 'ع';
+
+  // Tracker recent on load if on tracker page
+  populateTrackerRecent();
+});
+
+console.log('[UNLIMITED] All 6 features loaded OK');
+
 </script>
 </body>
 </html>
