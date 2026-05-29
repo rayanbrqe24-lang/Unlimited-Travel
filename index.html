@@ -5139,98 +5139,86 @@ let aiConversation = [];
 //  ② VISA APPLICATION TRACKER
 // ================================================================
 async function trackApplication() {
-  const input = document.getElementById('tracker-input').value.trim().toUpperCase();
-  const result = document.getElementById('tracker-result');
+  var inputEl = document.getElementById('tracker-input');
+  var result = document.getElementById('tracker-result');
+  var input = inputEl ? inputEl.value.trim().toUpperCase() : '';
   if (!input) { showToastSVG('warn', 'Enter Order Number', 'Please enter your order number first.'); return; }
+  
   result.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-400);">🔍 Searching...</div>';
-  // Always fetch fresh from Supabase
-  try {
-    const fresh = await dbGetApps();
-    if (fresh && fresh.length >= 0) _cache.apps = fresh;
-  } catch(e) { console.error('Track fetch error:', e); }
-  const apps = _cache.apps || [];
-  const app = apps.find(a => a.orderNumber.toUpperCase() === input);
+
+  // Try 1: search in cache first
+  var apps = _cache.apps || [];
+  var app = apps.find(function(a) { return a.orderNumber && a.orderNumber.toUpperCase() === input; });
+
+  // Try 2: query Supabase directly by order_number
+  if (!app) {
+    try {
+      var resp = await supa.from('applications').select('*').eq('order_number', input).limit(1);
+      if (resp.data && resp.data.length > 0) {
+        app = mapApp(resp.data[0]);
+      }
+    } catch(e) { console.error('Tracker query error:', e); }
+  }
+
+  // Try 3: reload full cache and search again
+  if (!app) {
+    try {
+      var fresh = await dbGetApps();
+      if (fresh && fresh.length > 0) {
+        _cache.apps = fresh;
+        app = fresh.find(function(a) { return a.orderNumber && a.orderNumber.toUpperCase() === input; });
+      }
+    } catch(e) { console.error('Tracker full fetch error:', e); }
+  }
+
   result.innerHTML = '';
 
   if (!app) {
-    result.innerHTML = `<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);
-      border-radius:16px;padding:1.5rem;text-align:center;">
-      <div style="font-size:2rem;margin-bottom:.75rem;">🔍</div>
-      <div style="font-weight:700;margin-bottom:.4rem;">Order Not Found</div>
-      <p style="color:var(--gray-400);font-size:.85rem;">Check the number and try again, or <a href='https://wa.me/9647502307506' target='_blank' style='color:var(--gold-400);'>contact support</a>.</p>
-    </div>`;
+    result.innerHTML = '<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:16px;padding:1.5rem;text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🔍</div><div style="font-weight:700;margin-bottom:.4rem;">Order Not Found</div><p style="color:var(--gray-400);font-size:.85rem;">Check the number and try again, or <a href="https://wa.me/9647502307506" target="_blank" style="color:var(--gold-400);">contact support</a>.</p></div>';
     return;
   }
 
-  const steps = [
-    { label: 'Application Submitted', desc: 'Documents & payment received', icon: '📨' },
-    { label: 'Under Review', desc: 'Our team is processing your application', icon: '🔍' },
-    { label: 'Sent to Embassy', desc: 'Application forwarded to the embassy', icon: '📮' },
-    { label: app.status === 'Approved' ? 'Visa Approved! 🎉' : app.status === 'Rejected' ? 'Application Rejected' : 'Awaiting Decision', desc: app.status === 'Approved' ? 'Your visa is ready!' : app.status === 'Rejected' ? 'Contact us for next steps' : 'Embassy is reviewing', icon: app.status === 'Approved' ? '✅' : app.status === 'Rejected' ? '❌' : '⏳' },
+  var statusClass = app.status === 'Approved' ? 's-approved' : app.status === 'Rejected' ? 's-rejected' : 's-pending';
+  var steps = [
+    { label:'Application Submitted', desc:'Documents & payment received', done: true },
+    { label:'Under Review', desc:'Our team is processing your application', done: app.status !== 'Pending' },
+    { label:'Sent to Embassy', desc:'Application forwarded to the embassy', done: app.status === 'Approved' || app.status === 'Rejected' },
+    { label: app.status === 'Approved' ? 'Visa Approved! 🎉' : app.status === 'Rejected' ? 'Application Rejected' : 'Awaiting Decision',
+      desc: app.status === 'Approved' ? 'Your visa is ready!' : app.status === 'Rejected' ? 'Contact us for next steps' : 'Embassy is reviewing',
+      done: app.status === 'Approved' },
   ];
-  const currentStep = app.status === 'Approved' ? 3 : app.status === 'Rejected' ? 3 : 1;
 
-  result.innerHTML = `
-    <div style="background:rgba(5,11,59,.5);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem;margin-bottom:1rem;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
-        <div>
-          <div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);">Order Number</div>
-          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;" class="gold-text">${app.orderNumber}</div>
-        </div>
-        <span class="status-chip ${app.status==='Approved'?'s-approved':app.status==='Rejected'?'s-rejected':'s-pending'}" style="font-size:.8rem;padding:.35rem 1rem;">${app.status}</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem;">
-        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
-          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Applicant</div>
-          <div style="font-weight:600;font-size:.85rem;">${app.customerName}</div>
-        </div>
-        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
-          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Destination</div>
-          <div style="font-weight:600;font-size:.85rem;">${app.countryNameEn}</div>
-        </div>
-        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
-          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Travel Date</div>
-          <div style="font-weight:600;font-size:.85rem;">${app.travelDate || '—'}</div>
-        </div>
-        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
-          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Amount Paid</div>
-          <div style="font-weight:700;font-size:.875rem;" class="gold-text">${app.currency==='IQD'?app.amountPaid.toLocaleString()+' IQD':'$'+app.amountPaid}</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:.5rem;">
-        ${steps.map((s, i) => `
-          <div class="track-step ${i < currentStep ? 'done' : i === currentStep ? 'active' : 'waiting'}">
-            <div class="track-num" style="${i < currentStep ? 'background:rgba(16,185,129,.15);color:#10b981;border:2px solid rgba(16,185,129,.4);' : i === currentStep ? 'background:var(--gradient);color:#fff;box-shadow:0 0 12px rgba(255,10,84,.4);' : 'background:rgba(255,255,255,.06);color:var(--gray-500);border:2px solid rgba(255,255,255,.08);'}">
-              ${i < currentStep ? '✓' : i === currentStep ? s.icon : (i+1)}
-            </div>
-            <div style="flex:1;">
-              <div style="font-size:.85rem;font-weight:600;color:${i <= currentStep ? '#fff' : 'var(--gray-500)'};">${s.label}</div>
-              <div style="font-size:.72rem;color:var(--gray-500);">${s.desc}</div>
-            </div>
-            ${i === currentStep ? '<div style="width:8px;height:8px;border-radius:50%;background:var(--gold-400);animation:pulse-dot 2s infinite;"></div>' : ''}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-    ${app.status === 'Approved' ? `
-      <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">🎉</div>
-        <div style="font-weight:700;color:#10b981;margin-bottom:.3rem;">Congratulations! Your visa is approved!</div>
-        <p style="font-size:.82rem;color:var(--gray-400);">Our team will contact you to arrange visa delivery. Have a wonderful trip!</p>
-      </div>
-      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="_lastApp=(_cache.apps||[]).find(a=>a.orderNumber==='${app.orderNumber}');downloadInvoice()">
-        ⬇ Download Invoice & Receipt
-      </button>
-    ` : ''}
-    ${app.status === 'Rejected' ? `
-      <div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:14px;padding:1.25rem;text-align:center;">
-        <div style="font-weight:700;color:var(--gold-400);margin-bottom:.3rem;">Application was not approved</div>
-        <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:1rem;">Please contact our team for a free review of your case and reapplication guidance.</p>
-        <a href="https://wa.me/9647502307506" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;">📲 Contact Support</a>
-      </div>
-    ` : ''}
-  `;
+  var stepsHTML = steps.map(function(s, i) {
+    var style = s.done
+      ? 'background:rgba(16,185,129,.15);color:#10b981;border:2px solid rgba(16,185,129,.4);'
+      : i === steps.findIndex(function(x){return !x.done;})
+        ? 'background:var(--gradient);color:#fff;box-shadow:0 0 12px rgba(255,10,84,.4);'
+        : 'background:rgba(255,255,255,.06);color:var(--gray-500);border:2px solid rgba(255,255,255,.08);';
+    var num = s.done ? '✓' : (i+1);
+    var labelColor = s.done || i <= steps.findIndex(function(x){return !x.done;}) ? '#fff' : 'var(--gray-500)';
+    return '<div style="display:flex;align-items:center;gap:1rem;padding:.875rem 1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);"><div style="width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;' + style + '">' + num + '</div><div style="flex:1;"><div style="font-size:.85rem;font-weight:600;color:' + labelColor + ';">' + s.label + '</div><div style="font-size:.72rem;color:var(--gray-500);">' + s.desc + '</div></div></div>';
+  }).join('');
+
+  var approvedHTML = app.status === 'Approved' ? '<div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:1.25rem;text-align:center;margin-top:1rem;"><div style="font-size:2rem;margin-bottom:.5rem;">🎉</div><div style="font-weight:700;color:#10b981;margin-bottom:.3rem;">Congratulations! Your visa is approved!</div><p style="font-size:.82rem;color:var(--gray-400);">Our team will contact you to arrange visa delivery.</p></div>' : '';
+  var rejectedHTML = app.status === 'Rejected' ? '<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:14px;padding:1.25rem;text-align:center;margin-top:1rem;"><div style="font-weight:700;color:var(--gold-400);margin-bottom:.3rem;">Application was not approved</div><p style="font-size:.82rem;color:var(--gray-400);margin-bottom:1rem;">Contact our team for free reapplication guidance.</p><a href="https://wa.me/9647502307506" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;">📲 Contact Support</a></div>' : '';
+
+  result.innerHTML = '<div style="background:rgba(5,11,59,.5);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">'
+    + '<div><div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);">Order Number</div>'
+    + '<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">' + app.orderNumber + '</div></div>'
+    + '<span class="status-chip ' + statusClass + '" style="font-size:.8rem;padding:.35rem 1rem;">' + app.status + '</span></div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem;">'
+    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Applicant</div><div style="font-weight:600;font-size:.85rem;">' + app.customerName + '</div></div>'
+    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Destination</div><div style="font-weight:600;font-size:.85rem;">' + app.countryNameEn + '</div></div>'
+    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Travel Date</div><div style="font-weight:600;font-size:.85rem;">' + (app.travelDate || '—') + '</div></div>'
+    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Amount Paid</div><div style="font-weight:700;font-size:.875rem;color:var(--gold-400);">' + (app.currency === 'IQD' ? app.amountPaid.toLocaleString() + ' IQD' : '$' + app.amountPaid) + '</div></div>'
+    + '</div>'
+    + '<div style="display:flex;flex-direction:column;gap:.5rem;">' + stepsHTML + '</div>'
+    + '</div>'
+    + approvedHTML + rejectedHTML;
 }
+
+// Populate recent orders in tracker for logged-in users
 
 // Populate recent orders in tracker for logged-in users
 function populateTrackerRecent() {
@@ -5376,16 +5364,10 @@ window.toggleLang = function() {
 
 // ── INJECT REVIEWS SECTION ON HOMEPAGE ───────────────────────
 window.addEventListener('load', function() {
-
-  // Set reviews badge
-  var badge = document.getElementById('sb-reviews');
-  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
-
   // Lang button
   var langBtn = document.getElementById('lang-btn');
   if (langBtn) langBtn.textContent = localStorage.getItem('lang') === 'ar' ? 'EN' : 'ع';
-
-  // Tracker recent on load if on tracker page
+  // Tracker recent
   populateTrackerRecent();
 });
 
