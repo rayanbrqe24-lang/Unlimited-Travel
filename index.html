@@ -5142,11 +5142,12 @@ async function trackApplication() {
   const input = document.getElementById('tracker-input').value.trim().toUpperCase();
   const result = document.getElementById('tracker-result');
   if (!input) { showToastSVG('warn', 'Enter Order Number', 'Please enter your order number first.'); return; }
-  result.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-400);">Searching...</div>';
-  // Always reload fresh from DB
-  if (!_cache.apps || _cache.apps.length === 0) {
-    _cache.apps = await dbGetApps();
-  }
+  result.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-400);">🔍 Searching...</div>';
+  // Always fetch fresh from Supabase
+  try {
+    const fresh = await dbGetApps();
+    if (fresh && fresh.length >= 0) _cache.apps = fresh;
+  } catch(e) { console.error('Track fetch error:', e); }
   const apps = _cache.apps || [];
   const app = apps.find(a => a.orderNumber.toUpperCase() === input);
   result.innerHTML = '';
