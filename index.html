@@ -6063,5 +6063,21 @@ dashSection = function(section, btn) {
 console.log('[UNLIMITED] ✅ All 6 features loaded: AI Assistant · Tracker · Reviews · Coupons · WhatsApp Notifications · Full Arabic');
 </script>
 
+with open('index.html', 'r', encoding='utf-8') as f:
+    html = f.read()
+
+with open('unlimited_features_patch.html', 'r', encoding='utf-8') as f:
+    patch = f.read()
+
+# Find last </body> and insert patch before it
+pos = html.rfind('</body>')
+if pos == -1:
+    print("ERROR: Could not find </body> in your HTML file!")
+else:
+    merged = html[:pos] + '\n' + patch + '\n' + html[pos:]
+    with open('index_merged.html', 'w', encoding='utf-8') as f:
+        f.write(merged)
+    print("SUCCESS! Saved as index_merged.html")
+    print("Open index_merged.html in your browser to test.")
 </body>
 </html>
