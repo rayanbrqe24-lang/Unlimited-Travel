@@ -4970,6 +4970,1098 @@ window.addEventListener('load', function() {
     </div>
   </div>
 </div>
+   <!-- 
+=======================================================================
+  HOW TO GET YOUR COMPLETE MERGED FILE
+  (Takes 30 seconds)
+=======================================================================
+
+  1. Open your original project HTML file (the big one you shared)
+  
+  2. Press Ctrl+F (Find) and search for:
+        </body>
+     (it's near the very end of the file)
+  
+  3. Place your cursor RIGHT BEFORE </body>
+  
+  4. Paste the entire contents of "unlimited_features_patch.html" here
+  
+  5. Save the file — done! ✅
+
+  That's it. Your complete project will have all 6 features:
+  ① AI Visa Assistant (Layla chatbot)
+  ② Application Tracker page  
+  ③ Customer Reviews & Ratings
+  ④ Coupon / Promo Codes
+  ⑤ WhatsApp Status Notifications
+  ⑥ Full Arabic RTL Mode
+
+=======================================================================
+  QUICK TEST AFTER MERGING:
+=======================================================================
+  - Bottom-right: look for the pink chat bubble (AI Assistant)
+  - Navbar: "Track" link should appear
+  - Navbar: "⭐ Review" button should appear  
+  - Visa Step 4: promo code field appears
+  - Admin sidebar: "Reviews" tab appears
+  - Admin → Applications → Approve/Reject: WhatsApp dialog pops up
+  - ع button: Arabic RTL mode toggle
+=======================================================================
+-->
+
+<!-- ================================================================
+     FEATURE PATCH — ALL 6 ADDITIONS
+     Paste this entire block just before </body> in your main file
+     ================================================================ -->
+
+<!-- ① AI VISA ASSISTANT CHAT WIDGET -->
+<div id="ai-chat-bubble" onclick="toggleAIChat()" title="AI Visa Assistant"
+  style="position:fixed;bottom:5.5rem;right:2rem;z-index:900;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#FF0A54,#D4145A);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(255,10,84,0.45);cursor:pointer;
+  transition:all .3s;font-size:1.4rem;">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1" fill="white"/><circle cx="12" cy="10" r="1" fill="white"/><circle cx="15" cy="10" r="1" fill="white"/></svg>
+  <span id="ai-unread-dot" style="display:none;position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#10b981;border:2px solid var(--navy-950);"></span>
+</div>
+
+<div id="ai-chat-panel" style="display:none;position:fixed;bottom:9rem;right:2rem;z-index:901;
+  width:360px;height:520px;
+  background:rgba(5,11,59,0.97);border:1px solid rgba(255,10,84,0.25);
+  border-radius:22px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.6);
+  display:none;flex-direction:column;animation:fadeIn .3s ease;">
+  <div style="padding:1rem 1.25rem;background:linear-gradient(135deg,rgba(255,10,84,0.15),rgba(212,20,90,0.1));
+    border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:.75rem;">
+    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FF0A54,#D4145A);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/><circle cx="19" cy="5" r="3" fill="#10b981"/></svg>
+    </div>
+    <div style="flex:1;">
+      <div style="font-weight:700;font-size:.875rem;color:#fff;">Layla — Visa AI</div>
+      <div style="font-size:.7rem;color:#10b981;display:flex;align-items:center;gap:.3rem;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;"></span>
+        Online · Responds instantly
+      </div>
+    </div>
+    <button onclick="toggleAIChat()" style="background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.6);
+      width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;
+      display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+  </div>
+  <div id="ai-messages" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem;
+    scrollbar-width:thin;scrollbar-color:rgba(255,10,84,.3) transparent;"></div>
+  <div style="padding:.875rem;border-top:1px solid rgba(255,255,255,.06);">
+    <div style="display:flex;gap:.5rem;margin-bottom:.625rem;flex-wrap:wrap;">
+      <button class="ai-quick" onclick="aiSend('How long does a UAE visa take?')">🇦🇪 UAE visa</button>
+      <button class="ai-quick" onclick="aiSend('What documents do I need?')">📄 Documents</button>
+      <button class="ai-quick" onclick="aiSend('Schengen visa requirements')">🇪🇺 Schengen</button>
+      <button class="ai-quick" onclick="aiSend('Track my application')">📍 Track</button>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <input id="ai-input" type="text" placeholder="Ask me anything about visas…"
+        style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+        border-radius:12px;padding:.6rem .875rem;color:#fff;font-size:.82rem;font-family:inherit;outline:none;"
+        onkeydown="if(event.key==='Enter')aiSendInput()"
+        onfocus="this.style.borderColor='rgba(255,10,84,.5)'"
+        onblur="this.style.borderColor='rgba(255,255,255,.1)'">
+      <button onclick="aiSendInput()"
+        style="background:linear-gradient(135deg,#FF0A54,#D4145A);border:none;border-radius:12px;
+        padding:.6rem .875rem;color:#fff;cursor:pointer;display:flex;align-items:center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ② VISA TRACKER PAGE -->
+<div id="page-tracker" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="badge">📍 Live Tracking</div>
+      <h1 style="margin-top:1rem;">Track Your <span class="gold-text">Application</span></h1>
+      <p>Enter your order number to see real-time status of your visa application.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container" style="max-width:680px;">
+      <div style="background:rgba(5,11,59,.45);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2.5rem;">
+        <label class="input-label">Order Number</label>
+        <div style="display:flex;gap:.75rem;margin-bottom:1.5rem;">
+          <input class="input" id="tracker-input" placeholder="e.g. FIB-VISA-4827"
+            style="font-size:1rem;letter-spacing:.05em;text-transform:uppercase;"
+            oninput="this.value=this.value.toUpperCase()"
+            onkeydown="if(event.key==='Enter')trackApplication()">
+          <button class="btn-primary" onclick="trackApplication()" style="white-space:nowrap;padding:.75rem 1.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Track
+          </button>
+        </div>
+        <div id="tracker-result"></div>
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);
+          display:flex;flex-direction:column;gap:.75rem;">
+          <p style="font-size:.8rem;color:var(--gray-400);margin-bottom:.25rem;">Recent orders (demo)</p>
+          <div id="tracker-recent" style="display:flex;flex-wrap:wrap;gap:.5rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ③ REVIEWS PAGE SECTION (injected into home page footer area via JS) -->
+<!-- Reviews modal -->
+<div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.88);
+  backdrop-filter:blur(10px);z-index:9000;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:480px;background:rgba(5,11,59,.97);border:1px solid rgba(255,10,84,.2);
+    border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeReviewModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);
+      border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;
+      display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.3rem;">Leave a Review</h3>
+    <p style="font-size:.85rem;color:var(--gray-400);margin-bottom:1.5rem;">Share your experience with UNLIMITED Travel</p>
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Your Rating</label>
+      <div id="star-picker" style="display:flex;gap:.5rem;margin-top:.4rem;">
+        <span class="star-btn" data-val="1" onclick="setReviewRating(1)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
+        <span class="star-btn" data-val="2" onclick="setReviewRating(2)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
+        <span class="star-btn" data-val="3" onclick="setReviewRating(3)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
+        <span class="star-btn" data-val="4" onclick="setReviewRating(4)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
+        <span class="star-btn" data-val="5" onclick="setReviewRating(5)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
+      </div>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label class="input-label">Service Used</label>
+      <select class="input" id="review-service">
+        <option>Visa Services</option><option>Flight Booking</option>
+        <option>Hotel Reservation</option><option>Tour Package</option><option>Transfer</option>
+      </select>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label class="input-label">Your Review</label>
+      <textarea class="input" id="review-text" rows="4" placeholder="Tell us about your experience…" style="resize:vertical;"></textarea>
+    </div>
+    <button class="btn-primary" style="width:100%;justify-content:center;" onclick="submitReview()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Submit Review
+    </button>
+  </div>
+</div>
+
+<!-- ④ COUPON SYSTEM — injected into payment step via JS -->
+
+<!-- ⑤ SMS/WhatsApp Notification Panel in Admin -->
+
+<!-- ⑥ FULL ARABIC STYLES -->
+<style>
+/* ── AI Chat styles ── */
+.ai-quick{background:rgba(255,10,84,.08);border:1px solid rgba(255,10,84,.2);color:rgba(255,255,255,.8);
+  padding:.3rem .65rem;border-radius:50px;font-size:.7rem;font-weight:600;cursor:pointer;
+  font-family:inherit;transition:all .2s;white-space:nowrap;}
+.ai-quick:hover{background:rgba(255,10,84,.18);color:#fff;}
+.ai-bubble{max-width:82%;padding:.65rem .9rem;border-radius:16px;font-size:.82rem;line-height:1.55;}
+.ai-bubble.bot{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);
+  color:rgba(255,255,255,.9);border-radius:4px 16px 16px 16px;align-self:flex-start;}
+.ai-bubble.user{background:linear-gradient(135deg,rgba(255,10,84,.25),rgba(212,20,90,.2));
+  border:1px solid rgba(255,10,84,.25);color:#fff;border-radius:16px 4px 16px 16px;align-self:flex-end;}
+.ai-typing{display:flex;gap:4px;padding:.5rem .75rem;align-self:flex-start;}
+.ai-typing span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);
+  animation:aiDot 1.2s ease-in-out infinite;}
+.ai-typing span:nth-child(2){animation-delay:.2s;}
+.ai-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes aiDot{0%,80%,100%{transform:scale(.8);opacity:.4}40%{transform:scale(1.2);opacity:1}}
+
+/* ── Tracker styles ── */
+.track-step{display:flex;align-items:center;gap:1rem;padding:.875rem 1rem;
+  border-radius:14px;transition:background .2s;}
+.track-step.active{background:rgba(255,10,84,.07);border:1px solid rgba(255,10,84,.2);}
+.track-step.done{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.18);}
+.track-step.waiting{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);}
+.track-num{width:32px;height:32px;min-width:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;}
+
+/* ── Star rating ── */
+.star-btn{color:rgba(255,255,255,.25);}
+.star-btn.lit{color:#f59e0b;}
+
+/* ── Coupon ── */
+.coupon-row{display:flex;gap:.5rem;margin:.875rem 0;}
+.coupon-row input{flex:1;}
+.coupon-badge{display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);
+  color:#10b981;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;}
+
+/* ── Reviews section ── */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.review-card{background:rgba(5,11,59,.35);border:1px solid rgba(255,255,255,.06);
+  border-radius:18px;padding:1.5rem;transition:transform .3s,border-color .3s;}
+.review-card:hover{transform:translateY(-4px);border-color:rgba(255,10,84,.2);}
+.review-stars{color:#f59e0b;font-size:.9rem;letter-spacing:.1em;margin-bottom:.75rem;}
+.pending-badge{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);
+  color:#f59e0b;font-size:.65rem;padding:.2rem .6rem;border-radius:4px;font-weight:700;}
+
+/* ── Arabic full RTL ── */
+body.rtl-mode input,body.rtl-mode select,body.rtl-mode textarea{
+  direction:rtl!important;text-align:right!important;}
+body.rtl-mode .hero-content,body.rtl-mode .section-header{text-align:right!important;}
+body.rtl-mode .badge{flex-direction:row-reverse;}
+body.rtl-mode .btn-primary,body.rtl-mode .btn-ghost{flex-direction:row-reverse;}
+body.rtl-mode .service-cta{flex-direction:row-reverse;}
+body.rtl-mode .why-feature{flex-direction:row;}
+body.rtl-mode .footer-social{flex-direction:row-reverse;}
+body.rtl-mode .step-actions{flex-direction:row-reverse;}
+body.rtl-mode .cp-proceed-bar{flex-direction:row-reverse;}
+body.rtl-mode .nav-inner{flex-direction:row-reverse;}
+body.rtl-mode .ci-card{flex-direction:row;}
+body.rtl-mode .vstep{flex-direction:row;}
+body.rtl-mode .kpi-grid,body.rtl-mode .charts-row{direction:rtl;}
+body.rtl-mode .data-table{direction:rtl;}
+body.rtl-mode .testi-author{flex-direction:row;}
+body.rtl-mode .footer-grid{direction:rtl;text-align:right;}
+body.rtl-mode .hero-stats{direction:rtl;}
+body.rtl-mode .upload-grid{direction:rtl;}
+body.rtl-mode .country-picker-grid{direction:rtl;}
+body.rtl-mode #ai-chat-panel{right:auto!important;left:2rem!important;}
+body.rtl-mode #ai-chat-bubble{right:auto!important;left:2rem!important;}
+body.rtl-mode .whatsapp-float{right:auto!important;left:2rem!important;}
+body.rtl-mode .toast-container{right:auto!important;left:1.5rem!important;}
+</style>
+
+<script>
+// ================================================================
+//  ① AI VISA ASSISTANT — LAYLA
+// ================================================================
+let aiChatOpen = false;
+let aiConversation = [];
+
+const AI_KNOWLEDGE = {
+  'uae':{ name:'UAE / Dubai', flag:'🇦🇪', price:'$120', time:'2-3 working days', docs:'Valid passport (6+ months), personal photo, return ticket, hotel booking.' },
+  'turkey':{ name:'Turkey', flag:'🇹🇷', price:'$85', time:'24-48 hours', docs:'Valid passport, personal photo, return ticket. Health insurance required.' },
+  'schengen':{ name:'Schengen (Europe)', flag:'🇪🇺', price:'$185+', time:'5-10 working days', docs:'Passport, photo, travel insurance €30K+, bank statement (3 months), hotel & flight bookings.' },
+  'uk':{ name:'United Kingdom', flag:'🇬🇧', price:'$250', time:'10-15 working days', docs:'Biometrics at embassy, bank statement, sponsorship letter if visiting family.' },
+  'usa':{ name:'USA', flag:'🇺🇸', price:'$320', time:'15-30 working days', docs:'DS-160 form, embassy interview, biometrics, bank statement, employment letter.' },
+  'egypt':{ name:'Egypt', flag:'🇪🇬', price:'$45', time:'1-2 working days', docs:'Valid passport, personal photo. Visa on arrival also available.' },
+};
+
+function getAIResponse(msg) {
+  const m = msg.toLowerCase();
+  // Greeting
+  if (/^(hi|hello|مرحبا|السلام|hey|salam)/.test(m)) {
+    return "مرحباً! Hello! I'm Layla, your AI visa assistant. 🌟
+
+I can help you with:
+• Visa requirements & fees
+• Processing times
+• Required documents
+• Tracking your application
+
+Which country are you applying to?";
+  }
+  // Track
+  if (m.includes('track') || m.includes('status') || m.includes('application')) {
+    return "To track your application, go to the <strong>Track</strong> page from the menu, or click <button onclick="nav('tracker')" style="background:rgba(255,10,84,.15);border:1px solid rgba(255,10,84,.3);color:var(--gold-400);padding:.15rem .6rem;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:inherit;">Track Now →</button>
+
+Enter your order number (e.g. FIB-VISA-4827) to see real-time status.";
+  }
+  // Documents
+  if (m.includes('document') || m.includes('وثيقة') || m.includes('papers')) {
+    return "📄 <strong>Standard documents required for most visas:</strong>
+
+1. Valid passport (6+ months remaining)
+2. Passport-size photo (white background)
+3. National ID card (both sides)
+4. Return flight ticket
+5. Hotel booking confirmation
+6. Bank statement (last 3 months)
+
+Specific countries may require additional documents. Which country are you applying to?";
+  }
+  // Coupon / discount
+  if (m.includes('coupon') || m.includes('discount') || m.includes('promo') || m.includes('offer')) {
+    return "🎁 We currently have the promo code <strong>UNLIMITED10</strong> which gives you 10% off!
+
+You can also use <strong>FIRSTTIME</strong> for a free processing fee on your first application. Enter the code at the payment step. 💳";
+  }
+  // Specific countries
+  for (const [key, c] of Object.entries(AI_KNOWLEDGE)) {
+    if (m.includes(key) || m.includes(c.name.toLowerCase())) {
+      return `${c.flag} <strong>${c.name} Visa</strong>
+
+💰 <strong>Fee:</strong> From ${c.price}
+⏱️ <strong>Processing:</strong> ${c.time}
+📄 <strong>Documents:</strong> ${c.docs}
+
+<button onclick="goVisa()" style="background:var(--gradient);border:none;color:#fff;padding:.4rem 1rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:inherit;margin-top:.4rem;">Apply Now →</button>`;
+    }
+  }
+  // Pricing
+  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('سعر')) {
+    return "💰 <strong>Our visa fees vary by country:</strong>
+
+🇪🇬 Egypt — $45
+🇹🇷 Turkey — $85
+🇦🇪 UAE — $120
+🇩🇪 Schengen — $185
+🇬🇧 UK — $250
+🇺🇸 USA — $320
+
+All fees include our professional service charge. Payment is via FIB Bank (USD or IQD). Need a specific country?";
+  }
+  // Rejection
+  if (m.includes('reject') || m.includes('refused') || m.includes('denied')) {
+    return "😔 Sorry to hear that. Rejections are usually due to:
+
+• Incomplete or unclear documents
+• Insufficient bank balance
+• Previous overstay history
+• Incomplete application form
+
+Our team can review your case and advise on reapplication. Please <a href='https://wa.me/9647502307506' target='_blank' style='color:var(--gold-400);'>contact us on WhatsApp</a> for a free consultation.";
+  }
+  // Time / duration
+  if (m.includes('how long') || m.includes('processing') || m.includes('time') || m.includes('كم') || m.includes('مدة')) {
+    return "⏱️ <strong>Processing times by country:</strong>
+
+🇪🇬 Egypt — 1-2 working days
+🇹🇷 Turkey — 24-48 hours
+🇦🇪 UAE — 2-3 working days
+🇩🇪 Schengen — 5-10 working days
+🇬🇧 UK — 10-15 working days
+🇺🇸 USA — 15-30 working days
+
+Express service available for most destinations!";
+  }
+  // Default fallback
+  const fallbacks = [
+    "I can help with that! Could you be more specific about which country or service you need? 🌍",
+    "Great question! For the most accurate answer, could you tell me which country you're applying to?",
+    "I'm here to help! You can also reach our human team 24/7 on WhatsApp for complex queries. 💬"
+  ];
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+}
+
+function toggleAIChat() {
+  aiChatOpen = !aiChatOpen;
+  const panel = document.getElementById('ai-chat-panel');
+  panel.style.display = aiChatOpen ? 'flex' : 'none';
+  const dot = document.getElementById('ai-unread-dot');
+  if (dot) dot.style.display = 'none';
+  if (aiChatOpen && aiConversation.length === 0) {
+    setTimeout(() => addAIMessage("bot", "مرحباً! Hello! 👋 I'm <strong>Layla</strong>, your AI visa assistant from UNLIMITED Travel.
+
+How can I help you today? Ask me about visa requirements, fees, processing times, or track your application!"), 400);
+  }
+}
+
+function addAIMessage(role, text) {
+  const msgs = document.getElementById('ai-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'ai-bubble ' + role;
+  div.innerHTML = text.replace(/
+/g, '<br>');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  aiConversation.push({ role, text });
+}
+
+function addAITyping() {
+  const msgs = document.getElementById('ai-messages');
+  if (!msgs) return;
+  const t = document.createElement('div');
+  t.className = 'ai-typing'; t.id = 'ai-typing-indicator';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(t);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeAITyping() {
+  const t = document.getElementById('ai-typing-indicator');
+  if (t) t.remove();
+}
+
+function aiSend(msg) {
+  if (!aiChatOpen) { aiChatOpen = true; document.getElementById('ai-chat-panel').style.display = 'flex'; }
+  addAIMessage('user', msg);
+  addAITyping();
+  setTimeout(() => {
+    removeAITyping();
+    addAIMessage('bot', getAIResponse(msg));
+  }, 900 + Math.random() * 600);
+}
+
+function aiSendInput() {
+  const inp = document.getElementById('ai-input');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  aiSend(msg);
+}
+
+// Show unread dot after 4s to attract attention
+setTimeout(() => {
+  const dot = document.getElementById('ai-unread-dot');
+  if (dot && !aiChatOpen) dot.style.display = 'block';
+}, 4000);
+
+// ================================================================
+//  ② VISA APPLICATION TRACKER
+// ================================================================
+function trackApplication() {
+  const input = document.getElementById('tracker-input').value.trim().toUpperCase();
+  const result = document.getElementById('tracker-result');
+  if (!input) { showToastSVG('warn', 'Enter Order Number', 'Please enter your order number first.'); return; }
+
+  const apps = _cache.apps || [];
+  const app = apps.find(a => a.orderNumber.toUpperCase() === input);
+  result.innerHTML = '';
+
+  if (!app) {
+    result.innerHTML = `<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);
+      border-radius:16px;padding:1.5rem;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:.75rem;">🔍</div>
+      <div style="font-weight:700;margin-bottom:.4rem;">Order Not Found</div>
+      <p style="color:var(--gray-400);font-size:.85rem;">Check the number and try again, or <a href='https://wa.me/9647502307506' target='_blank' style='color:var(--gold-400);'>contact support</a>.</p>
+    </div>`;
+    return;
+  }
+
+  const steps = [
+    { label: 'Application Submitted', desc: 'Documents & payment received', icon: '📨' },
+    { label: 'Under Review', desc: 'Our team is processing your application', icon: '🔍' },
+    { label: 'Sent to Embassy', desc: 'Application forwarded to the embassy', icon: '📮' },
+    { label: app.status === 'Approved' ? 'Visa Approved! 🎉' : app.status === 'Rejected' ? 'Application Rejected' : 'Awaiting Decision', desc: app.status === 'Approved' ? 'Your visa is ready!' : app.status === 'Rejected' ? 'Contact us for next steps' : 'Embassy is reviewing', icon: app.status === 'Approved' ? '✅' : app.status === 'Rejected' ? '❌' : '⏳' },
+  ];
+  const currentStep = app.status === 'Approved' ? 3 : app.status === 'Rejected' ? 3 : 1;
+
+  result.innerHTML = `
+    <div style="background:rgba(5,11,59,.5);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
+        <div>
+          <div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);">Order Number</div>
+          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;" class="gold-text">${app.orderNumber}</div>
+        </div>
+        <span class="status-chip ${app.status==='Approved'?'s-approved':app.status==='Rejected'?'s-rejected':'s-pending'}" style="font-size:.8rem;padding:.35rem 1rem;">${app.status}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem;">
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Applicant</div>
+          <div style="font-weight:600;font-size:.85rem;">${app.customerName}</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Destination</div>
+          <div style="font-weight:600;font-size:.85rem;">${app.countryNameEn}</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Travel Date</div>
+          <div style="font-weight:600;font-size:.85rem;">${app.travelDate || '—'}</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;">
+          <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Amount Paid</div>
+          <div style="font-weight:700;font-size:.875rem;" class="gold-text">${app.currency==='IQD'?app.amountPaid.toLocaleString()+' IQD':'$'+app.amountPaid}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.5rem;">
+        ${steps.map((s, i) => `
+          <div class="track-step ${i < currentStep ? 'done' : i === currentStep ? 'active' : 'waiting'}">
+            <div class="track-num" style="${i < currentStep ? 'background:rgba(16,185,129,.15);color:#10b981;border:2px solid rgba(16,185,129,.4);' : i === currentStep ? 'background:var(--gradient);color:#fff;box-shadow:0 0 12px rgba(255,10,84,.4);' : 'background:rgba(255,255,255,.06);color:var(--gray-500);border:2px solid rgba(255,255,255,.08);'}">
+              ${i < currentStep ? '✓' : i === currentStep ? s.icon : (i+1)}
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:.85rem;font-weight:600;color:${i <= currentStep ? '#fff' : 'var(--gray-500)'};">${s.label}</div>
+              <div style="font-size:.72rem;color:var(--gray-500);">${s.desc}</div>
+            </div>
+            ${i === currentStep ? '<div style="width:8px;height:8px;border-radius:50%;background:var(--gold-400);animation:pulse-dot 2s infinite;"></div>' : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    ${app.status === 'Approved' ? `
+      <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">🎉</div>
+        <div style="font-weight:700;color:#10b981;margin-bottom:.3rem;">Congratulations! Your visa is approved!</div>
+        <p style="font-size:.82rem;color:var(--gray-400);">Our team will contact you to arrange visa delivery. Have a wonderful trip!</p>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;" onclick="_lastApp=(_cache.apps||[]).find(a=>a.orderNumber==='${app.orderNumber}');downloadInvoice()">
+        ⬇ Download Invoice & Receipt
+      </button>
+    ` : ''}
+    ${app.status === 'Rejected' ? `
+      <div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:14px;padding:1.25rem;text-align:center;">
+        <div style="font-weight:700;color:var(--gold-400);margin-bottom:.3rem;">Application was not approved</div>
+        <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:1rem;">Please contact our team for a free review of your case and reapplication guidance.</p>
+        <a href="https://wa.me/9647502307506" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;">📲 Contact Support</a>
+      </div>
+    ` : ''}
+  `;
+}
+
+// Populate recent orders in tracker for logged-in users
+function populateTrackerRecent() {
+  const u = DB.currentUser;
+  const container = document.getElementById('tracker-recent');
+  if (!container) return;
+  const apps = u ? (_cache.apps || []).filter(a => a.userId === u.id || a.email === u.email).slice(0, 5) : (_cache.apps || []).slice(0, 3);
+  if (!apps.length) { container.innerHTML = '<span style="font-size:.78rem;color:var(--gray-500);">No recent orders found.</span>'; return; }
+  container.innerHTML = apps.map(a => `
+    <button onclick="document.getElementById('tracker-input').value='${a.orderNumber}';trackApplication()"
+      style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;
+      padding:.3rem .75rem;font-size:.72rem;color:var(--gray-300);cursor:pointer;font-family:inherit;
+      display:flex;align-items:center;gap:.4rem;transition:all .2s;"
+      onmouseover="this.style.borderColor='rgba(255,10,84,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)'">
+      <span class="status-chip ${a.status==='Approved'?'s-approved':a.status==='Rejected'?'s-rejected':'s-pending'}" style="font-size:.6rem;padding:.1rem .4rem;">${a.status[0]}</span>
+      ${a.orderNumber}
+    </button>
+  `).join('');
+}
+
+// Override nav to populate tracker
+const _origNav = nav;
+function nav(page) {
+  _origNav(page);
+  if (page === 'tracker') setTimeout(populateTrackerRecent, 200);
+}
+
+// ================================================================
+//  ③ REVIEWS SYSTEM
+// ================================================================
+let _reviewRating = 5;
+let _reviews = [
+  { name:'Ahmed Al-Rashid', location:'Baghdad', service:'Visa Services', rating:5, text:'Unlimited Travel made our honeymoon in the Maldives absolutely perfect. Every detail was flawlessly arranged — visa to villa.', date:'Dec 2025', approved:true },
+  { name:'Sara Mohammed', location:'Erbil', service:'Visa Services', rating:5, text:'Schengen visa approved in 3 days! The team handled everything professionally. Already recommended them to my entire family.', date:'Jan 2026', approved:true },
+  { name:'Kareem Hassan', location:'Basra', service:'Business Travel', rating:5, text:'The VIP business travel service is exceptional. Corporate trips to Dubai and London handled with precision and luxury.', date:'Feb 2026', approved:true },
+];
+
+function setReviewRating(val) {
+  _reviewRating = val;
+  document.querySelectorAll('.star-btn').forEach((s, i) => {
+    s.classList.toggle('lit', i < val);
+    s.style.transform = i < val ? 'scale(1.1)' : 'scale(1)';
+  });
+}
+
+function openReviewModal() {
+  const u = DB.currentUser;
+  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in to leave a review.'); setTimeout(() => nav('auth'), 800); return; }
+  document.getElementById('review-modal').style.display = 'flex';
+  setReviewRating(5);
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').style.display = 'none';
+}
+
+async function submitReview() {
+  const u = DB.currentUser;
+  const text = document.getElementById('review-text').value.trim();
+  const service = document.getElementById('review-service').value;
+  if (!text || text.length < 15) { showToastSVG('warn', 'Too Short', 'Please write at least 15 characters.'); return; }
+  const review = {
+    name: u.fullName, location: 'Iraq', service, rating: _reviewRating,
+    text, date: new Date().toLocaleDateString('en-US', { month:'short', year:'numeric' }),
+    approved: false, id: 'rev-' + Date.now()
+  };
+  // Save to Supabase
+  try {
+    await supa.from('reviews').insert({
+      id: review.id, customer_name: review.name, service: review.service,
+      rating: review.rating, review_text: review.text, is_approved: false,
+      created_at: new Date().toISOString()
+    });
+  } catch(e) { /* table might not exist yet — store locally */ }
+  _reviews.push(review);
+  closeReviewModal();
+  showToastSVG('star', 'Review Submitted!', 'Thank you! Your review is pending approval.');
+  renderReviewsSection();
+}
+
+function renderReviewsSection() {
+  const container = document.getElementById('reviews-dynamic-grid');
+  if (!container) return;
+  const approved = _reviews.filter(r => r.approved);
+  container.innerHTML = approved.map(r => `
+    <div class="review-card">
+      <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+      <p style="font-style:italic;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:1.25rem;">"${r.text}"</p>
+      <div style="display:flex;align-items:center;gap:.75rem;">
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--gradient);
+          display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;">
+          ${r.name.charAt(0)}
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:.875rem;">${r.name}</div>
+          <div style="font-size:.72rem;color:var(--gray-500);">${r.location} · ${r.service} · ${r.date}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Admin: render reviews for approval
+function renderAdminReviews() {
+  const container = document.getElementById('admin-reviews-list');
+  if (!container) return;
+  container.innerHTML = _reviews.map(r => `
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+      border-radius:14px;padding:1.25rem;margin-bottom:.875rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;">
+        <div>
+          <span style="font-weight:700;font-size:.875rem;">${r.name}</span>
+          <span style="font-size:.72rem;color:var(--gray-500);margin-left:.5rem;">${r.service} · ${'★'.repeat(r.rating)}</span>
+        </div>
+        ${r.approved
+          ? '<span class="status-chip s-approved">Approved</span>'
+          : '<span class="pending-badge">Pending</span>'}
+      </div>
+      <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:.875rem;">"${r.text}"</p>
+      <div style="display:flex;gap:.5rem;">
+        ${!r.approved ? `<button class="action-btn ab-approve" onclick="approveReview('${r.id}')">✓ Approve</button>` : ''}
+        <button class="action-btn ab-reject" onclick="deleteReview('${r.id}')">✕ Delete</button>
+      </div>
+    </div>
+  `).join('') || '<p style="color:var(--gray-500);font-size:.85rem;padding:1rem 0;">No reviews yet.</p>';
+}
+
+function approveReview(id) {
+  _reviews = _reviews.map(r => r.id === id ? {...r, approved: true} : r);
+  showToastSVG('success', 'Review Approved!', 'Now visible on homepage.');
+  renderAdminReviews();
+  renderReviewsSection();
+}
+
+function deleteReview(id) {
+  _reviews = _reviews.filter(r => r.id !== id);
+  showToastSVG('clear', 'Review Deleted', 'Review has been removed.');
+  renderAdminReviews();
+  renderReviewsSection();
+}
+
+// ================================================================
+//  ④ COUPON / PROMO CODE SYSTEM
+// ================================================================
+const COUPONS = {
+  'UNLIMITED10': { type:'percent', value:10, desc:'10% off visa fee', minAmount:50 },
+  'FIRSTTIME':   { type:'fixed',   value:10, desc:'Free processing fee', minAmount:0 },
+  'IRAQ2026':    { type:'percent', value:15, desc:'15% off — Iraq National Day', minAmount:100 },
+  'VIP50':       { type:'fixed',   value:50, desc:'$50 off VIP applications', minAmount:200 },
+  'SUMMER25':    { type:'percent', value:25, desc:'Summer special — 25% off!', minAmount:80 },
+};
+let _appliedCoupon = null;
+
+function injectCouponRow() {
+  const payCard = document.querySelector('.payment-card .pay-summary');
+  if (!payCard || document.getElementById('coupon-inject')) return;
+  const row = document.createElement('div');
+  row.id = 'coupon-inject';
+  row.style.marginTop = '1rem';
+  row.innerHTML = `
+    <div style="font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.4rem;">Promo Code</div>
+    <div class="coupon-row">
+      <input class="input" id="coupon-input" placeholder="Enter promo code"
+        style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;"
+        oninput="this.value=this.value.toUpperCase()">
+      <button class="btn-primary" onclick="applyCoupon()" style="padding:.6rem 1rem;white-space:nowrap;font-size:.8rem;">Apply</button>
+    </div>
+    <div id="coupon-status"></div>
+  `;
+  payCard.parentNode.insertBefore(row, payCard);
+}
+
+function applyCoupon() {
+  const code = (document.getElementById('coupon-input')?.value || '').trim().toUpperCase();
+  const status = document.getElementById('coupon-status');
+  if (!code) { showToastSVG('warn', 'Enter a Code', 'Type your promo code first.'); return; }
+  const coupon = COUPONS[code];
+  if (!coupon) {
+    _appliedCoupon = null;
+    if (status) status.innerHTML = `<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">❌ Invalid code. Try UNLIMITED10 for 10% off!</div>`;
+    showToastSVG('error', 'Invalid Code', 'That promo code doesn't exist.');
+    return;
+  }
+  const country = (_cache.countries||[]).find(x=>x.id===selectedCountryId);
+  const base = selectedCurrency==='USD' ? (country?.priceUSD||120) : (country?.priceIQD||156000);
+  if (base < coupon.minAmount && selectedCurrency==='USD') {
+    if (status) status.innerHTML = `<div style="color:var(--gold-400);font-size:.78rem;margin-top:.4rem;">❌ Minimum order $${coupon.minAmount} required for this code.</div>`;
+    return;
+  }
+  _appliedCoupon = { code, ...coupon };
+  const disc = coupon.type==='percent' ? Math.round(base * coupon.value / 100) : coupon.value;
+  const final = Math.max(0, base - disc);
+  if (status) status.innerHTML = `<div class="coupon-badge" style="margin-top:.5rem;">🎉 ${code} — ${coupon.desc} (-${selectedCurrency==='USD'?'$'+disc:disc.toLocaleString()+' IQD'})</div>`;
+  // Update display
+  const totalEl = document.getElementById('total-fee');
+  const amtEl = document.getElementById('pay-amount');
+  if (totalEl) totalEl.textContent = selectedCurrency==='USD' ? '$'+final : final.toLocaleString()+' IQD';
+  if (amtEl) amtEl.textContent = selectedCurrency==='USD' ? '$'+final : final.toLocaleString();
+  document.getElementById('pay-btn').textContent = 'Pay ' + (selectedCurrency==='USD' ? '$'+final+' USD' : final.toLocaleString()+' IQD');
+  showToast(_SVG_ICONS.success, 'Coupon Applied! 🎉', coupon.desc + ' — saving ' + (selectedCurrency==='USD'?'$'+disc:disc.toLocaleString()+' IQD') + '!');
+}
+
+function removeCoupon() {
+  _appliedCoupon = null;
+  const inp = document.getElementById('coupon-input');
+  if (inp) inp.value = '';
+  const status = document.getElementById('coupon-status');
+  if (status) status.innerHTML = '';
+  updatePaymentDisplay();
+}
+
+// Inject coupon on reaching step 4
+const _origGotoVisa = gotoVisa;
+gotoVisa = function(n) {
+  _origGotoVisa(n);
+  if (n === 4) setTimeout(injectCouponRow, 200);
+};
+
+// ================================================================
+//  ⑤ SMS / WHATSAPP STATUS NOTIFICATIONS
+// ================================================================
+async function sendWhatsAppStatusUpdate(app, newStatus) {
+  const statusMessages = {
+    Approved: `✅ *VISA APPROVED!*
+
+Dear ${app.customerName},
+
+Great news! Your ${app.countryNameEn} visa application has been *APPROVED* 🎉
+
+Order: ${app.orderNumber}
+Travel Date: ${app.travelDate}
+
+Our team will contact you to arrange delivery.
+
+_UNLIMITED Travel & Tourism_`,
+    Rejected: `❌ *Application Update*
+
+Dear ${app.customerName},
+
+Unfortunately your ${app.countryNameEn} visa application was not approved at this time.
+
+Order: ${app.orderNumber}
+
+Please contact our team for a free consultation on reapplication options.
+
+_UNLIMITED Travel & Tourism_`,
+    'Under Review': `🔍 *Application Under Review*
+
+Dear ${app.customerName},
+
+Your ${app.countryNameEn} visa application is now being reviewed by our team.
+
+Order: ${app.orderNumber}
+
+We'll update you soon!
+
+_UNLIMITED Travel & Tourism_`,
+  };
+  const msg = statusMessages[newStatus];
+  if (!msg || !app.phone) return;
+  // Open WhatsApp with the customer's phone number
+  const phone = app.phone.replace(/[^0-9]/g, '');
+  const waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
+  window.open(waUrl, '_blank');
+}
+
+// Enhanced updateAppStatus with WhatsApp notification
+const _origUpdateStatus = updateAppStatus;
+updateAppStatus = async function(orderNumber, status) {
+  await _origUpdateStatus(orderNumber, status);
+  const app = (_cache.apps||[]).find(a=>a.orderNumber===orderNumber);
+  if (app && (status === 'Approved' || status === 'Rejected')) {
+    setTimeout(() => {
+      if (confirm(`Send WhatsApp notification to ${app.customerName} about ${status} status?
+
+This will open WhatsApp with a pre-written message.`)) {
+        sendWhatsAppStatusUpdate(app, status);
+      }
+    }, 500);
+  }
+};
+
+// ================================================================
+//  ⑥ FULL ARABIC — Language Dictionary
+// ================================================================
+const AR_FULL = {
+  // Navbar
+  'Home':'الرئيسية','About':'من نحن','Services':'خدماتنا','Contact':'اتصل بنا',
+  'Login':'تسجيل الدخول','Login / Register':'دخول / تسجيل',
+  // Hero
+  'Discover Your Dream':'اكتشف وجهة أحلامك',
+  'Destination':'الوجهة',
+  'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.':
+    'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
+  'Explore Now':'استكشف الآن',
+  'Where do you want to go?':'إلى أين تريد السفر؟',
+  // Stats
+  'Destinations':'وجهة','Happy Customers':'عميل سعيد',
+  'Years Experience':'سنة خبرة','Expert Support':'دعم متخصص',
+  // Services
+  'Our Premium Services':'خدماتنا المتميزة',
+  'What We Offer':'ما نقدمه',
+  'Visa Services':'خدمات التأشيرة',
+  'Flight Booking':'حجز الطيران',
+  'Hotel Reservation':'حجز الفنادق',
+  'Tour Packages':'باقات السياحة',
+  'Transfer Service':'خدمة النقل',
+  'Business Travel':'سفر الأعمال',
+  'Medical Tourism':'السياحة العلاجية',
+  'VIP Assistance':'المساعدة VIP',
+  // Buttons
+  'Apply Now →':'قدّم الآن ←',
+  'Book Now →':'احجز الآن ←',
+  'Reserve →':'احجز ←',
+  'Explore →':'استكشف ←',
+  'Enquire →':'استفسر ←',
+  'Get Quote →':'احصل على عرض ←',
+  'Learn More →':'اعرف المزيد ←',
+  // About
+  'About Us':'من نحن',
+  'Our Story':'قصتنا',
+  // Contact
+  'Send Message':'إرسال الرسالة',
+  'Full Name':'الاسم الكامل',
+  'Email Address':'البريد الإلكتروني',
+  'Phone':'رقم الهاتف',
+  // FAQ
+  'Frequently Asked Questions':'الأسئلة المتكررة',
+  'How long does visa processing take?':'كم يستغرق معالجة التأشيرة؟',
+  'What documents do I need?':'ما المستندات التي أحتاجها؟',
+  'How does FIB Bank payment work?':'كيف يعمل الدفع عبر بنك FIB؟',
+  // Auth
+  'Sign In':'تسجيل الدخول',
+  'Register':'إنشاء حساب',
+  'Password':'كلمة المرور',
+  // Visa form
+  'Personal Information':'المعلومات الشخصية',
+  'Travel Details':'تفاصيل السفر',
+  'Document Upload':'رفع المستندات',
+  'Secure Payment':'الدفع الآمن',
+  'Next: Travel Details →':'التالي: تفاصيل السفر ←',
+  'Next: Documents →':'التالي: المستندات ←',
+  'Next: Payment →':'التالي: الدفع ←',
+  'Confirm & Pay via FIB':'تأكيد والدفع عبر FIB',
+  // Steps
+  'Personal Info':'المعلومات الشخصية',
+  'Travel Details':'تفاصيل السفر',
+  'Documents':'المستندات',
+  'Payment':'الدفع',
+  // Tracker
+  'Track Your Application':'تتبع طلبك',
+  // Reviews
+  'What Our Clients Say':'ماذا يقول عملاؤنا',
+  'Leave a Review':'اترك تقييماً',
+  'Submit Review':'إرسال التقييم',
+  // Admin
+  'Admin Dashboard':'لوحة الإدارة',
+  'Applications':'الطلبات',
+  'Country Pricing':'أسعار الدول',
+  'Analytics':'التحليلات',
+  'Notifications':'الإشعارات',
+  'Invoices':'الفواتير',
+};
+
+// Override toggleLang to apply full translation
+window.toggleLang = function() {
+  _isAr = !_isAr;
+  localStorage.setItem('lang', _isAr ? 'ar' : 'en');
+  const btn = document.getElementById('lang-btn');
+  if (btn) btn.textContent = _isAr ? 'EN' : 'ع';
+  if (_isAr) {
+    document.body.classList.add('rtl-mode');
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+    applyArabicTranslations();
+    showToastSVG('info', 'تم التغيير للعربية', 'Arabic mode is now active');
+  } else {
+    document.body.classList.remove('rtl-mode');
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    location.reload();
+  }
+};
+
+function applyArabicTranslations() {
+  function walkTranslate(node) {
+    if (node.nodeType === 3) {
+      const t = node.textContent.trim();
+      if (t && AR_FULL[t]) node.textContent = node.textContent.replace(t, AR_FULL[t]);
+    } else if (node.nodeType === 1 &&
+      !['SCRIPT','STYLE','SVG','PATH','INPUT','TEXTAREA'].includes(node.tagName.toUpperCase())) {
+      node.childNodes.forEach(walkTranslate);
+    }
+    if ((node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') && AR_FULL[node.placeholder]) {
+      node.placeholder = AR_FULL[node.placeholder];
+    }
+  }
+  walkTranslate(document.body);
+  // Update nav link text
+  const navMap = { 'nl-home':'الرئيسية','nl-about':'من نحن','nl-services':'خدماتنا','nl-contact':'اتصل بنا' };
+  for (const [id, ar] of Object.entries(navMap)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = ar;
+  }
+}
+
+// ================================================================
+//  INJECT FEATURES INTO EXISTING UI
+// ================================================================
+(function patchExistingUI() {
+  // 1. Add Tracker + Reviews to navbar
+  setTimeout(() => {
+    const navLinks = document.getElementById('navLinks');
+    if (navLinks && !document.getElementById('nl-tracker')) {
+      const li1 = document.createElement('li');
+      li1.innerHTML = '<button class="nav-link" id="nl-tracker" onclick="nav('tracker')">Track</button>';
+      const li2 = document.createElement('li');
+      li2.innerHTML = '<button class="nav-link" id="nl-reviews" onclick="openReviewModal()">⭐ Review</button>';
+      navLinks.appendChild(li1);
+      navLinks.appendChild(li2);
+    }
+    // Mobile nav
+    const mobileNav = document.getElementById('mobileNav');
+    if (mobileNav && !document.getElementById('mobile-tracker')) {
+      const b1 = document.createElement('button');
+      b1.className = 'mobile-link'; b1.id = 'mobile-tracker';
+      b1.textContent = '📍 Track Application';
+      b1.onclick = () => { nav('tracker'); closeMobile(); };
+      const b2 = document.createElement('button');
+      b2.className = 'mobile-link'; b2.id = 'mobile-review';
+      b2.textContent = '⭐ Leave a Review';
+      b2.onclick = () => { openReviewModal(); closeMobile(); };
+      mobileNav.appendChild(b1);
+      mobileNav.appendChild(b2);
+    }
+
+    // 2. Inject dynamic reviews section before FAQ on homepage
+    const faqSection = document.querySelector('#page-home .faq-list');
+    if (faqSection && !document.getElementById('reviews-dynamic-section')) {
+      const section = document.createElement('section');
+      section.id = 'reviews-dynamic-section';
+      section.className = 'section';
+      section.style.background = 'rgba(5,11,59,0.1)';
+      section.innerHTML = `
+        <div class="container">
+          <div class="section-header">
+            <div class="badge">⭐ Verified Reviews</div>
+            <h2 style="margin-top:1rem;">Customer <span class="gold-text">Reviews</span></h2>
+            <p>Real experiences from real travelers — verified and approved by our team.</p>
+            <button class="btn-primary" onclick="openReviewModal()" style="margin-top:1.25rem;">
+              ⭐ Write a Review
+            </button>
+          </div>
+          <div class="reviews-grid" id="reviews-dynamic-grid"></div>
+        </div>
+      `;
+      faqSection.closest('.section').parentNode.insertBefore(section, faqSection.closest('.section'));
+      renderReviewsSection();
+    }
+
+    // 3. Add Reviews tab to Admin sidebar
+    const adminNav = document.querySelector('#page-admin .dash-sidebar nav');
+    if (adminNav && !document.getElementById('admin-reviews-btn')) {
+      const sep = document.createElement('div');
+      sep.className = 'sidebar-section-label'; sep.textContent = 'Content';
+      const btn = document.createElement('button');
+      btn.className = 'sidebar-btn'; btn.id = 'admin-reviews-btn';
+      btn.onclick = function() { dashSection('reviews', this); };
+      btn.innerHTML = `<span class="sidebar-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Reviews`;
+      const badge = document.createElement('span');
+      badge.className = 'sidebar-badge'; badge.id = 'sb-reviews'; badge.textContent = _reviews.filter(r=>!r.approved).length;
+      btn.appendChild(badge);
+      adminNav.insertBefore(sep, adminNav.querySelector('.sidebar-section-label:last-of-type'));
+      adminNav.insertBefore(btn, adminNav.querySelector('div[style*="margin-top:1rem"]'));
+    }
+
+    // 4. Inject reviews dashboard section
+    const dashMain = document.querySelector('#page-admin .dash-main');
+    if (dashMain && !document.getElementById('dash-reviews')) {
+      const div = document.createElement('div');
+      div.id = 'dash-reviews'; div.style.display = 'none';
+      div.innerHTML = `
+        <div class="dash-header">
+          <div class="dash-title">Customer Reviews</div>
+          <button class="btn-primary" style="font-size:.8rem;padding:.5rem 1rem;" onclick="renderAdminReviews()">↻ Refresh</button>
+        </div>
+        <div style="background:rgba(255,165,0,.05);border:1px solid rgba(255,165,0,.2);border-radius:12px;
+          padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:#f59e0b;
+          display:flex;align-items:center;gap:.5rem;">
+          ⚠️ Reviews must be approved before they appear on the public homepage.
+        </div>
+        <div id="admin-reviews-list"></div>
+      `;
+      dashMain.appendChild(div);
+    }
+
+    // 5. Add coupon info to admin dashboard
+    const countriesPanel = document.getElementById('dash-countries');
+    if (countriesPanel && !document.getElementById('admin-coupons-panel')) {
+      const cDiv = document.createElement('div');
+      cDiv.id = 'admin-coupons-panel';
+      cDiv.style.marginTop = '2rem';
+      cDiv.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h4 style="font-size:1rem;font-weight:700;">Active Promo Codes</h4>
+          <span style="font-size:.75rem;color:var(--gray-400);">${Object.keys(COUPONS).length} codes active</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;">
+          ${Object.entries(COUPONS).map(([code, c]) => `
+            <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+              border-radius:14px;padding:1.25rem;">
+              <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;
+                color:var(--gold-400);letter-spacing:.1em;margin-bottom:.4rem;">${code}</div>
+              <div style="font-size:.78rem;color:var(--gray-300);margin-bottom:.3rem;">${c.desc}</div>
+              <div style="font-size:.72rem;color:var(--gray-500);">
+                ${c.type==='percent' ? c.value+'% off' : '$'+c.value+' fixed discount'}
+                ${c.minAmount > 0 ? ' · Min $'+c.minAmount : ' · No minimum'}
+              </div>
+              <div style="margin-top:.75rem;display:flex;align-items:center;gap:.5rem;">
+                <span class="status-chip s-approved" style="font-size:.65rem;">Active</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <p style="font-size:.75rem;color:var(--gray-500);margin-top:.75rem;">
+          To add/edit promo codes, modify the COUPONS object in the features script.
+        </p>
+      `;
+      countriesPanel.appendChild(cDiv);
+    }
+
+    // 6. Footer quick links
+    const footerBottom = document.querySelector('footer .footer-bottom');
+    if (footerBottom && !document.getElementById('footer-tracker-link')) {
+      const link = document.createElement('a');
+      link.id = 'footer-tracker-link';
+      link.href = '#'; link.textContent = 'Track Application';
+      link.style.cssText = 'color:var(--gray-500);font-size:.825rem;text-decoration:none;';
+      link.onclick = (e) => { e.preventDefault(); nav('tracker'); };
+      footerBottom.appendChild(link);
+    }
+
+    // Apply language if Arabic was set
+    if (_isAr) {
+      document.body.classList.add('rtl-mode');
+      document.documentElement.setAttribute('dir', 'rtl');
+      applyArabicTranslations();
+    }
+
+  }, 800);
+})();
+
+// Override dashSection to handle reviews tab
+const _origDashSection = dashSection;
+dashSection = function(section, btn) {
+  _origDashSection(section, btn);
+  if (section === 'reviews') {
+    const div = document.getElementById('dash-reviews');
+    if (div) div.style.display = 'block';
+    renderAdminReviews();
+  } else {
+    const div = document.getElementById('dash-reviews');
+    if (div) div.style.display = 'none';
+  }
+};
+
+console.log('[UNLIMITED] ✅ All 6 features loaded: AI Assistant · Tracker · Reviews · Coupons · WhatsApp Notifications · Full Arabic');
+</script>
 
 </body>
 </html>
