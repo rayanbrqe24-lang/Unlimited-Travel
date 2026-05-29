@@ -5243,100 +5243,48 @@ const AI_KNOWLEDGE = {
 };
 
 function getAIResponse(msg) {
-  const m = msg.toLowerCase();
-  // Greeting
-  if (/^(hi|hello|مرحبا|السلام|hey|salam)/.test(m)) {
-    return "مرحباً! Hello! I'm Layla, your AI visa assistant. 🌟
-
-I can help you with:
-• Visa requirements & fees
-• Processing times
-• Required documents
-• Tracking your application
-
-Which country are you applying to?";
+  var m = msg.toLowerCase();
+  if (/^(hi|hello|hey|salam)/.test(m) || m.indexOf('marhaba') >= 0) {
+    return 'Hello! I am <strong>Layla</strong>, your AI visa assistant. I can help with: visa requirements, fees, processing times, required documents, and tracking your application. Which country are you applying to?';
   }
-  // Track
-  if (m.includes('track') || m.includes('status') || m.includes('application')) {
-    return "To track your application, go to the <strong>Track</strong> page from the menu, or click <button onclick="nav('tracker')" style="background:rgba(255,10,84,.15);border:1px solid rgba(255,10,84,.3);color:var(--gold-400);padding:.15rem .6rem;border-radius:6px;cursor:pointer;font-size:.78rem;font-family:inherit;">Track Now →</button>
-
-Enter your order number (e.g. FIB-VISA-4827) to see real-time status.";
+  if (m.indexOf('track') >= 0 || m.indexOf('status') >= 0) {
+    return 'To track your application, click <strong>Track</strong> in the navigation menu and enter your order number (e.g. FIB-VISA-4827).';
   }
-  // Documents
-  if (m.includes('document') || m.includes('وثيقة') || m.includes('papers')) {
-    return "📄 <strong>Standard documents required for most visas:</strong>
-
-1. Valid passport (6+ months remaining)
-2. Passport-size photo (white background)
-3. National ID card (both sides)
-4. Return flight ticket
-5. Hotel booking confirmation
-6. Bank statement (last 3 months)
-
-Specific countries may require additional documents. Which country are you applying to?";
+  if (m.indexOf('document') >= 0 || m.indexOf('papers') >= 0) {
+    return '<strong>Standard documents needed:</strong><br>1. Valid passport (6+ months)<br>2. Passport-size photo<br>3. National ID (both sides)<br>4. Return flight ticket<br>5. Hotel booking<br>6. Bank statement (3 months)';
   }
-  // Coupon / discount
-  if (m.includes('coupon') || m.includes('discount') || m.includes('promo') || m.includes('offer')) {
-    return "🎁 We currently have the promo code <strong>UNLIMITED10</strong> which gives you 10% off!
-
-You can also use <strong>FIRSTTIME</strong> for a free processing fee on your first application. Enter the code at the payment step. 💳";
+  if (m.indexOf('coupon') >= 0 || m.indexOf('discount') >= 0 || m.indexOf('promo') >= 0) {
+    return 'Use code <strong>UNLIMITED10</strong> for 10% off! Or <strong>FIRSTTIME</strong> for a free processing fee on your first application. Enter the code at the payment step.';
   }
-  // Specific countries
-  for (const [key, c] of Object.entries(AI_KNOWLEDGE)) {
-    if (m.includes(key) || m.includes(c.name.toLowerCase())) {
-      return `${c.flag} <strong>${c.name} Visa</strong>
-
-💰 <strong>Fee:</strong> From ${c.price}
-⏱️ <strong>Processing:</strong> ${c.time}
-📄 <strong>Documents:</strong> ${c.docs}
-
-<button onclick="goVisa()" style="background:var(--gradient);border:none;color:#fff;padding:.4rem 1rem;border-radius:8px;cursor:pointer;font-size:.78rem;font-family:inherit;margin-top:.4rem;">Apply Now →</button>`;
-    }
+  if (m.indexOf('uae') >= 0 || m.indexOf('dubai') >= 0) {
+    return '<strong>UAE Visa</strong><br>Fee: $120 | Processing: 2-3 working days<br>Documents: Passport (6+ months), personal photo, return ticket, hotel booking.';
   }
-  // Pricing
-  if (m.includes('price') || m.includes('cost') || m.includes('fee') || m.includes('سعر')) {
-    return "💰 <strong>Our visa fees vary by country:</strong>
-
-🇪🇬 Egypt — $45
-🇹🇷 Turkey — $85
-🇦🇪 UAE — $120
-🇩🇪 Schengen — $185
-🇬🇧 UK — $250
-🇺🇸 USA — $320
-
-All fees include our professional service charge. Payment is via FIB Bank (USD or IQD). Need a specific country?";
+  if (m.indexOf('turkey') >= 0 || m.indexOf('istanbul') >= 0) {
+    return '<strong>Turkey Visa</strong><br>Fee: $85 | Processing: 24-48 hours<br>Documents: Passport, photo, health insurance required.';
   }
-  // Rejection
-  if (m.includes('reject') || m.includes('refused') || m.includes('denied')) {
-    return "😔 Sorry to hear that. Rejections are usually due to:
-
-• Incomplete or unclear documents
-• Insufficient bank balance
-• Previous overstay history
-• Incomplete application form
-
-Our team can review your case and advise on reapplication. Please <a href='https://wa.me/9647502307506' target='_blank' style='color:var(--gold-400);'>contact us on WhatsApp</a> for a free consultation.";
+  if (m.indexOf('schengen') >= 0 || m.indexOf('europe') >= 0 || m.indexOf('germany') >= 0) {
+    return '<strong>Schengen Visa</strong><br>Fee: $185 | Processing: 5-10 working days<br>Documents: Passport, photo, travel insurance EUR 30K+, bank statement.';
   }
-  // Time / duration
-  if (m.includes('how long') || m.includes('processing') || m.includes('time') || m.includes('كم') || m.includes('مدة')) {
-    return "⏱️ <strong>Processing times by country:</strong>
-
-🇪🇬 Egypt — 1-2 working days
-🇹🇷 Turkey — 24-48 hours
-🇦🇪 UAE — 2-3 working days
-🇩🇪 Schengen — 5-10 working days
-🇬🇧 UK — 10-15 working days
-🇺🇸 USA — 15-30 working days
-
-Express service available for most destinations!";
+  if (m.indexOf('uk') >= 0 || m.indexOf('london') >= 0 || m.indexOf('britain') >= 0) {
+    return '<strong>UK Visa</strong><br>Fee: $250 | Processing: 10-15 working days<br>Documents: Biometrics at embassy, bank statement.';
   }
-  // Default fallback
-  const fallbacks = [
-    "I can help with that! Could you be more specific about which country or service you need? 🌍",
-    "Great question! For the most accurate answer, could you tell me which country you're applying to?",
-    "I'm here to help! You can also reach our human team 24/7 on WhatsApp for complex queries. 💬"
-  ];
-  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+  if (m.indexOf('usa') >= 0 || m.indexOf('america') >= 0) {
+    return '<strong>USA Visa</strong><br>Fee: $320 | Processing: 15-30 working days<br>Documents: DS-160 form, embassy interview, biometrics.';
+  }
+  if (m.indexOf('egypt') >= 0) {
+    return '<strong>Egypt Visa</strong><br>Fee: $45 | Processing: 1-2 working days<br>Documents: Passport, photo. Visa on arrival also available!';
+  }
+  if (m.indexOf('price') >= 0 || m.indexOf('cost') >= 0 || m.indexOf('fee') >= 0) {
+    return '<strong>Visa Fees:</strong><br>Egypt $45 | Turkey $85 | UAE $120 | Schengen $185 | UK $250 | USA $320<br>All fees include our service charge. Payment via FIB Bank (USD or IQD).';
+  }
+  if (m.indexOf('reject') >= 0 || m.indexOf('refused') >= 0 || m.indexOf('denied') >= 0) {
+    return 'Rejections are usually due to: incomplete documents, insufficient bank balance, or previous overstay history. Contact our team on WhatsApp for a free consultation on reapplication.';
+  }
+  if (m.indexOf('how long') >= 0 || m.indexOf('processing') >= 0) {
+    return '<strong>Processing Times:</strong><br>Egypt: 1-2 days | Turkey: 24-48 hrs | UAE: 2-3 days | Schengen: 5-10 days | UK: 10-15 days | USA: 15-30 days';
+  }
+  var opts = ['Could you be more specific? Tell me which country you are applying to and I will help!', 'Great question! Which destination country are you interested in?', 'I am here to help 24/7! Which country do you need a visa for?'];
+  return opts[Math.floor(Math.random() * opts.length)];
 }
 
 function toggleAIChat() {
@@ -5346,9 +5294,7 @@ function toggleAIChat() {
   const dot = document.getElementById('ai-unread-dot');
   if (dot) dot.style.display = 'none';
   if (aiChatOpen && aiConversation.length === 0) {
-    setTimeout(() => addAIMessage("bot", "مرحباً! Hello! 👋 I'm <strong>Layla</strong>, your AI visa assistant from UNLIMITED Travel.
-
-How can I help you today? Ask me about visa requirements, fees, processing times, or track your application!"), 400);
+    setTimeout(() => addAIMessage('bot', 'Hello! I am <strong>Layla</strong>, your AI visa assistant from UNLIMITED Travel. How can I help? Ask about visa requirements, fees, processing times, or track your application!'), 400);
   }
 }
 
@@ -5515,9 +5461,9 @@ function populateTrackerRecent() {
 }
 
 // Override nav to populate tracker
-const _origNav = nav;
+var _origNavX = nav;
 function nav(page) {
-  _origNav(page);
+  _origNavX(page);
   if (page === 'tracker') setTimeout(populateTrackerRecent, 200);
 }
 
@@ -5706,9 +5652,9 @@ function removeCoupon() {
 }
 
 // Inject coupon on reaching step 4
-const _origGotoVisa = gotoVisa;
+var _origGotoVisaX = typeof gotoVisa === "function" ? gotoVisa : null;
 gotoVisa = function(n) {
-  _origGotoVisa(n);
+  if(_origGotoVisaX) _origGotoVisaX(n);
   if (n === 4) setTimeout(injectCouponRow, 200);
 };
 
@@ -5761,9 +5707,9 @@ _UNLIMITED Travel & Tourism_`,
 }
 
 // Enhanced updateAppStatus with WhatsApp notification
-const _origUpdateStatus = updateAppStatus;
+var _origUpdateStatusX = typeof updateAppStatus === "function" ? updateAppStatus : null;
 updateAppStatus = async function(orderNumber, status) {
-  await _origUpdateStatus(orderNumber, status);
+  if(_origUpdateStatusX) await _origUpdateStatusX(orderNumber, status);
   const app = (_cache.apps||[]).find(a=>a.orderNumber===orderNumber);
   if (app && (status === 'Approved' || status === 'Rejected')) {
     setTimeout(() => {
@@ -6047,9 +5993,9 @@ function applyArabicTranslations() {
 })();
 
 // Override dashSection to handle reviews tab
-const _origDashSection = dashSection;
+var _origDashSectionX = typeof dashSection === "function" ? dashSection : null;
 dashSection = function(section, btn) {
-  _origDashSection(section, btn);
+  if(_origDashSectionX) _origDashSectionX(section, btn);
   if (section === 'reviews') {
     const div = document.getElementById('dash-reviews');
     if (div) div.style.display = 'block';
@@ -6062,22 +6008,5 @@ dashSection = function(section, btn) {
 
 console.log('[UNLIMITED] ✅ All 6 features loaded: AI Assistant · Tracker · Reviews · Coupons · WhatsApp Notifications · Full Arabic');
 </script>
-
-with open('index.html', 'r', encoding='utf-8') as f:
-    html = f.read()
-
-with open('unlimited_features_patch.html', 'r', encoding='utf-8') as f:
-    patch = f.read()
-
-# Find last </body> and insert patch before it
-pos = html.rfind('</body>')
-if pos == -1:
-    print("ERROR: Could not find </body> in your HTML file!")
-else:
-    merged = html[:pos] + '\n' + patch + '\n' + html[pos:]
-    with open('index_merged.html', 'w', encoding='utf-8') as f:
-        f.write(merged)
-    print("SUCCESS! Saved as index_merged.html")
-    print("Open index_merged.html in your browser to test.")
 </body>
 </html>
