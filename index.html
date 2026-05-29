@@ -1201,7 +1201,6 @@ body.rtl-mode .mobile-nav { text-align:right; }
       <li><button class="nav-link" id="nl-services" onclick="nav('services')">Services</button></li>
       <li><button class="nav-link" id="nl-contact" onclick="nav('contact')">Contact</button></li>
       <li><button class="nav-link" id="nl-tracker" onclick="nav('tracker')">Track</button></li>
-      <li><button class="nav-link" id="nl-reviews" onclick="openReviewModal()" style="color:var(--gold-400);">⭐ Review</button></li>
     </ul>
     <div class="nav-actions" id="navActions">
       <button onclick="toggleTheme()" id="theme-toggle" title="Toggle Light/Dark" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;">
@@ -2361,8 +2360,6 @@ body.rtl-mode .mobile-nav { text-align:right; }
         <button class="sidebar-btn" onclick="dashSection('accounts',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M3 21a9 9 0 0 1 18 0"/></svg></span>All Accounts</button>
         <button class="sidebar-btn" onclick="dashSection('notifications',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Notifications<span class="sidebar-badge" id="sb-notifs">0</span></button>
         <button class="sidebar-btn" onclick="dashSection('analytics',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Analytics</button>
-        <div class="sidebar-section-label">Content</div>
-        <button class="sidebar-btn" id="admin-reviews-btn" onclick="dashSection('reviews',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Reviews<span class="sidebar-badge" id="sb-reviews">0</span></button>
         <button class="sidebar-btn" onclick="dashSection('invoices',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Invoices</button>
         <div style="margin-top:1rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
           <button class="sidebar-btn" onclick="nav('home')"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>View Website</button>
@@ -2546,19 +2543,6 @@ body.rtl-mode .mobile-nav { text-align:right; }
           <div class="bar-labels" id="analytics-labels"></div>
         </div>
       </div>
-
-      <!-- Reviews -->
-      <div id="dash-reviews" style="display:none;">
-        <div class="dash-header">
-          <div class="dash-title">Customer Reviews</div>
-          <button class="btn-primary" style="font-size:.8rem;padding:.5rem 1rem;" onclick="renderAdminReviews()">↻ Refresh</button>
-        </div>
-        <div style="background:rgba(255,165,0,.05);border:1px solid rgba(255,165,0,.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:#f59e0b;">
-          ⚠️ Reviews must be approved before they appear on the public homepage.
-        </div>
-        <div id="admin-reviews-list" style="min-height:100px;"></div>
-      </div>
-
       <!-- Invoices -->
       <div id="dash-invoices" style="display:none;">
         <div class="dash-header">
@@ -4058,7 +4042,7 @@ async function setupAdmin() {
   renderCountryAdmin();
 }
 function dashSection(section, btn) {
-  ['overview','applications','countries','users','accounts','notifications','analytics','invoices','reviews'].forEach(s => {
+  ['overview','applications','countries','users','accounts','notifications','analytics','invoices'].forEach(s => {
     const el = document.getElementById('dash-' + s);
     if (el) el.style.display = s === section ? 'block' : 'none';
   });
@@ -5065,45 +5049,6 @@ window.addEventListener('load', function() {
   </section>
 </div>
 
-<!-- ③ REVIEWS PAGE SECTION (injected into home page footer area via JS) -->
-<!-- Reviews modal -->
-<div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.88);
-  backdrop-filter:blur(10px);z-index:9000;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:480px;background:rgba(5,11,59,.97);border:1px solid rgba(255,10,84,.2);
-    border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
-    <button onclick="closeReviewModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);
-      border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;
-      display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.3rem;">Leave a Review</h3>
-    <p style="font-size:.85rem;color:var(--gray-400);margin-bottom:1.5rem;">Share your experience with UNLIMITED Travel</p>
-    <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Your Rating</label>
-      <div id="star-picker" style="display:flex;gap:.5rem;margin-top:.4rem;">
-        <span class="star-btn" data-val="1" onclick="setReviewRating(1)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
-        <span class="star-btn" data-val="2" onclick="setReviewRating(2)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
-        <span class="star-btn" data-val="3" onclick="setReviewRating(3)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
-        <span class="star-btn" data-val="4" onclick="setReviewRating(4)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
-        <span class="star-btn" data-val="5" onclick="setReviewRating(5)" style="font-size:2rem;cursor:pointer;transition:transform .15s;">★</span>
-      </div>
-    </div>
-    <div style="margin-bottom:1rem;">
-      <label class="input-label">Service Used</label>
-      <select class="input" id="review-service">
-        <option>Visa Services</option><option>Flight Booking</option>
-        <option>Hotel Reservation</option><option>Tour Package</option><option>Transfer</option>
-      </select>
-    </div>
-    <div style="margin-bottom:1rem;">
-      <label class="input-label">Your Review</label>
-      <textarea class="input" id="review-text" rows="4" placeholder="Tell us about your experience…" style="resize:vertical;"></textarea>
-    </div>
-    <button class="btn-primary" style="width:100%;justify-content:center;" onclick="submitReview()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      Submit Review
-    </button>
-  </div>
-</div>
-
 <!-- ④ COUPON SYSTEM — injected into payment step via JS -->
 
 <!-- ⑤ SMS/WhatsApp Notification Panel in Admin -->
@@ -5321,94 +5266,7 @@ function populateTrackerRecent() {
   }).join('');
 }
 
-// ── REVIEWS ──────────────────────────────────────────────────
-var _reviewRating = 5;
-var _reviews = [
-  { id:'r1', name:'Ahmed Al-Rashid', location:'Baghdad', service:'Visa Services', rating:5, text:'Unlimited Travel made our honeymoon in the Maldives absolutely perfect. Every detail was flawlessly arranged.', date:'Dec 2025', approved:true },
-  { id:'r2', name:'Sara Mohammed', location:'Erbil', service:'Visa Services', rating:5, text:'Schengen visa approved in 3 days! The team handled everything professionally. Already recommended them to my entire family.', date:'Jan 2026', approved:true },
-  { id:'r3', name:'Kareem Hassan', location:'Basra', service:'Business Travel', rating:5, text:'The VIP business travel service is exceptional. Corporate trips handled with precision and luxury.', date:'Feb 2026', approved:true },
-];
-
-function setReviewRating(val) {
-  _reviewRating = val;
-  document.querySelectorAll('.star-btn').forEach(function(s, i) {
-    s.classList.toggle('lit', i < val);
-    s.style.transform = i < val ? 'scale(1.1)' : 'scale(1)';
-  });
-}
-
-function openReviewModal() {
-  var u = DB.currentUser;
-  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in to leave a review.'); setTimeout(function() { nav('auth'); }, 800); return; }
-  document.getElementById('review-modal').style.display = 'flex';
-  setReviewRating(5);
-}
-
-function closeReviewModal() {
-  document.getElementById('review-modal').style.display = 'none';
-}
-
-function submitReview() {
-  var u = DB.currentUser;
-  if (!u) { showToastSVG('warn', 'Login Required', 'Please sign in first.'); return; }
-  var textEl = document.getElementById('review-text');
-  var serviceEl = document.getElementById('review-service');
-  var text = textEl ? textEl.value.trim() : '';
-  var service = serviceEl ? serviceEl.value : 'Visa Services';
-  if (!text || text.length < 15) { showToastSVG('warn', 'Too Short', 'Please write at least 15 characters.'); return; }
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var now = new Date();
-  var dateStr = months[now.getMonth()] + ' ' + now.getFullYear();
-  var review = { id:'rev-'+Date.now(), name:u.fullName, location:'Iraq', service:service, rating:_reviewRating, text:text, date:dateStr, approved:false };
-  _reviews.push(review);
-  closeReviewModal();
-  if (textEl) textEl.value = '';
-  showToastSVG('star', 'Review Submitted!', 'Thank you! Your review is pending approval.');
-  renderReviewsSection();
-  var badge = document.getElementById('sb-reviews');
-  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
-}
-
-function renderReviewsSection() {
-  var container = document.getElementById('reviews-dynamic-grid');
-  if (!container) return;
-  var approved = _reviews.filter(function(r) { return r.approved; });
-  container.innerHTML = approved.map(function(r) {
-    var stars = '';
-    for (var i=0;i<r.rating;i++) stars += '★';
-    for (var i=r.rating;i<5;i++) stars += '☆';
-    return '<div class="review-card"><div class="review-stars">' + stars + '</div><p style="font-style:italic;font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:1.25rem;">"' + r.text + '"</p><div style="display:flex;align-items:center;gap:.75rem;"><div style="width:38px;height:38px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;">' + r.name.charAt(0) + '</div><div><div style="font-weight:600;font-size:.875rem;">' + r.name + '</div><div style="font-size:.72rem;color:var(--gray-500);">' + r.location + ' · ' + r.service + ' · ' + r.date + '</div></div></div></div>';
-  }).join('');
-}
-
-function renderAdminReviews() {
-  var container = document.getElementById('admin-reviews-list');
-  if (!container) return;
-  if (!_reviews.length) { container.innerHTML = '<p style="color:var(--gray-500);font-size:.85rem;padding:1rem 0;">No reviews yet.</p>'; return; }
-  container.innerHTML = _reviews.map(function(r) {
-    var stars = '';
-    for (var i=0;i<r.rating;i++) stars += '★';
-    return '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.25rem;margin-bottom:.875rem;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;"><div><span style="font-weight:700;font-size:.875rem;">' + r.name + '</span><span style="font-size:.72rem;color:var(--gray-500);margin-left:.5rem;">' + r.service + ' · ' + stars + '</span></div>' + (r.approved ? '<span class="status-chip s-approved">Approved</span>' : '<span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b;font-size:.65rem;padding:.2rem .6rem;border-radius:4px;font-weight:700;">Pending</span>') + '</div><p style="font-size:.82rem;color:var(--gray-400);margin-bottom:.875rem;">"' + r.text + '"</p><div style="display:flex;gap:.5rem;">' + (!r.approved ? '<button class="action-btn ab-approve" onclick="approveReview(\'' + r.id + '\')">✓ Approve</button>' : '') + '<button class="action-btn ab-reject" onclick="deleteReview(\'' + r.id + '\')">✕ Delete</button></div></div>';
-  }).join('');
-}
-
-function approveReview(id) {
-  _reviews = _reviews.map(function(r) { return r.id === id ? Object.assign({}, r, {approved:true}) : r; });
-  showToastSVG('success', 'Review Approved!', 'Now visible on homepage.');
-  renderAdminReviews();
-  renderReviewsSection();
-  var badge = document.getElementById('sb-reviews');
-  if (badge) badge.textContent = _reviews.filter(function(r){return !r.approved;}).length;
-}
-
-function deleteReview(id) {
-  _reviews = _reviews.filter(function(r) { return r.id !== id; });
-  showToastSVG('clear', 'Review Deleted', 'Review has been removed.');
-  renderAdminReviews();
-  renderReviewsSection();
-}
-
-// ── COUPON SYSTEM ─────────────────────────────────────────────
+ ─────────────────────────────────────────────
 var COUPONS = {
   'UNLIMITED10': { type:'percent', value:10, desc:'10% off visa fee', minAmount:50 },
   'FIRSTTIME':   { type:'fixed',   value:10, desc:'Free processing fee', minAmount:0 },
@@ -5513,28 +5371,10 @@ window.toggleLang = function() {
   }
 };
 
-// ── DASHSECTION: handle reviews tab ──────────────────────────
-var _ds_orig = dashSection;
-dashSection = function(section, btn) {
-  _ds_orig(section, btn);
-  var rev = document.getElementById('dash-reviews');
-  if (rev) rev.style.display = section === 'reviews' ? 'block' : 'none';
-  if (section === 'reviews') renderAdminReviews();
-};
+
 
 // ── INJECT REVIEWS SECTION ON HOMEPAGE ───────────────────────
 window.addEventListener('load', function() {
-  // Inject reviews section before FAQ
-  var faqSection = document.querySelector('#page-home .faq-list');
-  if (faqSection && !document.getElementById('reviews-dynamic-section')) {
-    var section = document.createElement('section');
-    section.id = 'reviews-dynamic-section';
-    section.className = 'section';
-    section.style.background = 'rgba(5,11,59,0.1)';
-    section.innerHTML = '<div class="container"><div class="section-header"><div class="badge">⭐ Verified Reviews</div><h2 style="margin-top:1rem;">Customer <span class="gold-text">Reviews</span></h2><p>Real experiences from real travelers.</p><button class="btn-primary" onclick="openReviewModal()" style="margin-top:1.25rem;">⭐ Write a Review</button></div><div class="reviews-grid" id="reviews-dynamic-grid"></div></div>';
-    faqSection.closest('.section').parentNode.insertBefore(section, faqSection.closest('.section'));
-    renderReviewsSection();
-  }
 
   // Set reviews badge
   var badge = document.getElementById('sb-reviews');
