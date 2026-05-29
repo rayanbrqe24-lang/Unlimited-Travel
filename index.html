@@ -3256,7 +3256,9 @@ async function doRegister() {
   // Try Supabase OTP — but always show OTP step regardless
   supa.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: true }
+    options: {shouldCreateUser: true,
+    emailRedirectTo: null,
+             }
   }).then(() => {
     showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
   }).catch((err) => {
