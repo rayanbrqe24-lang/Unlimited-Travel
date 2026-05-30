@@ -5747,51 +5747,27 @@ function setLang(lang) {
   var statLabels = document.querySelectorAll('.hero-stat-label');
   [L.stat1, L.stat2, L.stat3, L.stat4].forEach(function(t, i) { if (statLabels[i]) statLabels[i].textContent = t; });
 
-  // ── HOME SECTIONS ──────────────────────────────────────────
-  function setSec(sectionClass, badge, h2, p) {
-    var sections = document.querySelectorAll('#page-home .section');
-    sections.forEach(function(sec) {
-      var h = sec.querySelector('h2');
-      if (!h) return;
-      var badgeEl = sec.querySelector('.badge');
-      var pEl = sec.querySelector('.section-header p');
-      if (badgeEl && badge) {
-        var svg = badgeEl.querySelector('svg');
-        badgeEl.textContent = badge;
-        if (svg) badgeEl.prepend(svg);
-      }
-      if (h && h2) h.innerHTML = h2;
-      if (pEl && p) pEl.textContent = p;
-    });
+  // ── HOME SECTIONS — target by dest-grid, services-grid, etc. ─
+  function updateSection(containerSel, badge, h2, p) {
+    var container = document.querySelector(containerSel);
+    if (!container) return;
+    // Go up to find the section
+    var sec = container.closest('.section') || container.parentElement;
+    while (sec && !sec.classList.contains('section')) sec = sec.parentElement;
+    if (!sec) return;
+    var badgeEl = sec.querySelector('.section-header .badge');
+    var h2El   = sec.querySelector('.section-header h2');
+    var pEl    = sec.querySelector('.section-header p');
+    if (badgeEl && badge) { var svg = badgeEl.querySelector('svg'); badgeEl.textContent = badge; if (svg) badgeEl.prepend(svg); }
+    if (h2El && h2) h2El.innerHTML = h2;
+    if (pEl && p) pEl.textContent = p;
   }
 
-  // Target each section by its English badge text or section order
-  var homeSections = document.querySelectorAll('#page-home .section');
-  var sectionData = [
-    { badge: L.badge_destinations, h2: L.h_destinations, p: L.p_destinations },
-    { badge: L.badge_services,     h2: L.h_services,     p: L.p_services },
-    null, // Why Us handled separately
-    { badge: L.badge_testi,        h2: L.h_testi,        p: null },
-    { badge: L.badge_gallery,      h2: L.h_gallery,      p: null },
-    { badge: L.badge_faq,          h2: L.h_faq,          p: null },
-  ];
-
-  var sIdx = 0;
-  homeSections.forEach(function(sec) {
-    if (sIdx >= sectionData.length) return;
-    var data = sectionData[sIdx++];
-    if (!data) { sIdx++; return; }
-    var badgeEl = sec.querySelector('.section-header .badge');
-    var h2El = sec.querySelector('.section-header h2');
-    var pEl = sec.querySelector('.section-header p');
-    if (badgeEl && data.badge) {
-      var svg = badgeEl.querySelector('svg');
-      badgeEl.textContent = data.badge;
-      if (svg) badgeEl.prepend(svg);
-    }
-    if (h2El && data.h2) h2El.innerHTML = data.h2;
-    if (pEl && data.p) pEl.textContent = data.p;
-  });
+  updateSection('.dest-grid',     L.badge_destinations, L.h_destinations, L.p_destinations);
+  updateSection('.services-grid', L.badge_services,     L.h_services,     L.p_services);
+  updateSection('.testi-grid',    L.badge_testi,        L.h_testi,        null);
+  updateSection('.gallery-grid',  L.badge_gallery,      L.h_gallery,      null);
+  updateSection('.faq-list',      L.badge_faq,          L.h_faq,          null);
 
   // Newsletter section (not inside .section)
   var nlSection = document.querySelector('.newsletter-section');
