@@ -5556,419 +5556,385 @@ async function sendStatusEmail(app, status) {
 
 // ── ARABIC TOGGLE ─────────────────────────────────────────────
 // ================================================================
-//  ARABIC TRANSLATION — FULL DICTIONARY
+//  ARABIC / ENGLISH LANGUAGE SYSTEM — FULL REPLACEMENT
 // ================================================================
-var AR = {
-  // Navbar
-  'Home': 'الرئيسية',
-  'About': 'من نحن',
-  'Services': 'خدماتنا',
-  'Contact': 'اتصل بنا',
-  'Track': 'تتبع الطلب',
-  'Login': 'تسجيل الدخول',
-  'Login / Register': 'دخول / تسجيل',
-  'Logout': 'تسجيل الخروج',
 
-  // Hero
-  'Discover Your Dream': 'اكتشف وجهة أحلامك',
-  'Destination': 'الوجهة المثالية',
-  'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.': 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
-  'Explore Now': 'استكشف الآن',
-  'Where do you want to go?': 'إلى أين تريد السفر؟',
-
-  // Stats
-  'Destinations': 'وجهة سياحية',
-  'Happy Customers': 'عميل سعيد',
-  'Years Experience': 'سنة خبرة',
-  'Expert Support': 'دعم متخصص',
-
-  // Section titles
-  'Top Destinations': 'أبرز الوجهات',
-  'Popular Destinations': 'الوجهات الأكثر طلباً',
-  'Explore our handpicked selection of premium travel destinations — visa-ready and awaiting you.': 'استكشف مجموعتنا المختارة من الوجهات السياحية المميزة — جاهزة للتأشيرة وفي انتظارك.',
-  'Our Premium Services': 'خدماتنا المتميزة',
-  'What We Offer': 'ما نقدمه لك',
-  'Comprehensive travel solutions tailored to your every need, delivered with world-class expertise.': 'حلول سفر شاملة مصممة لتلبية كل احتياجاتك بخبرة عالمية.',
-
-  // Services
-  'Visa Services': 'خدمات التأشيرة',
-  'Flight Booking': 'حجز الطيران',
-  'Hotel Reservation': 'حجز الفنادق',
-  'Tour Packages': 'باقات السياحة',
-  'Transfer': 'خدمة النقل',
-  'Transfer Service': 'خدمة النقل',
-  'Business Travel': 'سفر الأعمال',
-  'Medical Tourism': 'السياحة العلاجية',
-  'VIP Assistance': 'خدمة VIP',
-  'Apply Now →': 'قدّم الآن →',
-  'Book Now →': 'احجز الآن →',
-  'Reserve →': 'احجز →',
-  'Explore →': 'استكشف →',
-  'Enquire →': 'استفسر →',
-  'Get Quote →': 'احصل على عرض →',
-  'Learn More →': 'اعرف المزيد →',
-  'VIP Inquiry →': 'استفسار VIP →',
-
-  // Why Us
-  'Why Choose Us': 'لماذا تختارنا',
-  'Your Trusted Travel Partner': 'شريكك الموثوق في السفر',
-  'Global Network': 'شبكة عالمية واسعة',
-  'Express Processing': 'معالجة سريعة',
-  'FIB Bank Secure Payments': 'دفع آمن عبر بنك FIB',
-  '24/7 Expert Support': 'دعم متخصص على مدار الساعة',
-
-  // Testimonials
-  'What Our Clients Say': 'ماذا يقول عملاؤنا',
-
-  // FAQ
-  'Frequently Asked Questions': 'الأسئلة الشائعة',
-  'How long does visa processing take?': 'كم يستغرق معالجة التأشيرة؟',
-  'What documents do I need?': 'ما المستندات التي أحتاجها؟',
-  'How does FIB Bank payment work?': 'كيف يعمل الدفع عبر بنك FIB؟',
-  'Can I track my application status?': 'هل يمكنني تتبع حالة طلبي؟',
-  'Do you offer group tour packages?': 'هل تقدمون باقات سياحية جماعية؟',
-
-  // Newsletter
-  'Get Exclusive Travel Deals': 'احصل على عروض سفر حصرية',
-  'Subscribe for exclusive offers, visa updates, and premium travel tips.': 'اشترك للحصول على عروض حصرية وتحديثات التأشيرة ونصائح سفر مميزة.',
-  'Subscribe': 'اشترك',
-  'Your email address': 'بريدك الإلكتروني',
-
-  // About
-  'About UNLIMITED': 'من نحن',
-  'Born from a passion for extraordinary travel, crafting premium journeys since 2010.': 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.',
-  'Our Mission': 'مهمتنا',
-  'Our Timeline': 'مسيرتنا',
-  'Our Team': 'فريقنا',
-  'Meet the Experts': 'تعرف على فريق الخبراء',
-  'Founded in Baghdad': 'التأسيس في بغداد',
-  'Regional Expansion': 'التوسع الإقليمي',
-  'Digital Transformation': 'التحول الرقمي',
-  'Premium Platform': 'المنصة المتكاملة',
-
-  // Contact
-  'Contact Us': 'تواصل معنا',
-  'Our expert team is available 24/7. We typically respond within minutes.': 'فريقنا المتخصص متاح على مدار الساعة. نرد عادةً خلال دقائق.',
-  'Baghdad Office': 'مكتب بغداد',
-  'Send Us a Message': 'أرسل لنا رسالة',
-  'Full Name': 'الاسم الكامل',
-  'Email': 'البريد الإلكتروني',
-  'Phone': 'رقم الهاتف',
-  'Subject': 'الموضوع',
-  'Message': 'الرسالة',
-  'Send Message': 'إرسال الرسالة',
-  'Visa Inquiry': 'استفسار تأشيرة',
-  'Tour Package': 'باقة سياحية',
-  'General Inquiry': 'استفسار عام',
-
-  // Auth
-  'Sign In': 'تسجيل الدخول',
-  'Register': 'إنشاء حساب',
-  'Password': 'كلمة المرور',
-  'Create password': 'أنشئ كلمة مرور',
-  'Full Name': 'الاسم الكامل',
-  'Forgot Password?': 'نسيت كلمة المرور؟',
-  'Send Reset Code': 'إرسال رمز الاسترداد',
-  'Reset Password': 'إعادة تعيين كلمة المرور',
-  'Back to Sign In': 'العودة لتسجيل الدخول',
-  'New Password': 'كلمة المرور الجديدة',
-  'Confirm Password': 'تأكيد كلمة المرور',
-  'Email Address': 'البريد الإلكتروني',
-  'New Visa Application': 'طلب تأشيرة جديد',
-
-  // Visa Steps
-  'Personal Information': 'المعلومات الشخصية',
-  'Travel Details': 'تفاصيل السفر',
-  'Document Upload': 'رفع المستندات',
-  'Secure Payment': 'الدفع الآمن',
-  'Personal Info': 'المعلومات الشخصية',
-  'Documents': 'المستندات',
-  'Payment': 'الدفع',
-  'Name, passport, contact': 'الاسم، جواز السفر، التواصل',
-  'Dates & visa type': 'التواريخ ونوع التأشيرة',
-  'Photo, passport, ID': 'الصورة، جواز السفر، الهوية',
-  'Pay via FIB Bank': 'الدفع عبر بنك FIB',
-  'Enter details exactly as they appear in your passport.': 'أدخل البيانات كما تظهر في جواز سفرك بالضبط.',
-  "Next Travel Details": "التالي: تفاصيل السفر",
-  "Next Documents": "التالي: المستندات",
-  "Next Payment": "التالي: الدفع",
-  'Confirm & Pay via FIB': 'تأكيد والدفع عبر FIB',
-  "Back": "رجوع",
-  "Change Country": "تغيير الدولة",
-  'Change country': 'تغيير الدولة',
-
-  // Country picker
-  'Where do you want to travel?': 'إلى أين تريد السفر؟',
-  "Select your destination country first": "اختر دولة وجهتك أولاً — سنوجهك خلال بقية الخطوات.",
-  'Search country…': 'ابحث عن دولة...',
-  'Continue →': 'متابعة →',
-
-  // Tracker
-  'Track Your Application': 'تتبع طلب التأشيرة',
-  'Enter your order number to see real-time status of your visa application.': 'أدخل رقم الطلب لمعرفة الحالة الفورية لطلب تأشيرتك.',
-  'Order Number': 'رقم الطلب',
-  'Track': 'تتبع',
-  'Recent orders (demo)': 'الطلبات الأخيرة',
-  'Searching...': 'جارٍ البحث...',
-  'Order Not Found': 'الطلب غير موجود',
-
-  // Footer
-  "footer_desc": "المنصة الأولى في العراق للسياحة والسفر الفاخر — خدمات التأشيرة والجولات الفاخرة والدفع عبر بنك FIB ودعم متخصص.",
-  'Services': 'الخدمات',
-  'Company': 'الشركة',
-  'About Us': 'من نحن',
-  'Contact': 'اتصل بنا',
-  'Admin Portal': 'بوابة الإدارة',
-  'Privacy Policy': 'سياسة الخصوصية',
-  'Terms of Service': 'شروط الخدمة',
-  'All rights reserved.': 'جميع الحقوق محفوظة.',
-  'WhatsApp Us': 'تواصل عبر واتساب',
-};
-
-window.toggleLang = function() {
-  var currentLang = localStorage.getItem('lang') || 'en';
-  var goAr = currentLang !== 'ar';
-  localStorage.setItem('lang', goAr ? 'ar' : 'en');
-  applyLanguage(goAr);
-};
-
-function applyLanguage(isAr) {
-  var btn = document.getElementById('lang-btn');
-  if (btn) btn.textContent = isAr ? 'EN' : 'ع';
-
-  if (isAr) {
-    document.body.classList.add('rtl-mode');
-    document.documentElement.setAttribute('dir', 'rtl');
-    document.documentElement.setAttribute('lang', 'ar');
-    translatePage();
-  } else {
-    // Reload to restore English
-    location.reload();
+// All page content in both languages
+var LANG = {
+  en: {
+    // Navbar
+    nav_home: 'Home', nav_about: 'About', nav_services: 'Services',
+    nav_contact: 'Contact', nav_track: 'Track', lang_btn: 'ع',
+    // Hero
+    hero_title: 'Discover Your Dream', hero_highlight: 'Destination',
+    hero_sub: 'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.',
+    hero_search_ph: 'Where do you want to go?',
+    hero_explore: 'Explore Now',
+    stat1: 'Destinations', stat2: 'Happy Customers', stat3: 'Years Experience', stat4: 'Expert Support',
+    // Sections
+    badge_destinations: 'Top Destinations',
+    h_destinations: 'Popular <span class="gold-text">Destinations</span>',
+    p_destinations: 'Explore our handpicked selection of premium travel destinations — visa-ready and awaiting you.',
+    badge_services: 'What We Offer',
+    h_services: 'Our Premium <span class="gold-text">Services</span>',
+    p_services: 'Comprehensive travel solutions tailored to your every need, delivered with world-class expertise.',
+    badge_why: 'Why Choose Us',
+    h_why: 'Your Trusted<br><span class="gold-text">Travel Partner</span>',
+    p_why: 'UNLIMITED Travel & Tourism has been crafting extraordinary journeys for over 15 years, combining deep expertise with genuine care for every traveler.',
+    badge_testi: 'Testimonials',
+    h_testi: 'What Our <span class="gold-text">Clients Say</span>',
+    badge_gallery: 'Gallery',
+    h_gallery: 'Travel <span class="gold-text">Inspirations</span>',
+    badge_faq: 'FAQ',
+    h_faq: 'Frequently Asked <span class="gold-text">Questions</span>',
+    badge_newsletter: 'Newsletter',
+    h_newsletter: 'Get Exclusive <span class="gold-text">Travel Deals</span>',
+    p_newsletter: 'Subscribe for exclusive offers, visa updates, and premium travel tips.',
+    btn_subscribe: 'Subscribe',
+    email_ph: 'Your email address',
+    // Service cards
+    svc1_h: 'Visa Services', svc1_p: 'Expert processing for 120+ countries with live embassy pricing & tracking.',  svc1_btn: 'Apply Now →',
+    svc2_h: 'Flight Booking', svc2_p: 'Best-price flights on all major airlines — Economy, Business & First Class.', svc2_btn: 'Book Now →',
+    svc3_h: 'Hotel Reservation', svc3_p: 'Exclusive rates at the world\'s finest hotels and 5-star resorts worldwide.', svc3_btn: 'Reserve →',
+    svc4_h: 'Tour Packages', svc4_p: 'Curated luxury tours combining culture, adventure, and unforgettable experiences.', svc4_btn: 'Explore →',
+    svc5_h: 'Transfer', svc5_p: 'Airport pickups, private cars and VIP transport anywhere.', svc5_btn: 'Enquire →',
+    svc6_h: 'Business Travel', svc6_p: 'Corporate travel management with priority service and 24/7 dedicated support.', svc6_btn: 'Get Quote →',
+    svc7_h: 'Medical Tourism', svc7_p: 'World-class medical care in Turkey, Germany & Thailand with full logistics.', svc7_btn: 'Learn More →',
+    svc8_h: 'VIP Assistance', svc8_p: 'Ultra-luxury concierge — private jets, yacht charters, presidential suites.', svc8_btn: 'VIP Inquiry →',
+    // Why features
+    why1_h: 'Global Network', why1_p: 'Partners in 150+ countries ensuring seamless travel wherever you go.',
+    why2_h: 'Express Processing', why2_p: 'Visa applications processed in as little as 24 hours with premium service.',
+    why3_h: 'FIB Bank Secure Payments', why3_p: 'Fully encrypted payments via First Iraqi Bank gateway with auto-invoice.',
+    why4_h: '24/7 Expert Support', why4_p: 'Round-the-clock multilingual assistance from our travel specialists.',
+    // FAQ
+    faq1_q: 'How long does visa processing take?', faq1_a: 'Standard processing takes 5–10 business days. Our premium express service can process most visas in 24–72 hours.',
+    faq2_q: 'What documents do I need?', faq2_a: 'You need a valid passport, personal photo, national ID, and destination-specific documents.',
+    faq3_q: 'How does FIB Bank payment work?', faq3_a: 'After completing your visa application, you\'ll be shown the secure FIB Bank checkout. Pay via card (USD or IQD).',
+    faq4_q: 'Can I track my application status?', faq4_a: 'Yes! After logging in and submitting, your application dashboard shows real-time status updates.',
+    faq5_q: 'Do you offer group tour packages?', faq5_a: 'Absolutely. We offer custom group tours for families, corporate teams, and private groups with special pricing.',
+    // Footer
+    footer_desc: 'Iraq\'s #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.',
+    footer_h1: 'Services', footer_h2: 'Company', footer_h3: 'Contact',
+    footer_copy: '© 2025 UNLIMITED Travel & Tourism. All rights reserved.',
+    // About
+    about_h: 'About <span class="gold-text">UNLIMITED</span>',
+    about_p: 'Born from a passion for extraordinary travel, crafting premium journeys since 2010.',
+    // Contact
+    contact_h: 'Contact <span class="gold-text">Us</span>',
+    contact_p: 'Our expert team is available 24/7. We typically respond within minutes.',
+    // Auth
+    signin_tab: 'Sign In', register_tab: 'Register',
+    forgot_link: 'Forgot Password?',
+    signin_btn: 'Sign In →',
+    // Tracker
+    track_h: 'Track Your <span class="gold-text">Application</span>',
+    track_p: 'Enter your order number to see real-time status of your visa application.',
+    track_label: 'Order Number',
+    track_ph: 'e.g. FIB-VISA-4827',
+    track_btn: 'Track',
+    track_recent: 'Recent orders',
+  },
+  ar: {
+    // Navbar
+    nav_home: 'الرئيسية', nav_about: 'من نحن', nav_services: 'خدماتنا',
+    nav_contact: 'اتصل بنا', nav_track: 'تتبع الطلب', lang_btn: 'EN',
+    // Hero
+    hero_title: 'اكتشف وجهة', hero_highlight: 'أحلامك',
+    hero_sub: 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
+    hero_search_ph: 'إلى أين تريد السفر؟',
+    hero_explore: 'استكشف الآن',
+    stat1: 'وجهة سياحية', stat2: 'عميل سعيد', stat3: 'سنة خبرة', stat4: 'دعم متخصص',
+    // Sections
+    badge_destinations: 'أبرز الوجهات',
+    h_destinations: 'الوجهات <span class="gold-text">الأكثر طلباً</span>',
+    p_destinations: 'استكشف مجموعتنا المختارة من الوجهات السياحية المميزة — جاهزة للتأشيرة وفي انتظارك.',
+    badge_services: 'ما نقدمه لك',
+    h_services: 'خدماتنا <span class="gold-text">المتميزة</span>',
+    p_services: 'حلول سفر شاملة مصممة لتلبية كل احتياجاتك بخبرة عالمية متميزة.',
+    badge_why: 'لماذا تختارنا',
+    h_why: 'شريكك الموثوق<br><span class="gold-text">في السفر</span>',
+    p_why: 'تصنع UNLIMITED رحلات استثنائية منذ أكثر من 15 عاماً، تجمع بين الخبرة العميقة والاهتمام الحقيقي بكل مسافر.',
+    badge_testi: 'آراء العملاء',
+    h_testi: 'ماذا يقول <span class="gold-text">عملاؤنا</span>',
+    badge_gallery: 'معرض الصور',
+    h_gallery: 'إلهامات <span class="gold-text">السفر</span>',
+    badge_faq: 'الأسئلة الشائعة',
+    h_faq: 'الأسئلة <span class="gold-text">الشائعة</span>',
+    badge_newsletter: 'النشرة الإخبارية',
+    h_newsletter: 'احصل على <span class="gold-text">عروض حصرية</span>',
+    p_newsletter: 'اشترك للحصول على عروض حصرية وتحديثات التأشيرة ونصائح سفر مميزة.',
+    btn_subscribe: 'اشترك',
+    email_ph: 'بريدك الإلكتروني',
+    // Service cards
+    svc1_h: 'خدمات التأشيرة', svc1_p: 'معالجة احترافية لأكثر من 120 دولة مع أسعار السفارات الحية والتتبع الفوري.', svc1_btn: 'قدّم الآن →',
+    svc2_h: 'حجز الطيران', svc2_p: 'أفضل أسعار التذاكر على جميع الخطوط الجوية — الدرجة الاقتصادية والأعمال والأولى.', svc2_btn: 'احجز الآن →',
+    svc3_h: 'حجز الفنادق', svc3_p: 'أسعار حصرية في أفضل الفنادق ومنتجعات الخمس نجوم حول العالم.', svc3_btn: 'احجز →',
+    svc4_h: 'باقات السياحة', svc4_p: 'جولات فاخرة منسقة تجمع الثقافة والمغامرة وتجارب لا تُنسى.', svc4_btn: 'استكشف →',
+    svc5_h: 'خدمة النقل', svc5_p: 'استقبال من المطار وسيارات خاصة ونقل VIP في العراق وخارجه.', svc5_btn: 'استفسر →',
+    svc6_h: 'سفر الأعمال', svc6_p: 'إدارة سفر الشركات مع خدمة أولوية ودعم متخصص على مدار الساعة.', svc6_btn: 'احصل على عرض →',
+    svc7_h: 'السياحة العلاجية', svc7_p: 'رعاية طبية عالمية في تركيا وألمانيا وتايلاند مع خدمات لوجستية متكاملة.', svc7_btn: 'اعرف المزيد →',
+    svc8_h: 'خدمة VIP', svc8_p: 'كونسيرج فائق الرفاهية — طائرات خاصة، إيجارات يخوت، أجنحة رئاسية.', svc8_btn: 'استفسار VIP →',
+    // Why features
+    why1_h: 'شبكة عالمية واسعة', why1_p: 'شركاء في أكثر من 150 دولة لضمان سفر سلس أينما كنت.',
+    why2_h: 'معالجة سريعة', why2_p: 'معالجة طلبات التأشيرة في أقل من 24 ساعة مع الخدمة المميزة.',
+    why3_h: 'دفع آمن عبر بنك FIB', why3_p: 'مدفوعات مشفرة بالكامل عبر بوابة البنك العراقي الأول مع فاتورة تلقائية.',
+    why4_h: 'دعم الخبراء 24/7', why4_p: 'مساعدة متعددة اللغات على مدار الساعة من متخصصي السفر لدينا.',
+    // FAQ
+    faq1_q: 'كم يستغرق معالجة التأشيرة؟', faq1_a: 'المعالجة القياسية تستغرق 5-10 أيام عمل. خدمة الإكسبريس يمكنها معالجة معظم التأشيرات في 24-72 ساعة.',
+    faq2_q: 'ما المستندات التي أحتاجها؟', faq2_a: 'تحتاج جواز سفر ساري، صورة شخصية، بطاقة هوية وطنية، ومستندات خاصة بالدولة الوجهة.',
+    faq3_q: 'كيف يعمل الدفع عبر بنك FIB؟', faq3_a: 'بعد إكمال طلب التأشيرة ستُعرض عليك بوابة الدفع الآمنة. ادفع بالدولار أو الدينار العراقي وستصلك فاتورة فوراً.',
+    faq4_q: 'هل يمكنني تتبع حالة طلبي؟', faq4_a: 'نعم! بعد التسجيل والإرسال، تُظهر لوحة التتبع الحالة الفورية في كل مرحلة من مراحل المعالجة.',
+    faq5_q: 'هل تقدمون باقات سياحية جماعية؟', faq5_a: 'بالتأكيد. نقدم جولات جماعية مخصصة للعائلات والفرق المؤسسية والمجموعات الخاصة بأسعار مميزة.',
+    // Footer
+    footer_desc: 'المنصة الأولى في العراق للسياحة والسفر الفاخر — خدمات التأشيرة والجولات الفاخرة والدفع عبر بنك FIB ودعم متخصص 24/7.',
+    footer_h1: 'الخدمات', footer_h2: 'الشركة', footer_h3: 'اتصل بنا',
+    footer_copy: '© 2025 UNLIMITED للسياحة والسفر. جميع الحقوق محفوظة.',
+    // About
+    about_h: 'من نحن <span class="gold-text">UNLIMITED</span>',
+    about_p: 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.',
+    // Contact
+    contact_h: 'تواصل <span class="gold-text">معنا</span>',
+    contact_p: 'فريقنا المتخصص متاح على مدار الساعة. نرد عادةً خلال دقائق.',
+    // Auth
+    signin_tab: 'تسجيل الدخول', register_tab: 'إنشاء حساب',
+    forgot_link: 'نسيت كلمة المرور؟',
+    signin_btn: 'دخول →',
+    // Tracker
+    track_h: 'تتبع <span class="gold-text">طلبك</span>',
+    track_p: 'أدخل رقم الطلب لمعرفة الحالة الفورية لطلب تأشيرتك.',
+    track_label: 'رقم الطلب',
+    track_ph: 'مثال: FIB-VISA-4827',
+    track_btn: 'تتبع',
+    track_recent: 'الطلبات الأخيرة',
   }
-}
+};
 
-function translatePage() {
-  // ── Navbar ──────────────────────────────────────────────────
-  var navMap = {
-    'nl-home':'الرئيسية', 'nl-about':'من نحن',
-    'nl-services':'خدماتنا', 'nl-contact':'اتصل بنا', 'nl-tracker':'تتبع الطلب'
-  };
-  Object.keys(navMap).forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = navMap[id];
-  });
+function setLang(lang) {
+  var isAr = lang === 'ar';
+  var L = LANG[lang];
+  localStorage.setItem('lang', lang);
+
+  // RTL / LTR
+  document.body.classList.toggle('rtl-mode', isAr);
+  document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', lang);
+
+  // Lang button
+  var langBtn = document.getElementById('lang-btn');
+  if (langBtn) langBtn.textContent = L.lang_btn;
+
+  // ── NAVBAR ─────────────────────────────────────────────────
+  function setEl(id, html) { var e = document.getElementById(id); if (e) e.innerHTML = html; }
+  function setText(id, txt) { var e = document.getElementById(id); if (e) e.textContent = txt; }
+  setText('nl-home', L.nav_home);
+  setText('nl-about', L.nav_about);
+  setText('nl-services', L.nav_services);
+  setText('nl-contact', L.nav_contact);
+  setText('nl-tracker', L.nav_track);
+
   // Mobile nav
   var mobileLinks = document.querySelectorAll('#mobileNav .mobile-link');
-  var mobileAR = ['الرئيسية','من نحن','خدماتنا','اتصل بنا','تسجيل / دخول','تتبع الطلب'];
-  mobileLinks.forEach(function(el, i) { if (mobileAR[i]) el.textContent = mobileAR[i]; });
+  var mobileKeys = ['nav_home','nav_about','nav_services','nav_contact','signin_tab','nav_track'];
+  mobileLinks.forEach(function(el, i) { if (mobileKeys[i] && L[mobileKeys[i]]) el.textContent = L[mobileKeys[i]]; });
 
-  // ── Hero ────────────────────────────────────────────────────
-  var heroTitle = document.getElementById('hero-title');
-  if (heroTitle) heroTitle.textContent = 'اكتشف وجهة أحلامك';
-  var heroHighlight = document.getElementById('hero-highlight');
-  if (heroHighlight) heroHighlight.textContent = 'الوجهة المثالية';
-  var heroSub = document.getElementById('hero-sub');
-  if (heroSub) heroSub.textContent = 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.';
-  var heroSearch = document.getElementById('heroSearch');
-  if (heroSearch) heroSearch.placeholder = 'إلى أين تريد السفر؟';
+  // ── HERO ───────────────────────────────────────────────────
+  setText('hero-title', L.hero_title);
+  setText('hero-highlight', L.hero_highlight);
+  setText('hero-sub', L.hero_sub);
+  var hs = document.getElementById('heroSearch'); if (hs) hs.placeholder = L.hero_search_ph;
 
   // Hero stat labels
   var statLabels = document.querySelectorAll('.hero-stat-label');
-  var statAR = ['وجهة سياحية', 'عميل سعيد', 'سنة خبرة', 'دعم متخصص'];
-  statLabels.forEach(function(el, i) { if (statAR[i]) el.textContent = statAR[i]; });
+  [L.stat1, L.stat2, L.stat3, L.stat4].forEach(function(t, i) { if (statLabels[i]) statLabels[i].textContent = t; });
 
-  // Hero photo card labels
-  var cardLabels = document.querySelectorAll('.hero .hero-content > div:last-of-type > div div:nth-child(1)');
-
-  // ── Section badges & headers ─────────────────────────────────
-  // Use a map of English → Arabic for innerHTML replacement
-  var textReplacements = [
-    // Destinations section
-    ['Top Destinations', 'أبرز الوجهات'],
-    ['Popular <span class="gold-text">Destinations</span>', 'الوجهات <span class="gold-text">الأكثر طلباً</span>'],
-    ['Explore our handpicked selection of premium travel destinations — visa-ready and awaiting you.', 'استكشف مجموعتنا المختارة من الوجهات السياحية المميزة — جاهزة للتأشيرة وفي انتظارك.'],
-    // Services section
-    ['What We Offer', 'ما نقدمه لك'],
-    ['Our Premium <span class="gold-text">Services</span>', 'خدماتنا <span class="gold-text">المتميزة</span>'],
-    ['Comprehensive travel solutions tailored to your every need, delivered with world-class expertise.', 'حلول سفر شاملة مصممة لتلبية كل احتياجاتك بخبرة عالمية.'],
-    // Why Us
-    ['Why Choose Us', 'لماذا تختارنا'],
-    ['Your Trusted<br><span class="gold-text">Travel Partner</span>', 'شريكك الموثوق<br><span class="gold-text">في السفر</span>'],
-    ['UNLIMITED Travel & Tourism has been crafting extraordinary journeys for over 15 years, combining deep expertise with genuine care for every traveler.', 'تصنع UNLIMITED Travel & Tourism رحلات استثنائية منذ أكثر من 15 عاماً، تجمع بين الخبرة العميقة والاهتمام الحقيقي بكل مسافر.'],
-    // Testimonials
-    ['Testimonials', 'آراء العملاء'],
-    ['What Our <span class="gold-text">Clients Say</span>', 'ماذا يقول <span class="gold-text">عملاؤنا</span>'],
-    // Gallery
-    ['Gallery', 'معرض الصور'],
-    ['Travel <span class="gold-text">Inspirations</span>', 'إلهامات <span class="gold-text">السفر</span>'],
-    // FAQ
-    ['FAQ', 'الأسئلة الشائعة'],
-    ['Frequently Asked <span class="gold-text">Questions</span>', 'الأسئلة <span class="gold-text">الشائعة</span>'],
-    // Newsletter
-    ['Newsletter', 'النشرة الإخبارية'],
-    ['Get Exclusive <span class="gold-text">Travel Deals</span>', 'احصل على <span class="gold-text">عروض حصرية</span>'],
-    ['Subscribe for exclusive offers, visa updates, and premium travel tips.', 'اشترك للحصول على عروض حصرية وتحديثات التأشيرة ونصائح سفر مميزة.'],
-  ];
-
-  textReplacements.forEach(function(pair) {
-    document.querySelectorAll('h2, p, .badge').forEach(function(el) {
-      if (el.innerHTML.trim() === pair[0]) el.innerHTML = pair[1];
-      else if (el.textContent.trim() === pair[0]) el.textContent = pair[1];
+  // ── HOME SECTIONS ──────────────────────────────────────────
+  function setSec(sectionClass, badge, h2, p) {
+    var sections = document.querySelectorAll('#page-home .section');
+    sections.forEach(function(sec) {
+      var h = sec.querySelector('h2');
+      if (!h) return;
+      var badgeEl = sec.querySelector('.badge');
+      var pEl = sec.querySelector('.section-header p');
+      if (badgeEl && badge) {
+        var svg = badgeEl.querySelector('svg');
+        badgeEl.textContent = badge;
+        if (svg) badgeEl.prepend(svg);
+      }
+      if (h && h2) h.innerHTML = h2;
+      if (pEl && p) pEl.textContent = p;
     });
-  });
-
-  // ── Service cards (home page) ────────────────────────────────
-  var serviceData = [
-    { h:'خدمات التأشيرة', p:'معالجة احترافية لأكثر من 120 دولة مع أسعار السفارات الحية والتتبع.' },
-    { h:'حجز الطيران', p:'أفضل أسعار التذاكر على جميع الخطوط — الدرجة الاقتصادية والأعمال والأولى.' },
-    { h:'حجز الفنادق', p:'أسعار حصرية في أفضل الفنادق ومنتجعات الخمس نجوم حول العالم.' },
-    { h:'باقات السياحة', p:'جولات فاخرة منسقة تجمع الثقافة والمغامرة وتجارب لا تُنسى.' },
-    { h:'خدمة النقل', p:'مواعيد رومانسية سحرية في المالديف وسانتوريني وبالي وما هو أبعد.' },
-    { h:'سفر الأعمال', p:'إدارة سفر الشركات مع خدمة أولوية ودعم متخصص على مدار الساعة.' },
-    { h:'السياحة العلاجية', p:'رعاية طبية عالمية في تركيا وألمانيا وتايلاند مع خدمات لوجستية متكاملة.' },
-    { h:'خدمة VIP', p:'كونسيرج فاخر — طائرات خاصة، إيجارات يخوت، أجنحة رئاسية.' },
-  ];
-  var serviceCards = document.querySelectorAll('#page-home .services-grid .service-card');
-  serviceCards.forEach(function(card, i) {
-    if (!serviceData[i]) return;
-    var h3 = card.querySelector('h3');
-    var p = card.querySelector('p');
-    if (h3) h3.textContent = serviceData[i].h;
-    if (p) p.textContent = serviceData[i].p;
-  });
-
-  // ── Service CTA buttons (home) ───────────────────────────────
-  var ctaAR = ['قدّم الآن →', 'احجز الآن →', 'احجز →', 'استكشف →', 'استفسر →', 'احصل على عرض →', 'اعرف المزيد →', 'استفسار VIP →'];
-  var ctaBtns = document.querySelectorAll('#page-home .services-grid .service-cta');
-  ctaBtns.forEach(function(btn, i) { if (ctaAR[i]) btn.textContent = ctaAR[i]; });
-
-  // ── Why Us features ──────────────────────────────────────────
-  var whyFeatures = [
-    { h:'شبكة عالمية', p:'شركاء في أكثر من 150 دولة لضمان سفر سلس أينما كنت.' },
-    { h:'معالجة سريعة', p:'معالجة طلبات التأشيرة في أقل من 24 ساعة مع الخدمة المميزة.' },
-    { h:'دفع آمن عبر بنك FIB', p:'مدفوعات مشفرة بالكامل عبر بوابة البنك العراقي الأول مع فاتورة تلقائية.' },
-    { h:'دعم خبراء 24/7', p:'مساعدة متعددة اللغات على مدار الساعة من متخصصي السفر لدينا.' },
-  ];
-  var whyFeat = document.querySelectorAll('.why-feature');
-  whyFeat.forEach(function(el, i) {
-    if (!whyFeatures[i]) return;
-    var h4 = el.querySelector('h4');
-    var p = el.querySelector('p');
-    if (h4) h4.textContent = whyFeatures[i].h;
-    if (p) p.textContent = whyFeatures[i].p;
-  });
-
-  // ── Why Us badge ─────────────────────────────────────────────
-  var whyBadgeText = document.querySelector('.why-grid .badge');
-  if (whyBadgeText) {
-    var span = whyBadgeText.querySelector('svg');
-    whyBadgeText.textContent = 'لماذا تختارنا';
-    if (span) whyBadgeText.prepend(span);
   }
 
-  // ── FAQ ──────────────────────────────────────────────────────
-  var faqData = [
-    { q:'كم يستغرق معالجة التأشيرة؟', a:'المعالجة القياسية تستغرق 5-10 أيام عمل. خدمة الإكسبريس المميزة يمكنها معالجة معظم التأشيرات في 24-72 ساعة.' },
-    { q:'ما المستندات التي أحتاجها؟', a:'تحتاج جواز سفر ساري، صورة شخصية، بطاقة هوية وطنية، ومستندات خاصة بالدولة. النظام يوفر قائمة كاملة وبوابة رفع وثائق.' },
-    { q:'كيف يعمل الدفع عبر بنك FIB؟', a:'بعد إكمال طلب التأشيرة، ستُعرض عليك بوابة الدفع الآمنة لبنك FIB. ادفع بالدولار أو الدينار العراقي. عند النجاح، تُنشأ فاتورة PDF وترسل بريدياً.' },
-    { q:'هل يمكنني تتبع حالة طلبي؟', a:'نعم! بعد التسجيل والإرسال، تُظهر لوحة التتبع الحالة الفورية: معلق → قيد المراجعة → مقبول / مرفوض. تُرسل إشعارات بريدية عند كل مرحلة.' },
-    { q:'هل تقدمون باقات سياحية جماعية؟', a:'بالتأكيد. نقدم جولات جماعية مخصصة للعائلات والفرق المؤسسية والمجموعات الخاصة بأسعار مميزة. تواصل معنا للحصول على برنامج وعرض خاص.' },
+  // Target each section by its English badge text or section order
+  var homeSections = document.querySelectorAll('#page-home .section');
+  var sectionData = [
+    { badge: L.badge_destinations, h2: L.h_destinations, p: L.p_destinations },
+    { badge: L.badge_services,     h2: L.h_services,     p: L.p_services },
+    null, // Why Us handled separately
+    { badge: L.badge_testi,        h2: L.h_testi,        p: null },
+    { badge: L.badge_gallery,      h2: L.h_gallery,      p: null },
+    { badge: L.badge_faq,          h2: L.h_faq,          p: null },
   ];
-  var faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(function(item, i) {
-    if (!faqData[i]) return;
-    var q = item.querySelector('.faq-q');
-    var a = item.querySelector('.faq-a');
-    if (q) {
-      var toggle = q.querySelector('.faq-toggle');
-      q.textContent = faqData[i].q;
-      if (toggle) q.appendChild(toggle);
+
+  var sIdx = 0;
+  homeSections.forEach(function(sec) {
+    if (sIdx >= sectionData.length) return;
+    var data = sectionData[sIdx++];
+    if (!data) { sIdx++; return; }
+    var badgeEl = sec.querySelector('.section-header .badge');
+    var h2El = sec.querySelector('.section-header h2');
+    var pEl = sec.querySelector('.section-header p');
+    if (badgeEl && data.badge) {
+      var svg = badgeEl.querySelector('svg');
+      badgeEl.textContent = data.badge;
+      if (svg) badgeEl.prepend(svg);
     }
-    if (a) a.textContent = faqData[i].a;
+    if (h2El && data.h2) h2El.innerHTML = data.h2;
+    if (pEl && data.p) pEl.textContent = data.p;
   });
 
-  // ── Footer ───────────────────────────────────────────────────
-  var footerSections = document.querySelectorAll('footer h4');
-  var footerAR = ['الخدمات', 'الشركة', 'اتصل بنا'];
-  footerSections.forEach(function(el, i) { if (footerAR[i]) el.textContent = footerAR[i]; });
+  // Newsletter section (not inside .section)
+  var nlSection = document.querySelector('.newsletter-section');
+  if (nlSection) {
+    var nlBadge = nlSection.querySelector('.badge');
+    var nlH2 = nlSection.querySelector('h2');
+    var nlP = nlSection.querySelector('p');
+    var nlBtn = nlSection.querySelector('.btn-primary');
+    var nlInp = nlSection.querySelector('input[type="email"]');
+    if (nlBadge) { var svg = nlBadge.querySelector('svg'); nlBadge.textContent = L.badge_newsletter; if (svg) nlBadge.prepend(svg); }
+    if (nlH2) nlH2.innerHTML = L.h_newsletter;
+    if (nlP) nlP.textContent = L.p_newsletter;
+    if (nlBtn) nlBtn.textContent = L.btn_subscribe;
+    if (nlInp) nlInp.placeholder = L.email_ph;
+  }
 
-  var footerDesc = document.querySelector('.footer-brand p');
-  if (footerDesc) footerDesc.textContent = 'المنصة الأولى في العراق للسياحة والسفر الفاخر — خدمات التأشيرة والجولات الفاخرة والدفع عبر بنك FIB ودعم متخصص 24/7.';
-
-  var footerBottom = document.querySelector('.footer-bottom p');
-  if (footerBottom) footerBottom.textContent = '© 2025 UNLIMITED للسياحة والسفر. جميع الحقوق محفوظة.';
-
-  // Footer links
-  var footerLinks = document.querySelectorAll('.footer-links button, .footer-links a');
-  var footerLinksAR = ['خدمات التأشيرة', 'باقات السياحة', 'حجز الطيران', 'حجز الفنادق', 'النقل', 'من نحن', 'فريقنا', 'اتصل بنا', 'بوابة الإدارة', 'اتصل بنا', 'واتساب'];
-  footerLinks.forEach(function(el, i) { if (footerLinksAR[i]) el.textContent = footerLinksAR[i]; });
-
-  // ── Scroll indicator & misc ──────────────────────────────────
-  document.querySelectorAll('.hero-badge').forEach(function(el) {
-    el.innerHTML = el.innerHTML.replace('Premium e-Visa Platform', 'منصة التأشيرة الإلكترونية');
-  });
-
-  // ── About page ───────────────────────────────────────────────
-  var aboutHero = document.querySelector('#page-about .page-hero h1');
-  if (aboutHero) aboutHero.innerHTML = 'من نحن <span class="gold-text">UNLIMITED</span>';
-  var aboutHeroP = document.querySelector('#page-about .page-hero p');
-  if (aboutHeroP) aboutHeroP.textContent = 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.';
-
-  // ── Services page ────────────────────────────────────────────
-  var sfCards = document.querySelectorAll('#page-services .sf-card');
-  var sfData = [
-    { h:'خدمات التأشيرة', p:'معالجة احترافية لأكثر من 120 دولة. أسعار السفارات الحية وخيارات الإكسبريس ودعم المستندات الكامل.' },
-    { h:'حجز الطيران', p:'أفضل أسعار التذاكر على جميع الناقلات الرئيسية. متخصصون في الدرجة الاقتصادية والأعمال والأولى.' },
-    { h:'حجز الفنادق', p:'أسعار حصرية في فنادق وسبا فاخرة حول العالم مع ضمان أفضل الأسعار.' },
-    { h:'خدمة النقل', p:'استقبال من المطار وسيارات خاصة ونقل VIP في العراق وخارجه.' },
-    { h:'باقات السياحة', p:'جولات شاملة مخصصة مع برامج مصممة ومرشدين محترفين.' },
-    { h:'خدمة VIP', p:'كونسيرج فائق الرفاهية — طائرات خاصة، أجنحة رئاسية، مديرون مخصصون.' },
-  ];
-  sfCards.forEach(function(card, i) {
-    if (!sfData[i]) return;
+  // ── SERVICE CARDS (Home) ───────────────────────────────────
+  var svcKeys = ['svc1','svc2','svc3','svc4','svc5','svc6','svc7','svc8'];
+  var homeCards = document.querySelectorAll('#page-home .services-grid .service-card');
+  homeCards.forEach(function(card, i) {
+    var k = svcKeys[i];
+    if (!k || !L[k+'_h']) return;
     var h3 = card.querySelector('h3');
     var p = card.querySelector('p');
-    if (h3) h3.textContent = sfData[i].h;
-    if (p) p.textContent = sfData[i].p;
+    var btn = card.querySelector('.service-cta');
+    if (h3) h3.textContent = L[k+'_h'];
+    if (p) p.textContent = L[k+'_p'];
+    if (btn) btn.textContent = L[k+'_btn'];
   });
 
-  // ── Contact page ─────────────────────────────────────────────
-  var contactHero = document.querySelector('#page-contact .page-hero h1');
-  if (contactHero) contactHero.innerHTML = 'تواصل <span class="gold-text">معنا</span>';
-  var contactHeroP = document.querySelector('#page-contact .page-hero p');
-  if (contactHeroP) contactHeroP.textContent = 'فريقنا المتخصص متاح على مدار الساعة. نرد عادةً خلال دقائق.';
-  var sendBtn = document.querySelector('#page-contact .btn-primary');
-  if (sendBtn) sendBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> إرسال الرسالة';
+  // ── WHY US ─────────────────────────────────────────────────
+  var whySection = document.querySelector('.why-grid');
+  if (whySection) {
+    var whyBadge = whySection.querySelector('.badge');
+    var whyH2 = whySection.querySelector('h2');
+    var whyP = whySection.querySelector('p');
+    if (whyBadge) { var svg = whyBadge.querySelector('svg'); whyBadge.textContent = L.badge_why; if (svg) whyBadge.prepend(svg); }
+    if (whyH2) whyH2.innerHTML = L.h_why;
+    if (whyP) whyP.textContent = L.p_why;
+    var whyFeatures = whySection.querySelectorAll('.why-feature');
+    var whyKeys = ['why1','why2','why3','why4'];
+    whyFeatures.forEach(function(el, i) {
+      var k = whyKeys[i];
+      if (!k) return;
+      var h4 = el.querySelector('h4');
+      var p = el.querySelector('p');
+      if (h4) h4.textContent = L[k+'_h'];
+      if (p) p.textContent = L[k+'_p'];
+    });
+  }
 
-  // ── Auth page ────────────────────────────────────────────────
+  // ── FAQ ─────────────────────────────────────────────────────
+  var faqItems = document.querySelectorAll('.faq-item');
+  var faqKeys = ['faq1','faq2','faq3','faq4','faq5'];
+  faqItems.forEach(function(item, i) {
+    var k = faqKeys[i];
+    if (!k) return;
+    var qEl = item.querySelector('.faq-q');
+    var aEl = item.querySelector('.faq-a');
+    if (qEl) {
+      var toggle = qEl.querySelector('.faq-toggle');
+      qEl.textContent = L[k+'_q'];
+      if (toggle) qEl.appendChild(toggle);
+    }
+    if (aEl) aEl.textContent = L[k+'_a'];
+  });
+
+  // ── FOOTER ─────────────────────────────────────────────────
+  var footerBrand = document.querySelector('.footer-brand p');
+  if (footerBrand) footerBrand.textContent = L.footer_desc;
+  var footerH4s = document.querySelectorAll('footer h4');
+  [L.footer_h1, L.footer_h2, L.footer_h3].forEach(function(t, i) { if (footerH4s[i]) footerH4s[i].textContent = t; });
+  var footerCopy = document.querySelector('.footer-bottom p');
+  if (footerCopy) footerCopy.textContent = L.footer_copy;
+  var footerLinks = document.querySelectorAll('.footer-links button, .footer-links a');
+  var flEN = ['Visa Services','Tour Packages','Flight Booking','Hotel Reservation','Transfer','About Us','Our Team','Contact','Admin Portal','Phone','Email','Address','WhatsApp Us'];
+  var flAR = ['خدمات التأشيرة','باقات السياحة','حجز الطيران','حجز الفنادق','النقل','من نحن','فريقنا','اتصل بنا','بوابة الإدارة','الهاتف','البريد الإلكتروني','العنوان','واتساب'];
+  footerLinks.forEach(function(el, i) { if (isAr && flAR[i]) el.textContent = flAR[i]; else if (!isAr && flEN[i]) el.textContent = flEN[i]; });
+
+  // ── ABOUT PAGE ─────────────────────────────────────────────
+  var aboutH = document.querySelector('#page-about .page-hero h1');
+  if (aboutH) aboutH.innerHTML = L.about_h;
+  var aboutP = document.querySelector('#page-about .page-hero p');
+  if (aboutP) aboutP.textContent = L.about_p;
+
+  // ── SERVICES PAGE ──────────────────────────────────────────
+  var sfHero = document.querySelector('#page-services .page-hero h1');
+  if (sfHero) sfHero.innerHTML = isAr ? 'خدماتنا <span class="gold-text">المتميزة</span>' : 'Our Premium <span class="gold-text">Services</span>';
+  var sfCards = document.querySelectorAll('#page-services .sf-card');
+  sfCards.forEach(function(card, i) {
+    var k = svcKeys[i];
+    if (!k || !L[k+'_h']) return;
+    var h3 = card.querySelector('h3');
+    var p = card.querySelector('p');
+    if (h3) h3.textContent = L[k+'_h'];
+    if (p) p.textContent = L[k+'_p'];
+  });
+
+  // ── CONTACT PAGE ───────────────────────────────────────────
+  var contactH = document.querySelector('#page-contact .page-hero h1');
+  if (contactH) contactH.innerHTML = L.contact_h;
+  var contactP = document.querySelector('#page-contact .page-hero p');
+  if (contactP) contactP.textContent = L.contact_p;
+
+  // ── AUTH PAGE ──────────────────────────────────────────────
   var authTabs = document.querySelectorAll('.auth-tab');
-  if (authTabs[0]) authTabs[0].textContent = 'تسجيل الدخول';
-  if (authTabs[1]) authTabs[1].textContent = 'إنشاء حساب';
-  var loginBtn = document.querySelector('#login-form .btn-primary');
-  if (loginBtn) loginBtn.textContent = 'دخول →';
-  var forgotBtn = document.querySelector('#login-form button[onclick="showForgotForm()"]');
-  if (forgotBtn) forgotBtn.textContent = 'نسيت كلمة المرور؟';
+  if (authTabs[0]) authTabs[0].textContent = L.signin_tab;
+  if (authTabs[1]) authTabs[1].textContent = L.register_tab;
+  var forgotBtn = document.querySelector('button[onclick="showForgotForm()"]');
+  if (forgotBtn) forgotBtn.textContent = L.forgot_link;
+  var signinBtn = document.querySelector('#login-form .btn-primary');
+  if (signinBtn) signinBtn.textContent = L.signin_btn;
 
-  // ── Tracker page ─────────────────────────────────────────────
-  var trackerHero = document.querySelector('#page-tracker .page-hero h1');
-  if (trackerHero) trackerHero.innerHTML = 'تتبع <span class="gold-text">طلبك</span>';
-  var trackerHeroP = document.querySelector('#page-tracker .page-hero p');
-  if (trackerHeroP) trackerHeroP.textContent = 'أدخل رقم الطلب لمعرفة الحالة الفورية لطلب تأشيرتك.';
-  var trackerLabel = document.querySelector('#page-tracker .input-label');
-  if (trackerLabel) trackerLabel.textContent = 'رقم الطلب';
-  var trackerBtn = document.querySelector('#page-tracker .btn-primary');
-  if (trackerBtn) trackerBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> تتبع';
-  var trackerInput = document.getElementById('tracker-input');
-  if (trackerInput) trackerInput.placeholder = 'مثال: FIB-VISA-4827';
+  // ── TRACKER PAGE ───────────────────────────────────────────
+  var trackH = document.querySelector('#page-tracker .page-hero h1');
+  if (trackH) trackH.innerHTML = L.track_h;
+  var trackP = document.querySelector('#page-tracker .page-hero p');
+  if (trackP) trackP.textContent = L.track_p;
+  var trackLabel = document.querySelector('#page-tracker .input-label');
+  if (trackLabel) trackLabel.textContent = L.track_label;
+  var trackInp = document.getElementById('tracker-input');
+  if (trackInp) trackInp.placeholder = L.track_ph;
+  var trackBtn = document.querySelector('#page-tracker .btn-primary');
+  if (trackBtn) trackBtn.textContent = L.track_btn;
+  var trackRecent = document.querySelector('#page-tracker .section p');
+  if (trackRecent) trackRecent.textContent = L.track_recent;
 }
 
-// Apply on load if Arabic was selected
-window.addEventListener('DOMContentLoaded', function() {
-  var lang = localStorage.getItem('lang');
-  if (lang === 'ar') {
-    applyLanguage(true);
+window.toggleLang = function() {
+  var current = localStorage.getItem('lang') || 'en';
+  setLang(current === 'ar' ? 'en' : 'ar');
+};
+
+// Apply saved language on page load
+document.addEventListener('DOMContentLoaded', function() {
+  var saved = localStorage.getItem('lang');
+  if (saved) setLang(saved);
+  else {
+    var langBtn = document.getElementById('lang-btn');
+    if (langBtn) langBtn.textContent = 'ع';
   }
 });
+
 
 
 
