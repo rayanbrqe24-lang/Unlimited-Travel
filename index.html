@@ -1968,8 +1968,43 @@ body.rtl-mode .mobile-nav { text-align:right; }
             <div><label class="input-label">Password</label><input class="input" type="password" id="login-password" placeholder="••••••••"></div>
             <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">Sign In →</button>
           </div>
-          <p style="text-align:center;font-size:0.775rem;color:var(--gray-500);margin-top:1rem;">Demo: <span style="color:var(--gold-400)">ahmed@example.com</span> | Admin: <span style="color:var(--gold-400)">admin@unlimited-travel.com</span></p>
+          <div style="text-align:center;margin-top:0.875rem;">
+            <button onclick="showForgotForm()" style="background:none;border:none;color:var(--gold-400);font-size:0.8rem;cursor:pointer;font-family:inherit;font-weight:600;">Forgot Password?</button>
+          </div>
         </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgot-form" style="display:none;">
+          <div style="text-align:center;margin-bottom:1.5rem;">
+            <div style="width:56px;height:56px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h4 style="font-size:1rem;font-weight:700;margin-bottom:0.4rem;">Reset Password</h4>
+            <p style="font-size:0.82rem;color:var(--gray-400);">Enter your email and we will send a reset code</p>
+          </div>
+          <div id="forgot-step-1">
+            <div style="margin-bottom:0.875rem;"><label class="input-label">Email Address</label><input class="input" type="email" id="forgot-email" placeholder="your@email.com"></div>
+            <button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem;" onclick="sendForgotOTP()">
+              Send Reset Code
+            </button>
+          </div>
+          <div id="forgot-step-2" style="display:none;">
+            <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:0.875rem;text-align:center;margin-bottom:1rem;">
+              <div style="font-size:0.8rem;color:#10b981;" id="forgot-sent-to">Code sent to your email</div>
+            </div>
+            <div style="margin-bottom:0.875rem;"><label class="input-label">6-Digit Code</label><input class="input" type="text" id="forgot-otp" maxlength="6" placeholder="Enter code" style="letter-spacing:0.3em;font-size:1.1rem;text-align:center;font-weight:700;"></div>
+            <div style="margin-bottom:0.875rem;"><label class="input-label">New Password</label><input class="input" type="password" id="forgot-newpass" placeholder="New password (min 6 chars)"></div>
+            <div style="margin-bottom:1rem;"><label class="input-label">Confirm Password</label><input class="input" type="password" id="forgot-confirmpass" placeholder="Repeat new password"></div>
+            <button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem;" onclick="verifyForgotOTP()">
+              Reset Password
+            </button>
+            <button onclick="showForgotStep1()" style="background:none;border:none;color:var(--gray-400);font-size:0.78rem;cursor:pointer;font-family:inherit;width:100%;text-align:center;">Resend code</button>
+          </div>
+          <div style="text-align:center;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <button onclick="hideForgotForm()" style="background:none;border:none;color:var(--gray-500);font-size:0.78rem;cursor:pointer;font-family:inherit;">Back to Sign In</button>
+          </div>
+        </div>
+
         <!-- Register form -->
         <div id="register-form" style="display:none;">
           <button class="google-btn" onclick="loginGoogle()"><span>G</span> Continue with Google</button>
@@ -3211,6 +3246,112 @@ async function doLogin() {
     else { setupAuthPage(); }
   }, 800);
 }
+
+// ================================================================
+//  FORGOT PASSWORD WITH OTP
+// ================================================================
+var _forgotOTP = { code: '', email: '' };
+
+function showForgotForm() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('forgot-form').style.display = 'block';
+  document.getElementById('forgot-step-1').style.display = 'block';
+  document.getElementById('forgot-step-2').style.display = 'none';
+  var inp = document.getElementById('forgot-email');
+  if (inp) inp.focus();
+}
+
+function hideForgotForm() {
+  document.getElementById('forgot-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'block';
+}
+
+function showForgotStep1() {
+  document.getElementById('forgot-step-1').style.display = 'block';
+  document.getElementById('forgot-step-2').style.display = 'none';
+}
+
+async function sendForgotOTP() {
+  var email = (document.getElementById('forgot-email').value || '').trim();
+  if (!email || !email.includes('@')) {
+    showToastSVG('warn', 'Invalid Email', 'Please enter your email address.');
+    return;
+  }
+  showLoadingOverlay(true);
+  var found = await dbGetUserByEmail(email);
+  showLoadingOverlay(false);
+  if (!found) {
+    showToastSVG('error', 'Not Found', 'No account found with this email.');
+    return;
+  }
+  // Generate OTP
+  _forgotOTP.code = String(Math.floor(100000 + Math.random() * 900000));
+  _forgotOTP.email = email;
+  // Send via Supabase OTP
+  supa.auth.signInWithOtp({ email: email, options: { shouldCreateUser: false } })
+    .then(function() {
+      showToastSVG('mail', 'Code Sent!', 'Check your email for the 6-digit reset code.');
+    })
+    .catch(function() {
+      // Fallback - show code in toast for testing
+      showToast(_SVG_ICONS.info, 'Reset Code: ' + _forgotOTP.code, 'Use this code to reset your password.');
+    });
+  // Show step 2
+  document.getElementById('forgot-step-1').style.display = 'none';
+  document.getElementById('forgot-step-2').style.display = 'block';
+  var sentTo = document.getElementById('forgot-sent-to');
+  if (sentTo) sentTo.textContent = 'Reset code sent to ' + email;
+  var otpInp = document.getElementById('forgot-otp');
+  if (otpInp) { otpInp.value = ''; otpInp.focus(); }
+}
+
+async function verifyForgotOTP() {
+  var enteredCode = (document.getElementById('forgot-otp').value || '').trim();
+  var newPass = (document.getElementById('forgot-newpass').value || '');
+  var confirmPass = (document.getElementById('forgot-confirmpass').value || '');
+  if (!enteredCode || enteredCode.length !== 6) {
+    showToastSVG('warn', 'Enter Code', 'Please enter the 6-digit code from your email.');
+    return;
+  }
+  if (newPass.length < 6) {
+    showToastSVG('warn', 'Weak Password', 'Password must be at least 6 characters.');
+    return;
+  }
+  if (newPass !== confirmPass) {
+    showToastSVG('error', 'Mismatch', 'Passwords do not match.');
+    return;
+  }
+  // Verify code - try Supabase first, fallback to our generated code
+  var verified = false;
+  try {
+    var res = await supa.auth.verifyOtp({ email: _forgotOTP.email, token: enteredCode, type: 'email' });
+    if (!res.error) verified = true;
+  } catch(e) {}
+  if (!verified && enteredCode === _forgotOTP.code) verified = true;
+  if (!verified) {
+    showToastSVG('error', 'Wrong Code', 'Incorrect code. Please try again.');
+    var inp = document.getElementById('forgot-otp');
+    if (inp) { inp.style.borderColor = '#ef4444'; inp.value = ''; inp.focus(); setTimeout(function(){ inp.style.borderColor = ''; }, 3000); }
+    return;
+  }
+  // Update password in Supabase
+  showLoadingOverlay(true);
+  var user = await dbGetUserByEmail(_forgotOTP.email);
+  if (user) {
+    await supa.from('users').update({ password: newPass }).eq('email', _forgotOTP.email.toLowerCase());
+    if (_cache.users) {
+      _cache.users = _cache.users.map(function(u) { return u.email === _forgotOTP.email ? Object.assign({}, u, { password: newPass }) : u; });
+    }
+  }
+  showLoadingOverlay(false);
+  showToastSVG('success', 'Password Reset!', 'Your password has been updated. Please sign in.');
+  hideForgotForm();
+  // Clear fields
+  ['forgot-email','forgot-otp','forgot-newpass','forgot-confirmpass'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
 // OTP state
 const _otp = { code: '', email: '', name: '', phone: '', password: '' };
 
@@ -4921,7 +5062,7 @@ window.addEventListener('load', function() {
         <input class="input" type="password" id="modal-password" placeholder="Password">
         <button class="btn-primary" style="width:100%;justify-content:center;" onclick="modalLogin()">Sign In & Start Application →</button>
       </div>
-      <p style="text-align:center;font-size:0.72rem;color:var(--gray-500);margin-top:0.875rem;">Demo: <span style="color:var(--gold-400)">ahmed@example.com</span> / <span style="color:var(--gold-400)">test123</span></p>
+      
     </div>
     <div id="modal-register-form" style="display:none;">
       <div style="display:flex;flex-direction:column;gap:0.75rem;">
