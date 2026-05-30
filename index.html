@@ -5555,26 +5555,251 @@ async function sendStatusEmail(app, status) {
 }
 
 // ── ARABIC TOGGLE ─────────────────────────────────────────────
-var AR_FULL = {
-  'Home': 'الرئيسية', 'About': 'من نحن', 'Services': 'خدماتنا', 'Contact': 'اتصل بنا',
-  'Track': 'تتبع', 'Login': 'تسجيل الدخول',
+// ================================================================
+//  ARABIC TRANSLATION — FULL DICTIONARY
+// ================================================================
+var AR = {
+  // Navbar
+  'Home': 'الرئيسية',
+  'About': 'من نحن',
+  'Services': 'خدماتنا',
+  'Contact': 'اتصل بنا',
+  'Track': 'تتبع الطلب',
+  'Login': 'تسجيل الدخول',
+  'Login / Register': 'دخول / تسجيل',
+  'Logout': 'تسجيل الخروج',
+
+  // Hero
+  'Discover Your Dream': 'اكتشف وجهة أحلامك',
+  'Destination': 'الوجهة المثالية',
+  'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.': 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
+  'Explore Now': 'استكشف الآن',
+  'Where do you want to go?': 'إلى أين تريد السفر؟',
+
+  // Stats
+  'Destinations': 'وجهة سياحية',
+  'Happy Customers': 'عميل سعيد',
+  'Years Experience': 'سنة خبرة',
+  'Expert Support': 'دعم متخصص',
+
+  // Section titles
+  'Top Destinations': 'أبرز الوجهات',
+  'Popular Destinations': 'الوجهات الأكثر طلباً',
+  'Explore our handpicked selection of premium travel destinations — visa-ready and awaiting you.': 'استكشف مجموعتنا المختارة من الوجهات السياحية المميزة — جاهزة للتأشيرة وفي انتظارك.',
+  'Our Premium Services': 'خدماتنا المتميزة',
+  'What We Offer': 'ما نقدمه لك',
+  'Comprehensive travel solutions tailored to your every need, delivered with world-class expertise.': 'حلول سفر شاملة مصممة لتلبية كل احتياجاتك بخبرة عالمية.',
+
+  // Services
+  'Visa Services': 'خدمات التأشيرة',
+  'Flight Booking': 'حجز الطيران',
+  'Hotel Reservation': 'حجز الفنادق',
+  'Tour Packages': 'باقات السياحة',
+  'Transfer': 'خدمة النقل',
+  'Transfer Service': 'خدمة النقل',
+  'Business Travel': 'سفر الأعمال',
+  'Medical Tourism': 'السياحة العلاجية',
+  'VIP Assistance': 'خدمة VIP',
+  'Apply Now →': 'قدّم الآن →',
+  'Book Now →': 'احجز الآن →',
+  'Reserve →': 'احجز →',
+  'Explore →': 'استكشف →',
+  'Enquire →': 'استفسر →',
+  'Get Quote →': 'احصل على عرض →',
+  'Learn More →': 'اعرف المزيد →',
+  'VIP Inquiry →': 'استفسار VIP →',
+
+  // Why Us
+  'Why Choose Us': 'لماذا تختارنا',
+  'Your Trusted Travel Partner': 'شريكك الموثوق في السفر',
+  'Global Network': 'شبكة عالمية واسعة',
+  'Express Processing': 'معالجة سريعة',
+  'FIB Bank Secure Payments': 'دفع آمن عبر بنك FIB',
+  '24/7 Expert Support': 'دعم متخصص على مدار الساعة',
+
+  // Testimonials
+  'What Our Clients Say': 'ماذا يقول عملاؤنا',
+
+  // FAQ
+  'Frequently Asked Questions': 'الأسئلة الشائعة',
+  'How long does visa processing take?': 'كم يستغرق معالجة التأشيرة؟',
+  'What documents do I need?': 'ما المستندات التي أحتاجها؟',
+  'How does FIB Bank payment work?': 'كيف يعمل الدفع عبر بنك FIB؟',
+  'Can I track my application status?': 'هل يمكنني تتبع حالة طلبي؟',
+  'Do you offer group tour packages?': 'هل تقدمون باقات سياحية جماعية؟',
+
+  // Newsletter
+  'Get Exclusive Travel Deals': 'احصل على عروض سفر حصرية',
+  'Subscribe for exclusive offers, visa updates, and premium travel tips.': 'اشترك للحصول على عروض حصرية وتحديثات التأشيرة ونصائح سفر مميزة.',
+  'Subscribe': 'اشترك',
+  'Your email address': 'بريدك الإلكتروني',
+
+  // About
+  'About UNLIMITED': 'من نحن',
+  'Born from a passion for extraordinary travel, crafting premium journeys since 2010.': 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.',
+  'Our Mission': 'مهمتنا',
+  'Our Timeline': 'مسيرتنا',
+  'Our Team': 'فريقنا',
+  'Meet the Experts': 'تعرف على فريق الخبراء',
+  'Founded in Baghdad': 'التأسيس في بغداد',
+  'Regional Expansion': 'التوسع الإقليمي',
+  'Digital Transformation': 'التحول الرقمي',
+  'Premium Platform': 'المنصة المتكاملة',
+
+  // Contact
+  'Contact Us': 'تواصل معنا',
+  'Our expert team is available 24/7. We typically respond within minutes.': 'فريقنا المتخصص متاح على مدار الساعة. نرد عادةً خلال دقائق.',
+  'Baghdad Office': 'مكتب بغداد',
+  'Send Us a Message': 'أرسل لنا رسالة',
+  'Full Name': 'الاسم الكامل',
+  'Email': 'البريد الإلكتروني',
+  'Phone': 'رقم الهاتف',
+  'Subject': 'الموضوع',
+  'Message': 'الرسالة',
+  'Send Message': 'إرسال الرسالة',
+  'Visa Inquiry': 'استفسار تأشيرة',
+  'Tour Package': 'باقة سياحية',
+  'General Inquiry': 'استفسار عام',
+
+  // Auth
+  'Sign In': 'تسجيل الدخول',
+  'Register': 'إنشاء حساب',
+  'Password': 'كلمة المرور',
+  'Create password': 'أنشئ كلمة مرور',
+  'Full Name': 'الاسم الكامل',
+  'Forgot Password?': 'نسيت كلمة المرور؟',
+  'Send Reset Code': 'إرسال رمز الاسترداد',
+  'Reset Password': 'إعادة تعيين كلمة المرور',
+  'Back to Sign In': 'العودة لتسجيل الدخول',
+  'New Password': 'كلمة المرور الجديدة',
+  'Confirm Password': 'تأكيد كلمة المرور',
+  'Email Address': 'البريد الإلكتروني',
+  'New Visa Application': 'طلب تأشيرة جديد',
+
+  // Visa Steps
+  'Personal Information': 'المعلومات الشخصية',
+  'Travel Details': 'تفاصيل السفر',
+  'Document Upload': 'رفع المستندات',
+  'Secure Payment': 'الدفع الآمن',
+  'Personal Info': 'المعلومات الشخصية',
+  'Documents': 'المستندات',
+  'Payment': 'الدفع',
+  'Name, passport, contact': 'الاسم، جواز السفر، التواصل',
+  'Dates & visa type': 'التواريخ ونوع التأشيرة',
+  'Photo, passport, ID': 'الصورة، جواز السفر، الهوية',
+  'Pay via FIB Bank': 'الدفع عبر بنك FIB',
+  'Enter details exactly as they appear in your passport.': 'أدخل البيانات كما تظهر في جواز سفرك بالضبط.',
+  "Next Travel Details": "التالي: تفاصيل السفر",
+  "Next Documents": "التالي: المستندات",
+  "Next Payment": "التالي: الدفع",
+  'Confirm & Pay via FIB': 'تأكيد والدفع عبر FIB',
+  "Back": "رجوع",
+  "Change Country": "تغيير الدولة",
+  'Change country': 'تغيير الدولة',
+
+  // Country picker
+  'Where do you want to travel?': 'إلى أين تريد السفر؟',
+  "Select your destination country first": "اختر دولة وجهتك أولاً — سنوجهك خلال بقية الخطوات.",
+  'Search country…': 'ابحث عن دولة...',
+  'Continue →': 'متابعة →',
+
+  // Tracker
+  'Track Your Application': 'تتبع طلب التأشيرة',
+  'Enter your order number to see real-time status of your visa application.': 'أدخل رقم الطلب لمعرفة الحالة الفورية لطلب تأشيرتك.',
+  'Order Number': 'رقم الطلب',
+  'Track': 'تتبع',
+  'Recent orders (demo)': 'الطلبات الأخيرة',
+  'Searching...': 'جارٍ البحث...',
+  'Order Not Found': 'الطلب غير موجود',
+
+  // Footer
+  "footer_desc": "المنصة الأولى في العراق للسياحة والسفر الفاخر — خدمات التأشيرة والجولات الفاخرة والدفع عبر بنك FIB ودعم متخصص.",
+  'Services': 'الخدمات',
+  'Company': 'الشركة',
+  'About Us': 'من نحن',
+  'Contact': 'اتصل بنا',
+  'Admin Portal': 'بوابة الإدارة',
+  'Privacy Policy': 'سياسة الخصوصية',
+  'Terms of Service': 'شروط الخدمة',
+  'All rights reserved.': 'جميع الحقوق محفوظة.',
+  'WhatsApp Us': 'تواصل عبر واتساب',
 };
 
 window.toggleLang = function() {
-  var isAr = localStorage.getItem('lang') !== 'ar';
-  localStorage.setItem('lang', isAr ? 'ar' : 'en');
+  var currentLang = localStorage.getItem('lang') || 'en';
+  var goAr = currentLang !== 'ar';
+  localStorage.setItem('lang', goAr ? 'ar' : 'en');
+  applyLanguage(goAr);
+};
+
+function applyLanguage(isAr) {
   var btn = document.getElementById('lang-btn');
   if (btn) btn.textContent = isAr ? 'EN' : 'ع';
+
   if (isAr) {
     document.body.classList.add('rtl-mode');
-    document.documentElement.setAttribute('dir','rtl');
-    showToastSVG('info', 'تم التغيير للعربية', 'Arabic mode active');
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'ar');
+    translatePage();
   } else {
-    document.body.classList.remove('rtl-mode');
-    document.documentElement.setAttribute('dir','ltr');
+    // Reload to restore English
     location.reload();
   }
-};
+}
+
+function translatePage() {
+  // Translate all text nodes
+  function walkAndTranslate(node) {
+    if (node.nodeType === 3) {
+      var t = node.textContent.trim();
+      if (t && AR[t]) {
+        node.textContent = node.textContent.replace(t, AR[t]);
+      }
+    } else if (node.nodeType === 1) {
+      var tag = node.tagName.toUpperCase();
+      if (['SCRIPT','STYLE','SVG','PATH'].indexOf(tag) !== -1) return;
+      // Translate placeholder
+      if ((tag === 'INPUT' || tag === 'TEXTAREA') && node.placeholder && AR[node.placeholder]) {
+        node.placeholder = AR[node.placeholder];
+      }
+      // Translate title/alt
+      if (node.title && AR[node.title]) node.title = AR[node.title];
+      node.childNodes.forEach(walkAndTranslate);
+    }
+  }
+  walkAndTranslate(document.body);
+
+  // Translate nav links explicitly
+  var navMap = {
+    'nl-home': 'الرئيسية',
+    'nl-about': 'من نحن',
+    'nl-services': 'خدماتنا',
+    'nl-contact': 'اتصل بنا',
+    'nl-tracker': 'تتبع الطلب',
+  };
+  Object.keys(navMap).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = navMap[id];
+  });
+
+  // Hero title
+  var heroTitle = document.getElementById('hero-title');
+  if (heroTitle) heroTitle.textContent = 'اكتشف وجهة أحلامك';
+  var heroHighlight = document.getElementById('hero-highlight');
+  if (heroHighlight) heroHighlight.textContent = 'الوجهة المثالية';
+  var heroSub = document.getElementById('hero-sub');
+  if (heroSub) heroSub.textContent = 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.';
+  var heroSearch = document.getElementById('heroSearch');
+  if (heroSearch) heroSearch.placeholder = 'إلى أين تريد السفر؟';
+}
+
+// Apply on load if Arabic was selected
+window.addEventListener('DOMContentLoaded', function() {
+  var lang = localStorage.getItem('lang');
+  if (lang === 'ar') {
+    applyLanguage(true);
+  }
+});
 
 
 
