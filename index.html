@@ -5254,8 +5254,6 @@ function populateTrackerRecent() {
     return '<button onclick="document.getElementById(\'tracker-input\').value=\'' + a.orderNumber + '\';trackApplication()" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.3rem .75rem;font-size:.72rem;color:var(--gray-300);cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:.4rem;">' + a.orderNumber + ' (' + a.status + ')</button>';
   }).join('');
 }
-
- ─────────────────────────────────────────────
 var COUPONS = {
   'UNLIMITED10': { type:'percent', value:10, desc:'10% off visa fee', minAmount:50 },
   'FIRSTTIME':   { type:'fixed',   value:10, desc:'Free processing fee', minAmount:0 },
