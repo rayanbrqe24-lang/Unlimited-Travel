@@ -4346,9 +4346,10 @@ function viewAppDetails(orderNumber) {
 //  2. Create email template with variables below
 //  3. Replace the 3 constants below with your real values
 // ================================================================
-const EMAILJS_SERVICE_ID  = 'service_xipuk0u';
-const EMAILJS_TEMPLATE_ID = 'template_6k80e4d';
-const EMAILJS_PUBLIC_KEY  = 'vMT3KuoBpyK81gxIS';
+const EMAILJS_SERVICE_ID        = 'service_xipuk0u';
+const EMAILJS_TEMPLATE_ID       = 'template_6k80e4d';  // Invoice template
+const EMAILJS_STATUS_TEMPLATE_ID = 'template_6k80e4d'; // Status template (same or create new in EmailJS)
+const EMAILJS_PUBLIC_KEY         = 'vMT3KuoBpyK81gxIS';
 const MANAGER_EMAIL = 'rayanbrqe11@gmail.com';
 const MANAGER_NAME  = 'UNLIMITED Manager';
 
@@ -4380,6 +4381,15 @@ async function sendEmailInvoice(app) {
       customer_name:  app.customerName,
       customer_email: app.email,
       customer_phone: app.phone || '—',
+      // Template display flags
+      subject:        'Payment Confirmed — Order ' + app.orderNumber + ' | UNLIMITED Travel',
+      invoice_block:  'block',
+      status_block:   'none',
+      approved_block: 'none',
+      rejected_block: 'none',
+      status:         '',
+      status_icon:    'none',
+      message:        '',
     };
 
     // Send to customer
@@ -5468,13 +5478,80 @@ updateAppStatus = async function(orderNumber, status) {
   await _us_orig(orderNumber, status);
   var app = (_cache.apps||[]).find(function(a){return a.orderNumber===orderNumber;});
   if (app && (status === 'Approved' || status === 'Rejected')) {
-    setTimeout(function() {
-      if (confirm('Send WhatsApp notification to ' + app.customerName + ' about ' + status + ' status?')) {
-        sendWhatsAppStatusUpdate(app, status);
-      }
-    }, 500);
+    // Send status email automatically
+    sendStatusEmail(app, status);
   }
 };
+
+async function sendStatusEmail(app, status) {
+  var isApproved = status === 'Approved';
+  var subject = isApproved
+    ? 'Your Visa Application has been APPROVED!'
+    : 'Update on Your Visa Application';
+
+  var templateParams = {
+    to_name:        app.customerName,
+    to_email:       app.email,
+    order_number:   app.orderNumber,
+    country:        app.countryNameEn,
+    status:         status,
+    status_icon:    isApproved ? '✅' : '❌',
+    message:        isApproved
+      ? 'Congratulations! Your ' + app.countryNameEn + ' visa application has been APPROVED. Our team will contact you shortly to arrange visa delivery.'
+      : 'We regret to inform you that your ' + app.countryNameEn + ' visa application was not approved at this time. Please contact our support team for reapplication guidance.',
+    travel_date:    app.travelDate || '—',
+    date:           new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'}),
+    // Template display flags
+    invoice_block:  'none',
+    status_block:   'block',
+    approved_block: isApproved ? 'block' : 'none',
+    rejected_block: isApproved ? 'none' : 'block',
+    payment_method: '',
+    base_amount:    '',
+    proc_amount:    '',
+    total_amount:   '',
+    return_date:    app.returnDate || '—',
+  };
+
+  try {
+    if (typeof emailjs === 'undefined') throw new Error('EmailJS not loaded');
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    // Send to customer
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_STATUS_TEMPLATE_ID, templateParams);
+
+    // Send copy to manager
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, templateParams, {
+      to_email: MANAGER_EMAIL,
+      to_name: MANAGER_NAME,
+    }));
+
+    showToastSVG('mail', 'Email Sent!', status + ' notification sent to ' + app.email);
+  } catch(e) {
+    console.error('Status email error:', e);
+    showToastSVG('warn', 'Email Failed', 'Could not send email: ' + (e.text || e.message || ''));
+  }
+
+  // Save notification to DB
+  await dbInsertNotification({
+    id: 'notif-status-' + Date.now(),
+    type: isApproved ? 'success' : 'warn',
+    title: 'Application ' + status + ' — Email Sent',
+    desc: app.customerName + ' notified about ' + status + ' for ' + app.countryNameEn + ' visa',
+    order: app.orderNumber,
+    email: app.email,
+    managerEmail: MANAGER_EMAIL,
+    customerEmailSent: true,
+    managerEmailSent: true,
+    createdAt: new Date().toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}),
+    read: false,
+  });
+
+  // Update unread badge
+  var unread = await dbUnreadNotifCount();
+  var sb = document.getElementById('sb-notifs');
+  if (sb) sb.textContent = unread;
+}
 
 // ── ARABIC TOGGLE ─────────────────────────────────────────────
 var AR_FULL = {
