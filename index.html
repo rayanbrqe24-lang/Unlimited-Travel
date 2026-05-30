@@ -1929,26 +1929,58 @@ body.rtl-mode .mobile-nav { text-align:right; }
   <div class="auth-wrap">
     <div class="auth-box">
       <div id="auth-logged-in" style="display:none;">
-        <div style="display:flex;align-items:center;gap:0.875rem;margin-bottom:1.75rem;">
-          <div class="dash-avatar" id="auth-avatar">U</div>
-          <div>
-            <div style="font-weight:700;" id="auth-name">User</div>
-            <div style="font-size:0.8rem;color:var(--gray-400);" id="auth-email-disp">email</div>
+        <!-- User Profile Card -->
+        <div style="text-align:center;margin-bottom:2rem;">
+          <div class="dash-avatar" id="auth-avatar" style="width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;font-size:1.6rem;display:flex;align-items:center;justify-content:center;">U</div>
+          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;margin-bottom:0.25rem;" id="auth-name">User</div>
+          <div style="font-size:0.85rem;color:var(--gray-400);" id="auth-email-disp">email</div>
+        </div>
+        <!-- Info Cards -->
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.75rem;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold-400);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-500);margin-bottom:0.2rem;">Full Name</div>
+              <div style="font-weight:600;font-size:0.9rem;" id="auth-info-name">—</div>
+            </div>
           </div>
-          <button class="btn-ghost" style="margin-left:auto;padding:0.4rem 0.875rem;font-size:0.775rem;" onclick="logout()">Logout</button>
-        </div>
-        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:0.875rem 1rem;display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:#10b981;margin-bottom:1.5rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Logged in — apply for visas and track applications below.
-        </div>
-        <div style="display:flex;gap:0.75rem;margin-bottom:1.5rem;">
-          <button class="btn-primary" style="flex:1;justify-content:center;" onclick="nav('visa')">+ New Visa Application</button>
-        </div>
-        <div class="my-apps-section">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-            <h4 style="font-size:0.875rem;font-weight:700;">My Visa Applications</h4>
-            <button onclick="nav('visa-pick')" style="background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.25);color:var(--gold-400);font-size:0.72rem;padding:0.3rem 0.75rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-weight:600;">+ Apply New</button>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold-400);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-500);margin-bottom:0.2rem;">Email</div>
+              <div style="font-weight:600;font-size:0.9rem;" id="auth-info-email">—</div>
+            </div>
           </div>
-          <div id="my-apps-list" style="font-size:0.825rem;color:var(--gray-400);">No applications yet.</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold-400);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17.92v-.01z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-500);margin-bottom:0.2rem;">Phone</div>
+              <div style="font-weight:600;font-size:0.9rem;" id="auth-info-phone">—</div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold-400);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-500);margin-bottom:0.2rem;">Member Since</div>
+              <div style="font-weight:600;font-size:0.9rem;" id="auth-info-joined">—</div>
+            </div>
+          </div>
+        </div>
+        <!-- Actions -->
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn-primary" style="flex:1;justify-content:center;" onclick="nav('visa-pick')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Visa Application
+          </button>
+          <button class="btn-ghost" onclick="logout()" style="padding:0.75rem 1.25rem;">Logout</button>
         </div>
       </div>
       <div id="auth-logged-out">
@@ -3161,10 +3193,13 @@ function setupAuthPage() {
   document.getElementById('auth-logged-in').style.display = u ? 'block' : 'none';
   document.getElementById('auth-logged-out').style.display = u ? 'none' : 'block';
   if (u) {
-    document.getElementById('auth-avatar').textContent = u.fullName.charAt(0);
+    document.getElementById('auth-avatar').textContent = u.fullName.charAt(0).toUpperCase();
     document.getElementById('auth-name').textContent = u.fullName;
     document.getElementById('auth-email-disp').textContent = u.email;
-    renderMyApps(u);
+    document.getElementById('auth-info-name').textContent = u.fullName;
+    document.getElementById('auth-info-email').textContent = u.email;
+    document.getElementById('auth-info-phone').textContent = u.phone || 'Not provided';
+    document.getElementById('auth-info-joined').textContent = u.createdAt || 'N/A';
   }
   updateNavUserPill();
 }
