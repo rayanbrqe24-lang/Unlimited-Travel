@@ -1110,6 +1110,47 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
 @media(max-width:480px){
   .hero-stats{grid-template-columns:repeat(2,1fr);}
   .services-grid{grid-template-columns:1fr;}
+  .hero-h1{font-size:clamp(2rem,9vw,3rem);}
+  .hero-content{padding:6rem 1rem 2rem;}
+  .hero-sub{font-size:0.95rem;}
+  .section{padding:3rem 0;}
+  .container{padding:0 1rem;}
+  .auth-box{padding:1.75rem 1.25rem;}
+  .visa-section{padding:1.5rem 1rem;}
+  .payment-card{padding:1.25rem 1rem;}
+  .success-card .success-header{padding:1.75rem 1.25rem;}
+  .success-card .success-body{padding:1.25rem;}
+  .country-picker-grid{grid-template-columns:repeat(2,1fr);}
+  .cp-proceed-bar{flex-direction:column;align-items:flex-start;}
+  .charts-row{grid-template-columns:1fr;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .dest-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .services-full-grid{grid-template-columns:1fr;}
+  .section-header h2{font-size:1.8rem;}
+  .page-hero h1{font-size:2.2rem;}
+  .page-hero{padding:6rem 0 3rem;}
+  .auth-wrap{padding:4rem 1rem 2rem;}
+  .visa-wrap{padding:5.5rem 1rem 2rem;}
+  .contact-grid{padding:2rem 0;}
+  .payment-amount{font-size:2.2rem;}
+  .step-actions{flex-direction:column;}
+  .step-actions button{width:100%;}
+  .form-row-2{grid-template-columns:1fr;}
+  .hero-badge{font-size:0.7rem;padding:0.4rem 0.875rem;}
+}
+
+/* Tablet 768-1024px extra fixes */
+@media(min-width:769px) and (max-width:1024px){
+  .services-grid{grid-template-columns:repeat(2,1fr);}
+  .dest-grid{grid-template-columns:repeat(2,1fr);}
+  .dest-card:first-child{grid-row:span 1;}
+  .hero-h1{font-size:clamp(2.5rem,7vw,5rem);}
+  .visa-wrap{grid-template-columns:200px 1fr;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .country-picker-grid{grid-template-columns:repeat(3,1fr);}
 }
 
 
@@ -1201,7 +1242,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
       <li><button class="nav-link" id="nl-about" onclick="nav('about')">About</button></li>
       <li><button class="nav-link" id="nl-services" onclick="nav('services')">Services</button></li>
       <li><button class="nav-link" id="nl-contact" onclick="nav('contact')">Contact</button></li>
-      <li><button class="nav-link" id="nl-tracker" onclick="nav('tracker')">Track</button></li>
+      <li><button class="nav-link" id="nl-tracker" onclick="nav('tracker')">Application Status</button></li>
     </ul>
     <div class="nav-actions" id="navActions">
       <button onclick="toggleTheme()" id="theme-toggle" title="Toggle Light/Dark" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;">
@@ -5564,7 +5605,7 @@ var LANG = {
   en: {
     // Navbar
     nav_home: 'Home', nav_about: 'About', nav_services: 'Services',
-    nav_contact: 'Contact', nav_track: 'Track', lang_btn: 'ع',
+    nav_contact: 'Contact', nav_track: 'Application Status', lang_btn: 'ع',
     // Hero
     hero_title: 'Discover Your Dream', hero_highlight: 'Destination',
     hero_sub: 'Premium travel experiences crafted for the discerning traveler. Your journey begins with luxury.',
@@ -5616,8 +5657,69 @@ var LANG = {
     footer_desc: 'Iraq\'s #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.',
     footer_h1: 'Services', footer_h2: 'Company', footer_h3: 'Contact',
     footer_copy: '© 2025 UNLIMITED Travel & Tourism. All rights reserved.',
-    // About
+    // Services page cards
+    sf1_h:'Visa Services', sf1_p:'Expert processing for 120+ countries. Live embassy pricing, express options, and full document support.', sf1_btn:'Apply Now →',
+    sf2_h:'Flight Booking', sf2_p:'Best-price tickets on all major carriers. Economy, Business & First Class specialists.', sf2_btn:'Book Flight →',
+    sf3_h:'Hotel Reservation', sf3_p:'Exclusive rates at 5-star hotels and luxury resorts. Price-match guarantee included.', sf3_btn:'Book Hotel →',
+    sf4_h:'Transfer Service', sf4_p:'Airport pickup, private cars and VIP transport anywhere in Iraq and abroad.', sf4_btn:'Book Transfer →',
+    sf5_h:'Tour Packages', sf5_p:'Curated all-inclusive tours with custom itineraries and professional guides.', sf5_btn:'Enquire Tours →',
+    sf6_h:'VIP Assistance', sf6_p:'Ultra-luxury concierge — private jets, presidential suites, dedicated managers.', sf6_btn:'VIP Inquiry →',
+    svc_back:'← Back to Services',
+    svc_page_h:'Our Premium <span class="gold-text">Services</span>',
+    svc_page_p:'Premium travel solutions designed for the modern explorer.',
+    // About page
     about_h: 'About <span class="gold-text">UNLIMITED</span>',
+    about_p: 'Born from a passion for extraordinary travel, crafting premium journeys since 2010.',
+    about_mission_h: 'Creating <span class="gold-text">Extraordinary</span> Experiences',
+    about_timeline_h: 'Our Timeline',
+    about_team_h: 'Meet the <span class="gold-text">Experts</span>',
+    // Contact page
+    contact_h: 'Contact <span class="gold-text">Us</span>',
+    contact_p: 'Our expert team is available 24/7. We typically respond within minutes.',
+    contact_office: 'Baghdad Office', contact_phone_lbl: 'Phone', contact_email_lbl: 'Email', contact_wa_lbl: 'WhatsApp',
+    contact_form_h: 'Send Us a Message',
+    lbl_fullname: 'Full Name', lbl_email: 'Email', lbl_phone: 'Phone', lbl_subject: 'Subject', lbl_message: 'Message',
+    btn_send: 'Send Message',
+    ph_name: 'Your name', ph_email: 'your@email.com', ph_phone: '+964 7XX XXX XXXX', ph_message: 'How can we help you?',
+    // Auth page
+    auth_new_visa: 'New Visa Application', auth_logout: 'Logout',
+    auth_name_lbl: 'Full Name', auth_email_lbl: 'Email', auth_phone_lbl: 'Phone', auth_joined_lbl: 'Member Since',
+    lbl_password: 'Password', btn_signin: 'Sign In →',
+    forgot_link: 'Forgot Password?', forgot_h: 'Reset Password',
+    forgot_email_lbl: 'Email Address', btn_send_reset: 'Send Reset Code',
+    lbl_otp: '6-Digit Code', lbl_newpass: 'New Password', lbl_confirmpass: 'Confirm Password',
+    btn_reset: 'Reset Password', btn_resend: 'Resend code', btn_back_signin: 'Back to Sign In',
+    lbl_reg_name: 'Full Name', lbl_reg_email: 'Email', lbl_reg_phone: 'Phone', lbl_reg_pass: 'Password',
+    btn_send_verify: 'Send Verification Code →', check_email_h: 'Check Your Email',
+    lbl_email_verify: 'Email Verification Code', btn_verify: 'Verify & Create Account',
+    btn_edit_details: '← Edit details', btn_resend_code: 'Resend Code',
+    ph_login_email: 'your@email.com', ph_login_pass: '••••••••',
+    ph_otp: 'Enter code', ph_newpass: 'New password (min 6 chars)', ph_confirmpass: 'Repeat new password',
+    ph_reg_name: 'Full Name', ph_reg_email: 'your@email.com', ph_reg_phone: '+964 7XX XXX XXXX', ph_reg_pass: 'Create password',
+    ph_otp6: 'Enter 6-digit code',
+    // Visa pick page
+    visa_pick_h: 'Where do you want to <span class="gold-text">travel?</span>',
+    visa_pick_p: 'Select your destination country first — then we will guide you through the rest.',
+    btn_continue: 'Continue →', ph_search_country: 'Search country…',
+    // Visa steps
+    visa_step1_h: 'Personal Information', visa_step1_p: 'Enter details exactly as they appear in your passport.',
+    lbl_v_name: 'Full Name', lbl_v_dob: 'Date of Birth', lbl_v_nat: 'Nationality',
+    lbl_v_email: 'Email', lbl_v_phone: 'Phone', lbl_v_passport: 'Passport Number',
+    btn_change_country: '← Change Country', btn_next_travel: 'Next: Travel Details →',
+    visa_step2_h: 'Travel Details', visa_step2_p: 'Fill in your trip dates, visa type and passenger details.',
+    lbl_visa_type: 'Visa Type', lbl_travel_date: 'Travel Date', lbl_return_date: 'Return Date',
+    lbl_expiry: 'Passport Expiry', lbl_duration: 'Duration of Stay',
+    btn_back: '← Back', btn_next_docs: 'Next: Documents →',
+    visa_step3_h: 'Document Upload', visa_step3_p: 'Upload clear, high-quality scans. Accepted: JPG, PNG, PDF (max 5MB each).',
+    doc_photo_h: 'Personal Photo', doc_passport_h: 'Passport Scan', doc_id_h: 'National ID',
+    btn_remove: '✕ Remove', btn_next_payment: 'Next: Payment →',
+    visa_step4_h: 'Secure Payment', visa_step4_p: 'Complete payment via FIB Bank to submit your application.',
+    btn_confirm_pay: 'Confirm & Pay via FIB',
+    lbl_promo: 'Promo Code', btn_apply_coupon: 'Apply',
+    ph_passport_name: 'As in passport', ph_passport_num: 'A12345678',
+    // Success page
+    success_h: 'Payment Successful!', btn_download_inv: 'Download Invoice',
+    btn_view_apps: 'View My Applications', btn_back_home: '← Back to Home',
     about_p: 'Born from a passion for extraordinary travel, crafting premium journeys since 2010.',
     // Contact
     contact_h: 'Contact <span class="gold-text">Us</span>',
@@ -5637,7 +5739,7 @@ var LANG = {
   ar: {
     // Navbar
     nav_home: 'الرئيسية', nav_about: 'من نحن', nav_services: 'خدماتنا',
-    nav_contact: 'اتصل بنا', nav_track: 'تتبع الطلب', lang_btn: 'EN',
+    nav_contact: 'اتصل بنا', nav_track: 'Application Status', lang_btn: 'EN',
     // Hero
     hero_title: 'اكتشف وجهة', hero_highlight: 'أحلامك',
     hero_sub: 'تجارب سفر فاخرة مصممة للمسافر الراقي. رحلتك تبدأ مع الفخامة.',
@@ -5689,8 +5791,69 @@ var LANG = {
     footer_desc: 'المنصة الأولى في العراق للسياحة والسفر الفاخر — خدمات التأشيرة والجولات الفاخرة والدفع عبر بنك FIB ودعم متخصص 24/7.',
     footer_h1: 'الخدمات', footer_h2: 'الشركة', footer_h3: 'اتصل بنا',
     footer_copy: '© 2025 UNLIMITED للسياحة والسفر. جميع الحقوق محفوظة.',
-    // About
+    // Services page cards
+    sf1_h:'خدمات التأشيرة', sf1_p:'معالجة احترافية لأكثر من 120 دولة. أسعار السفارات الحية وخيارات الإكسبريس ودعم المستندات الكامل.', sf1_btn:'قدّم الآن →',
+    sf2_h:'حجز الطيران', sf2_p:'أفضل أسعار التذاكر على جميع الناقلات. متخصصون في الدرجة الاقتصادية والأعمال والأولى.', sf2_btn:'احجز رحلة →',
+    sf3_h:'حجز الفنادق', sf3_p:'أسعار حصرية في فنادق وسبا فاخرة مع ضمان أفضل الأسعار.', sf3_btn:'احجز فندق →',
+    sf4_h:'خدمة النقل', sf4_p:'استقبال من المطار وسيارات خاصة ونقل VIP في العراق وخارجه.', sf4_btn:'احجز نقل →',
+    sf5_h:'باقات السياحة', sf5_p:'جولات شاملة مخصصة مع برامج مصممة ومرشدين محترفين.', sf5_btn:'استفسر →',
+    sf6_h:'خدمة VIP', sf6_p:'كونسيرج فائق الرفاهية — طائرات خاصة، أجنحة رئاسية، مديرون مخصصون.', sf6_btn:'استفسار VIP →',
+    svc_back:'→ العودة للخدمات',
+    svc_page_h:'خدماتنا <span class="gold-text">المتميزة</span>',
+    svc_page_p:'حلول سفر فاخرة مصممة للمسافر العصري.',
+    // About page
     about_h: 'من نحن <span class="gold-text">UNLIMITED</span>',
+    about_p: 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.',
+    about_mission_h: 'صنع تجارب <span class="gold-text">استثنائية</span>',
+    about_timeline_h: 'مسيرتنا عبر الزمن',
+    about_team_h: 'تعرف على <span class="gold-text">فريق الخبراء</span>',
+    // Contact page
+    contact_h: 'تواصل <span class="gold-text">معنا</span>',
+    contact_p: 'فريقنا المتخصص متاح على مدار الساعة. نرد عادةً خلال دقائق.',
+    contact_office: 'مكتب بغداد', contact_phone_lbl: 'الهاتف', contact_email_lbl: 'البريد الإلكتروني', contact_wa_lbl: 'واتساب',
+    contact_form_h: 'أرسل لنا رسالة',
+    lbl_fullname: 'الاسم الكامل', lbl_email: 'البريد الإلكتروني', lbl_phone: 'رقم الهاتف', lbl_subject: 'الموضوع', lbl_message: 'الرسالة',
+    btn_send: 'إرسال الرسالة',
+    ph_name: 'اسمك الكامل', ph_email: 'بريدك@example.com', ph_phone: '+964 7XX XXX XXXX', ph_message: 'كيف يمكننا مساعدتك؟',
+    // Auth page
+    auth_new_visa: 'طلب تأشيرة جديد', auth_logout: 'تسجيل الخروج',
+    auth_name_lbl: 'الاسم الكامل', auth_email_lbl: 'البريد الإلكتروني', auth_phone_lbl: 'رقم الهاتف', auth_joined_lbl: 'تاريخ الانضمام',
+    lbl_password: 'كلمة المرور', btn_signin: 'دخول →',
+    forgot_link: 'نسيت كلمة المرور؟', forgot_h: 'إعادة تعيين كلمة المرور',
+    forgot_email_lbl: 'البريد الإلكتروني', btn_send_reset: 'إرسال رمز الاسترداد',
+    lbl_otp: 'الرمز المكون من 6 أرقام', lbl_newpass: 'كلمة المرور الجديدة', lbl_confirmpass: 'تأكيد كلمة المرور',
+    btn_reset: 'إعادة تعيين كلمة المرور', btn_resend: 'إعادة إرسال الرمز', btn_back_signin: 'العودة لتسجيل الدخول',
+    lbl_reg_name: 'الاسم الكامل', lbl_reg_email: 'البريد الإلكتروني', lbl_reg_phone: 'رقم الهاتف', lbl_reg_pass: 'كلمة المرور',
+    btn_send_verify: 'إرسال رمز التحقق →', check_email_h: 'تحقق من بريدك الإلكتروني',
+    lbl_email_verify: 'رمز التحقق من البريد', btn_verify: 'تحقق وإنشاء الحساب',
+    btn_edit_details: '→ تعديل البيانات', btn_resend_code: 'إعادة إرسال الرمز',
+    ph_login_email: 'بريدك@example.com', ph_login_pass: '••••••••',
+    ph_otp: 'أدخل الرمز', ph_newpass: 'كلمة مرور جديدة (6 أحرف على الأقل)', ph_confirmpass: 'أعد كلمة المرور',
+    ph_reg_name: 'الاسم الكامل', ph_reg_email: 'بريدك@example.com', ph_reg_phone: '+964 7XX XXX XXXX', ph_reg_pass: 'أنشئ كلمة مرور',
+    ph_otp6: 'أدخل الرمز المكون من 6 أرقام',
+    // Visa pick page
+    visa_pick_h: 'إلى أين تريد <span class="gold-text">السفر؟</span>',
+    visa_pick_p: 'اختر دولة وجهتك أولاً — سنوجهك خلال بقية الخطوات.',
+    btn_continue: 'متابعة →', ph_search_country: 'ابحث عن دولة...',
+    // Visa steps
+    visa_step1_h: 'المعلومات الشخصية', visa_step1_p: 'أدخل البيانات كما تظهر في جواز سفرك بالضبط.',
+    lbl_v_name: 'الاسم الكامل', lbl_v_dob: 'تاريخ الميلاد', lbl_v_nat: 'الجنسية',
+    lbl_v_email: 'البريد الإلكتروني', lbl_v_phone: 'رقم الهاتف', lbl_v_passport: 'رقم جواز السفر',
+    btn_change_country: 'تغيير الدولة →', btn_next_travel: 'التالي: تفاصيل السفر →',
+    visa_step2_h: 'تفاصيل السفر', visa_step2_p: 'أدخل تواريخ رحلتك ونوع التأشيرة.',
+    lbl_visa_type: 'نوع التأشيرة', lbl_travel_date: 'تاريخ السفر', lbl_return_date: 'تاريخ العودة',
+    lbl_expiry: 'انتهاء صلاحية جواز السفر', lbl_duration: 'مدة الإقامة',
+    btn_back: 'رجوع →', btn_next_docs: 'التالي: المستندات →',
+    visa_step3_h: 'رفع المستندات', visa_step3_p: 'ارفع صوراً واضحة وعالية الجودة. المقبول: JPG، PNG، PDF (حد أقصى 5MB).',
+    doc_photo_h: 'الصورة الشخصية', doc_passport_h: 'صورة جواز السفر', doc_id_h: 'بطاقة الهوية الوطنية',
+    btn_remove: '✕ حذف', btn_next_payment: 'التالي: الدفع →',
+    visa_step4_h: 'الدفع الآمن', visa_step4_p: 'أكمل الدفع عبر بنك FIB لإرسال طلبك.',
+    btn_confirm_pay: 'تأكيد والدفع عبر FIB',
+    lbl_promo: 'رمز الخصم', btn_apply_coupon: 'تطبيق',
+    ph_passport_name: 'كما في جواز السفر', ph_passport_num: 'A12345678',
+    // Success page
+    success_h: 'تم الدفع بنجاح!', btn_download_inv: 'تحميل الفاتورة',
+    btn_view_apps: 'عرض طلباتي', btn_back_home: 'العودة للرئيسية →',
     about_p: 'انطلقنا من شغف السفر الاستثنائي لنصنع رحلات فاخرة منذ عام 2010.',
     // Contact
     contact_h: 'تواصل <span class="gold-text">معنا</span>',
@@ -5797,6 +5960,14 @@ function setLang(lang) {
     if (p) p.textContent = L[k+'_p'];
     if (btn) btn.textContent = L[k+'_btn'];
   });
+  // ── SERVICE PHOTO CARDS (Hero area) ────────────────────────
+  var heroCardTitles = document.querySelectorAll('.hero .hero-content > div[style*="overflow-x"] > div div:nth-child(3)');
+  var heroCardAR = ['خدمات التأشيرة','حجز الطيران','حجز الفنادق','باقات السياحة','خدمة النقل','خدمة VIP'];
+  var heroCardEN = ['Visa Services','Flight Booking','Hotel Reservation','Tour Packages','Transfer','VIP Assistance'];
+  heroCardTitles.forEach(function(el, i) {
+    if (isAr && heroCardAR[i]) el.textContent = heroCardAR[i];
+    else if (!isAr && heroCardEN[i]) el.textContent = heroCardEN[i];
+  });
 
   // ── WHY US ─────────────────────────────────────────────────
   var whySection = document.querySelector('.why-grid');
@@ -5855,31 +6026,197 @@ function setLang(lang) {
 
   // ── SERVICES PAGE ──────────────────────────────────────────
   var sfHero = document.querySelector('#page-services .page-hero h1');
-  if (sfHero) sfHero.innerHTML = isAr ? 'خدماتنا <span class="gold-text">المتميزة</span>' : 'Our Premium <span class="gold-text">Services</span>';
-  var sfCards = document.querySelectorAll('#page-services .sf-card');
+  if (sfHero) sfHero.innerHTML = L.svc_page_h;
+  var sfHeroP = document.querySelector('#page-services .page-hero p');
+  if (sfHeroP) sfHeroP.textContent = L.svc_page_p;
+  // sf-cards (services page full grid)
+  var sfCards = document.querySelectorAll('#svc-cards-grid .sf-card');
+  var sfKeys = ['sf1','sf2','sf3','sf4','sf5','sf6'];
   sfCards.forEach(function(card, i) {
-    var k = svcKeys[i];
-    if (!k || !L[k+'_h']) return;
+    var k = sfKeys[i];
+    if (!k) return;
     var h3 = card.querySelector('h3');
     var p = card.querySelector('p');
+    var btn = card.querySelector('.btn-primary');
     if (h3) h3.textContent = L[k+'_h'];
     if (p) p.textContent = L[k+'_p'];
+    if (btn) btn.textContent = L[k+'_btn'];
   });
+  // Back to services button
+  var backBtn = document.querySelector('#svc-inquiry-form button[onclick="closeSvcForm()"]');
+  if (backBtn) backBtn.innerHTML = (isAr ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg> ' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> ') + L.svc_back;
+
+  // ── ABOUT PAGE ─────────────────────────────────────────────
+  var aboutH = document.querySelector('#page-about .page-hero h1');
+  if (aboutH) aboutH.innerHTML = L.about_h;
+  var aboutP = document.querySelector('#page-about .page-hero p');
+  if (aboutP) aboutP.textContent = L.about_p;
+  var aboutMissionH = document.querySelector('#page-about .about-grid h2');
+  if (aboutMissionH) aboutMissionH.innerHTML = L.about_mission_h;
+  var aboutTimelineH = document.querySelector('#page-about .about-grid h3');
+  if (aboutTimelineH) aboutTimelineH.textContent = L.about_timeline_h;
+  var aboutTeamH = document.querySelector('#page-about .team-grid') && document.querySelector('#page-about .section-header h2');
+  if (aboutTeamH) aboutTeamH.innerHTML = L.about_team_h;
 
   // ── CONTACT PAGE ───────────────────────────────────────────
   var contactH = document.querySelector('#page-contact .page-hero h1');
   if (contactH) contactH.innerHTML = L.contact_h;
   var contactP = document.querySelector('#page-contact .page-hero p');
   if (contactP) contactP.textContent = L.contact_p;
+  // Contact info cards
+  var ciCards = document.querySelectorAll('#page-contact .ci-card h4');
+  var ciKeys = ['contact_office','contact_phone_lbl','contact_email_lbl','contact_wa_lbl'];
+  ciCards.forEach(function(el,i){ if(ciKeys[i]) el.textContent = L[ciKeys[i]]; });
+  // Contact form
+  var cfH = document.querySelector('#page-contact .contact-form-card h3');
+  if (cfH) cfH.textContent = L.contact_form_h;
+  var cfLabels = document.querySelectorAll('#page-contact .contact-form-card .input-label');
+  var cfLblKeys = ['lbl_fullname','lbl_email','lbl_phone','lbl_subject','lbl_message'];
+  cfLabels.forEach(function(el,i){ if(cfLblKeys[i]) el.textContent = L[cfLblKeys[i]]; });
+  var cfPhs = document.querySelectorAll('#page-contact .contact-form-card input, #page-contact .contact-form-card textarea');
+  var phKeys = ['ph_name','ph_email','ph_phone',null,'ph_message'];
+  cfPhs.forEach(function(el,i){ if(phKeys[i]) el.placeholder = L[phKeys[i]]; });
+  var cfBtn = document.querySelector('#page-contact .btn-primary');
+  if (cfBtn) cfBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> ' + L.btn_send;
 
   // ── AUTH PAGE ──────────────────────────────────────────────
   var authTabs = document.querySelectorAll('.auth-tab');
   if (authTabs[0]) authTabs[0].textContent = L.signin_tab;
   if (authTabs[1]) authTabs[1].textContent = L.register_tab;
+  // Login form
+  var loginEmailLbl = document.querySelector('#login-form .input-label');
+  if (loginEmailLbl) loginEmailLbl.textContent = L.lbl_email;
+  var loginEmailInp = document.getElementById('login-email');
+  if (loginEmailInp) loginEmailInp.placeholder = L.ph_login_email;
+  var loginPassLbl = document.querySelectorAll('#login-form .input-label')[1];
+  if (loginPassLbl) loginPassLbl.textContent = L.lbl_password;
+  var loginPassInp = document.getElementById('login-password');
+  if (loginPassInp) loginPassInp.placeholder = L.ph_login_pass;
+  var signinBtn = document.querySelector('#login-form .btn-primary');
+  if (signinBtn) signinBtn.textContent = L.btn_signin;
   var forgotBtn = document.querySelector('button[onclick="showForgotForm()"]');
   if (forgotBtn) forgotBtn.textContent = L.forgot_link;
-  var signinBtn = document.querySelector('#login-form .btn-primary');
-  if (signinBtn) signinBtn.textContent = L.signin_btn;
+  // Forgot password form
+  var forgotH = document.querySelector('#forgot-form h4');
+  if (forgotH) forgotH.textContent = L.forgot_h;
+  var forgotEmailLbl = document.querySelector('#forgot-step-1 .input-label');
+  if (forgotEmailLbl) forgotEmailLbl.textContent = L.forgot_email_lbl;
+  var forgotEmailInp = document.getElementById('forgot-email');
+  if (forgotEmailInp) forgotEmailInp.placeholder = L.ph_login_email;
+  var sendResetBtn = document.querySelector('#forgot-step-1 .btn-primary');
+  if (sendResetBtn) sendResetBtn.textContent = L.btn_send_reset;
+  var otpLbls = document.querySelectorAll('#forgot-step-2 .input-label');
+  if (otpLbls[0]) otpLbls[0].textContent = L.lbl_otp;
+  if (otpLbls[1]) otpLbls[1].textContent = L.lbl_newpass;
+  if (otpLbls[2]) otpLbls[2].textContent = L.lbl_confirmpass;
+  var otpInp = document.getElementById('forgot-otp');
+  if (otpInp) otpInp.placeholder = L.ph_otp;
+  var newpassInp = document.getElementById('forgot-newpass');
+  if (newpassInp) newpassInp.placeholder = L.ph_newpass;
+  var confirmpassInp = document.getElementById('forgot-confirmpass');
+  if (confirmpassInp) confirmpassInp.placeholder = L.ph_confirmpass;
+  var resetBtn = document.querySelector('#forgot-step-2 .btn-primary');
+  if (resetBtn) resetBtn.textContent = L.btn_reset;
+  var backSigninBtn = document.querySelector('#forgot-form button[onclick="hideForgotForm()"]');
+  if (backSigninBtn) backSigninBtn.textContent = L.btn_back_signin;
+  // Register form labels & buttons
+  var regLabels = document.querySelectorAll('#reg-step-1 .input-label');
+  var regLblKeys = ['lbl_reg_name','lbl_reg_email','lbl_phone','lbl_reg_pass'];
+  regLabels.forEach(function(el,i){ if(regLblKeys[i]) el.textContent = L[regLblKeys[i]]; });
+  var regInputs = document.querySelectorAll('#reg-step-1 .input');
+  var regPhKeys = ['ph_reg_name','ph_reg_email','ph_reg_phone','ph_reg_pass'];
+  regInputs.forEach(function(el,i){ if(regPhKeys[i]) el.placeholder = L[regPhKeys[i]]; });
+  var sendVerifyBtn = document.querySelector('#reg-step-1 .btn-primary');
+  if (sendVerifyBtn) sendVerifyBtn.textContent = L.btn_send_verify;
+  var checkEmailH = document.querySelector('#reg-step-2 h4');
+  if (checkEmailH) checkEmailH.textContent = L.check_email_h;
+  var otpInput = document.getElementById('otp-input');
+  if (otpInput) otpInput.placeholder = L.ph_otp6;
+  var verifyBtn = document.querySelector('#reg-step-2 .btn-primary');
+  if (verifyBtn) verifyBtn.textContent = L.btn_verify;
+  // User profile labels
+  var profileLabels = document.querySelectorAll('#auth-logged-in .input-label, #auth-logged-in [style*="uppercase"]');
+  // Auth action buttons
+  var newVisaBtn = document.querySelector('#auth-logged-in .btn-primary');
+  if (newVisaBtn) newVisaBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ' + L.auth_new_visa;
+  var logoutBtn = document.querySelector('#auth-logged-in .btn-ghost');
+  if (logoutBtn) logoutBtn.textContent = L.auth_logout;
+
+  // ── VISA PICK PAGE ─────────────────────────────────────────
+  var vpH = document.querySelector('#page-visa-pick h1');
+  if (vpH) vpH.innerHTML = L.visa_pick_h;
+  var vpP = document.querySelector('#page-visa-pick > .visa-country-screen > p');
+  if (vpP) vpP.textContent = L.visa_pick_p;
+  var vpSearch = document.getElementById('cp-search');
+  if (vpSearch) vpSearch.placeholder = L.ph_search_country;
+  var vpContinue = document.querySelector('#page-visa-pick .btn-primary');
+  if (vpContinue) vpContinue.textContent = L.btn_continue;
+
+  // ── VISA STEPS ─────────────────────────────────────────────
+  // Step labels in sidebar
+  var vstepLabels = document.querySelectorAll('.vstep-label');
+  var vstepKeys = ['visa_step1_h','visa_step2_h','visa_step3_h','visa_step4_h'];
+  vstepLabels.forEach(function(el,i){ if(vstepKeys[i]) el.textContent = L[vstepKeys[i]]; });
+  // Step 1
+  var s1H = document.querySelector('#vstep-1 h3');
+  if (s1H) s1H.textContent = L.visa_step1_h;
+  var s1P = document.querySelector('#vstep-1 > p');
+  if (s1P) s1P.textContent = L.visa_step1_p;
+  var s1Labels = document.querySelectorAll('#vstep-1 .input-label');
+  var s1LblKeys = ['lbl_v_name','lbl_v_dob','lbl_v_nat','lbl_v_email','lbl_v_phone','lbl_v_passport'];
+  s1Labels.forEach(function(el,i){ if(s1LblKeys[i]) el.textContent = L[s1LblKeys[i]]; });
+  var vNameInp = document.getElementById('v-name');
+  if (vNameInp) vNameInp.placeholder = L.ph_passport_name;
+  var vPassInp = document.getElementById('v-passport');
+  if (vPassInp) vPassInp.placeholder = L.ph_passport_num;
+  var s1Actions = document.querySelectorAll('#vstep-1 .step-actions button');
+  if (s1Actions[0]) s1Actions[0].textContent = L.btn_change_country;
+  if (s1Actions[1]) s1Actions[1].textContent = L.btn_next_travel;
+  // Step 2
+  var s2H = document.querySelector('#vstep-2 h3');
+  if (s2H) s2H.textContent = L.visa_step2_h;
+  var s2P = document.querySelector('#vstep-2 > p');
+  if (s2P) s2P.textContent = L.visa_step2_p;
+  var s2Labels = document.querySelectorAll('#vstep-2 .input-label');
+  var s2LblKeys = ['lbl_visa_type','lbl_travel_date','lbl_expiry','lbl_duration'];
+  s2Labels.forEach(function(el,i){ if(s2LblKeys[i]) el.textContent = L[s2LblKeys[i]]; });
+  var s2Actions = document.querySelectorAll('#vstep-2 .step-actions button');
+  if (s2Actions[0]) s2Actions[0].textContent = L.btn_back;
+  if (s2Actions[1]) s2Actions[1].textContent = L.btn_next_docs;
+  // Step 3
+  var s3H = document.querySelector('#vstep-3 h3');
+  if (s3H) s3H.textContent = L.visa_step3_h;
+  var s3P = document.querySelector('#vstep-3 > p');
+  if (s3P) s3P.textContent = L.visa_step3_p;
+  document.querySelectorAll('#vstep-3 .upload-zone h4').forEach(function(el,i){
+    var keys = ['doc_photo_h','doc_passport_h','doc_id_h'];
+    if(keys[i]) el.textContent = L[keys[i]];
+  });
+  var s3Actions = document.querySelectorAll('#vstep-3 .step-actions button');
+  if (s3Actions[0]) s3Actions[0].textContent = L.btn_back;
+  if (s3Actions[1]) s3Actions[1].textContent = L.btn_next_payment;
+  // Step 4
+  var s4H = document.querySelector('#vstep-4 h3');
+  if (s4H) s4H.textContent = L.visa_step4_h;
+  var s4P = document.querySelector('#vstep-4 > p');
+  if (s4P) s4P.textContent = L.visa_step4_p;
+  var payBtn = document.getElementById('pay-btn');
+  if (payBtn) payBtn.textContent = L.btn_confirm_pay;
+  var promoLbl = document.querySelector('#coupon-inject .input-label, #coupon-inject div:first-child');
+  if (promoLbl) promoLbl.textContent = L.lbl_promo;
+  var promoBtn = document.querySelector('#coupon-inject .btn-primary');
+  if (promoBtn) promoBtn.textContent = L.btn_apply_coupon;
+  var s4Actions = document.querySelectorAll('#vstep-4 .step-actions button');
+  if (s4Actions[0]) s4Actions[0].textContent = L.btn_back;
+
+  // ── SUCCESS PAGE ───────────────────────────────────────────
+  var successH = document.querySelector('#page-success h2');
+  if (successH) successH.textContent = L.success_h;
+  var successBtns = document.querySelectorAll('#page-success .success-body .btn-primary, #page-success .success-body .btn-ghost');
+  if (successBtns[0]) successBtns[0].innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ' + L.btn_download_inv;
+  if (successBtns[1]) successBtns[1].textContent = L.btn_view_apps;
+  var backHomeBtn = document.querySelector('#page-success .success-body .btn-ghost:last-child');
+  if (backHomeBtn) backHomeBtn.textContent = L.btn_back_home;
 
   // ── TRACKER PAGE ───────────────────────────────────────────
   var trackH = document.querySelector('#page-tracker .page-hero h1');
