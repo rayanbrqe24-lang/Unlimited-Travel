@@ -2036,8 +2036,8 @@ body.rtl-mode .mobile-nav { text-align:right; }
         <!-- Login form -->
         <div id="login-form">
           <div class="auth-form">
-            <div><label class="input-label">Email</label><input class="input" type="email" id="login-email" placeholder="your@email.com"></div>
-            <div><label class="input-label">Password</label><input class="input" type="password" id="login-password" placeholder="••••••••"></div>
+            <div><label class="input-label">Email</label><input class="input" type="email" id="login-email" placeholder="your@email.com" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')"></div>
+            <div><label class="input-label">Password</label><input class="input" type="password" id="login-password" placeholder="••••••••" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')"></div>
             <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">Sign In →</button>
           </div>
           <div style="text-align:center;margin-top:0.875rem;">
