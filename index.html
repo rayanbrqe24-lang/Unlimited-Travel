@@ -1259,6 +1259,33 @@ body.rtl-mode .tl-step { flex-direction:row-reverse; text-align:right; }
 body.rtl-mode .mobile-nav { text-align:right; }
 
 
+
+/* ── AIRPORT SEARCH ──────────────────────────────────────── */
+.airport-dropdown{
+  position:absolute;top:100%;left:0;right:0;z-index:9999;
+  background:#0c1232;border:1px solid rgba(255,10,84,0.25);
+  border-radius:12px;margin-top:4px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.5);
+  display:none;max-height:260px;overflow-y:auto;
+}
+.airport-dropdown.open{display:block;animation:fadeIn 0.15s ease;}
+.airport-item{
+  display:flex;align-items:center;gap:0.875rem;
+  padding:0.75rem 1rem;cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  transition:background 0.15s;
+}
+.airport-item:last-child{border-bottom:none;}
+.airport-item:hover{background:rgba(255,10,84,0.08);}
+.airport-code{
+  font-family:var(--font-display);font-size:0.9rem;font-weight:700;
+  color:var(--gold-400);min-width:36px;
+}
+.airport-info{flex:1;}
+.airport-name{font-size:0.85rem;font-weight:600;color:#fff;}
+.airport-city{font-size:0.72rem;color:var(--gray-400);margin-top:0.1rem;}
+.airport-icon{color:var(--gray-500);flex-shrink:0;}
+
 /* ── CUSTOM DATE PICKER ─────────────────────────────────── */
 .date-picker-wrap{position:relative;display:inline-block;width:100%;}
 .date-picker-input{
@@ -1842,8 +1869,16 @@ body.rtl-mode .mobile-nav { text-align:right; }
 
                 <!-- From / To -->
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
-                  <div><label class="input-label">From</label><input class="input" id="fl-from" placeholder="Baghdad (BGW)"></div>
-                  <div><label class="input-label">To</label><input class="input" id="fl-to" placeholder="Istanbul (IST)"></div>
+                  <div style="position:relative;">
+                    <label class="input-label">From</label>
+                    <input class="input" id="fl-from" placeholder="City or airport code..." autocomplete="off" oninput="airportSearch(this,'fl-from-drop')" onfocus="airportSearch(this,'fl-from-drop')" onblur="setTimeout(function(){closeAirportDrop('fl-from-drop')},200)">
+                    <div id="fl-from-drop" class="airport-dropdown"></div>
+                  </div>
+                  <div style="position:relative;">
+                    <label class="input-label">To</label>
+                    <input class="input" id="fl-to" placeholder="City or airport code..." autocomplete="off" oninput="airportSearch(this,'fl-to-drop')" onfocus="airportSearch(this,'fl-to-drop')" onblur="setTimeout(function(){closeAirportDrop('fl-to-drop')},200)">
+                    <div id="fl-to-drop" class="airport-dropdown"></div>
+                  </div>
                 </div>
 
                 <!-- Dates -->
@@ -6482,6 +6517,171 @@ window.addEventListener('load', function() {
 });
 
 console.log('[UNLIMITED] All 6 features loaded OK');
+
+
+// ================================================================
+//  AIRPORT DATABASE & SEARCH
+// ================================================================
+var AIRPORTS = [
+  // Iraq
+  {code:'BGW',name:'Baghdad International Airport',city:'Baghdad, Iraq',country:'IQ'},
+  {code:'EBL',name:'Erbil International Airport',city:'Erbil, Iraq',country:'IQ'},
+  {code:'BSR',name:'Basra International Airport',city:'Basra, Iraq',country:'IQ'},
+  {code:'ISU',name:'Sulaymaniyah International Airport',city:'Sulaymaniyah, Iraq',country:'IQ'},
+  {code:'NJF',name:'Al Najaf International Airport',city:'Najaf, Iraq',country:'IQ'},
+  {code:'OSM',name:'Mosul Airport',city:'Mosul, Iraq',country:'IQ'},
+  // UAE
+  {code:'DXB',name:'Dubai International Airport',city:'Dubai, UAE',country:'AE'},
+  {code:'AUH',name:'Abu Dhabi International Airport',city:'Abu Dhabi, UAE',country:'AE'},
+  {code:'SHJ',name:'Sharjah International Airport',city:'Sharjah, UAE',country:'AE'},
+  {code:'DWC',name:'Al Maktoum International Airport',city:'Dubai, UAE',country:'AE'},
+  // Turkey
+  {code:'IST',name:'Istanbul Airport',city:'Istanbul, Turkey',country:'TR'},
+  {code:'SAW',name:'Sabiha Gokcen International Airport',city:'Istanbul, Turkey',country:'TR'},
+  {code:'ADB',name:'Izmir Adnan Menderes Airport',city:'Izmir, Turkey',country:'TR'},
+  {code:'ESB',name:'Ankara Esenboga Airport',city:'Ankara, Turkey',country:'TR'},
+  {code:'AYT',name:'Antalya Airport',city:'Antalya, Turkey',country:'TR'},
+  // Saudi Arabia
+  {code:'RUH',name:'King Khalid International Airport',city:'Riyadh, Saudi Arabia',country:'SA'},
+  {code:'JED',name:'King Abdulaziz International Airport',city:'Jeddah, Saudi Arabia',country:'SA'},
+  {code:'DMM',name:'King Fahd International Airport',city:'Dammam, Saudi Arabia',country:'SA'},
+  {code:'MED',name:'Prince Mohammad Bin Abdulaziz Airport',city:'Medina, Saudi Arabia',country:'SA'},
+  // UK
+  {code:'LHR',name:'Heathrow Airport',city:'London, United Kingdom',country:'GB'},
+  {code:'LGW',name:'Gatwick Airport',city:'London, United Kingdom',country:'GB'},
+  {code:'STN',name:'Stansted Airport',city:'London, United Kingdom',country:'GB'},
+  {code:'MAN',name:'Manchester Airport',city:'Manchester, United Kingdom',country:'GB'},
+  {code:'BHX',name:'Birmingham Airport',city:'Birmingham, United Kingdom',country:'GB'},
+  // Germany
+  {code:'FRA',name:'Frankfurt Airport',city:'Frankfurt, Germany',country:'DE'},
+  {code:'MUC',name:'Munich Airport',city:'Munich, Germany',country:'DE'},
+  {code:'BER',name:'Berlin Brandenburg Airport',city:'Berlin, Germany',country:'DE'},
+  {code:'HAM',name:'Hamburg Airport',city:'Hamburg, Germany',country:'DE'},
+  {code:'DUS',name:'Dusseldorf Airport',city:'Dusseldorf, Germany',country:'DE'},
+  // France
+  {code:'CDG',name:'Charles de Gaulle Airport',city:'Paris, France',country:'FR'},
+  {code:'ORY',name:'Paris Orly Airport',city:'Paris, France',country:'FR'},
+  {code:'NCE',name:'Nice Cote d Azur Airport',city:'Nice, France',country:'FR'},
+  // USA
+  {code:'JFK',name:'John F. Kennedy International Airport',city:'New York, USA',country:'US'},
+  {code:'LAX',name:'Los Angeles International Airport',city:'Los Angeles, USA',country:'US'},
+  {code:'ORD',name:'O\'Hare International Airport',city:'Chicago, USA',country:'US'},
+  {code:'DFW',name:'Dallas Fort Worth International Airport',city:'Dallas, USA',country:'US'},
+  {code:'MIA',name:'Miami International Airport',city:'Miami, USA',country:'US'},
+  {code:'IAD',name:'Dulles International Airport',city:'Washington DC, USA',country:'US'},
+  // Egypt
+  {code:'CAI',name:'Cairo International Airport',city:'Cairo, Egypt',country:'EG'},
+  {code:'HRG',name:'Hurghada International Airport',city:'Hurghada, Egypt',country:'EG'},
+  {code:'SSH',name:'Sharm el-Sheikh International Airport',city:'Sharm el-Sheikh, Egypt',country:'EG'},
+  {code:'LXR',name:'Luxor International Airport',city:'Luxor, Egypt',country:'EG'},
+  // Jordan
+  {code:'AMM',name:'Queen Alia International Airport',city:'Amman, Jordan',country:'JO'},
+  // Kuwait
+  {code:'KWI',name:'Kuwait International Airport',city:'Kuwait City, Kuwait',country:'KW'},
+  // Qatar
+  {code:'DOH',name:'Hamad International Airport',city:'Doha, Qatar',country:'QA'},
+  // Bahrain
+  {code:'BAH',name:'Bahrain International Airport',city:'Manama, Bahrain',country:'BH'},
+  // Oman
+  {code:'MCT',name:'Muscat International Airport',city:'Muscat, Oman',country:'OM'},
+  // Lebanon
+  {code:'BEY',name:'Beirut Rafic Hariri International Airport',city:'Beirut, Lebanon',country:'LB'},
+  // Iran
+  {code:'IKA',name:'Imam Khomeini International Airport',city:'Tehran, Iran',country:'IR'},
+  {code:'THR',name:'Mehrabad International Airport',city:'Tehran, Iran',country:'IR'},
+  // India
+  {code:'DEL',name:'Indira Gandhi International Airport',city:'New Delhi, India',country:'IN'},
+  {code:'BOM',name:'Chhatrapati Shivaji International Airport',city:'Mumbai, India',country:'IN'},
+  // Malaysia
+  {code:'KUL',name:'Kuala Lumpur International Airport',city:'Kuala Lumpur, Malaysia',country:'MY'},
+  // Thailand
+  {code:'BKK',name:'Suvarnabhumi Airport',city:'Bangkok, Thailand',country:'TH'},
+  {code:'DMK',name:'Don Mueang International Airport',city:'Bangkok, Thailand',country:'TH'},
+  // Netherlands
+  {code:'AMS',name:'Amsterdam Schiphol Airport',city:'Amsterdam, Netherlands',country:'NL'},
+  // Spain
+  {code:'MAD',name:'Adolfo Suarez Madrid Barajas Airport',city:'Madrid, Spain',country:'ES'},
+  {code:'BCN',name:'Barcelona El Prat Airport',city:'Barcelona, Spain',country:'ES'},
+  // Italy
+  {code:'FCO',name:'Leonardo da Vinci International Airport',city:'Rome, Italy',country:'IT'},
+  {code:'MXP',name:'Milan Malpensa Airport',city:'Milan, Italy',country:'IT'},
+  // Austria
+  {code:'VIE',name:'Vienna International Airport',city:'Vienna, Austria',country:'AT'},
+  // Switzerland
+  {code:'ZUR',name:'Zurich Airport',city:'Zurich, Switzerland',country:'CH'},
+  {code:'GVA',name:'Geneva Airport',city:'Geneva, Switzerland',country:'CH'},
+  // Canada
+  {code:'YYZ',name:'Toronto Pearson International Airport',city:'Toronto, Canada',country:'CA'},
+  {code:'YVR',name:'Vancouver International Airport',city:'Vancouver, Canada',country:'CA'},
+  // Australia
+  {code:'SYD',name:'Sydney Airport',city:'Sydney, Australia',country:'AU'},
+  {code:'MEL',name:'Melbourne Airport',city:'Melbourne, Australia',country:'AU'},
+  // Russia
+  {code:'SVO',name:'Sheremetyevo International Airport',city:'Moscow, Russia',country:'RU'},
+  {code:'DME',name:'Domodedovo International Airport',city:'Moscow, Russia',country:'RU'},
+  // China
+  {code:'PEK',name:'Beijing Capital International Airport',city:'Beijing, China',country:'CN'},
+  {code:'PVG',name:'Shanghai Pudong International Airport',city:'Shanghai, China',country:'CN'},
+  // Japan
+  {code:'NRT',name:'Narita International Airport',city:'Tokyo, Japan',country:'JP'},
+  {code:'HND',name:'Haneda Airport',city:'Tokyo, Japan',country:'JP'},
+  {code:'KIX',name:'Kansai International Airport',city:'Osaka, Japan',country:'JP'},
+  // South Korea
+  {code:'ICN',name:'Incheon International Airport',city:'Seoul, South Korea',country:'KR'},
+  // Singapore
+  {code:'SIN',name:'Singapore Changi Airport',city:'Singapore',country:'SG'},
+  // Maldives
+  {code:'MLE',name:'Velana International Airport',city:'Male, Maldives',country:'MV'},
+  // Greece
+  {code:'ATH',name:'Athens International Airport',city:'Athens, Greece',country:'GR'},
+  // Pakistan
+  {code:'KHI',name:'Jinnah International Airport',city:'Karachi, Pakistan',country:'PK'},
+  {code:'LHE',name:'Allama Iqbal International Airport',city:'Lahore, Pakistan',country:'PK'},
+  // Syria
+  {code:'DAM',name:'Damascus International Airport',city:'Damascus, Syria',country:'SY'},
+  // Yemen
+  {code:'SAH',name:'Sanaa International Airport',city:'Sanaa, Yemen',country:'YE'},
+];
+
+function airportSearch(input, dropId) {
+  var q = input.value.trim().toLowerCase();
+  var drop = document.getElementById(dropId);
+  if (!drop) return;
+  if (!q || q.length < 1) { closeAirportDrop(dropId); return; }
+
+  var results = AIRPORTS.filter(function(a) {
+    return a.code.toLowerCase().startsWith(q) ||
+           a.name.toLowerCase().includes(q) ||
+           a.city.toLowerCase().includes(q);
+  }).slice(0, 7);
+
+  if (!results.length) { closeAirportDrop(dropId); return; }
+
+  drop.innerHTML = results.map(function(a) {
+    return '<div class="airport-item" onmousedown="selectAirport(event,\'' + input.id + '\',\'' + dropId + '\',\'' + a.code + '\',\'' + a.name.replace(/'/g,'') + '\',\'' + a.city.replace(/'/g,'') + '\')">' +
+      '<svg class="airport-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>' +
+      '<div class="airport-info">' +
+        '<div class="airport-name"><span class="airport-code">' + a.code + '</span> — ' + a.name + '</div>' +
+        '<div class="airport-city">' + a.city + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  drop.classList.add('open');
+  drop.style.display = 'block';
+}
+
+function selectAirport(e, inputId, dropId, code, name, city) {
+  e.preventDefault();
+  var input = document.getElementById(inputId);
+  if (input) input.value = code + ' — ' + name;
+  closeAirportDrop(dropId);
+}
+
+function closeAirportDrop(dropId) {
+  var drop = document.getElementById(dropId);
+  if (drop) { drop.classList.remove('open'); drop.style.display = 'none'; }
+}
 
 
 // ================================================================
