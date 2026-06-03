@@ -271,7 +271,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-display);letter-spacing:-0.02em;}
 }
 @keyframes particleFloat{0%,100%{transform:translateY(0) scale(1);opacity:0.3}50%{transform:translateY(-25px) scale(1.5);opacity:0.6}}
 .hero-content{
-  position:relative;z-index:2;
+  position:relative;z-index:100;
   text-align:center;max-width:1000px;
   padding:8rem 2rem 4rem;
 }
@@ -299,6 +299,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-display);letter-spacing:-0.02em;}
 .hero-search{
   max-width:560px;margin:0 auto 3rem;
   animation:slideUp 0.8s ease 0.7s both;
+  position:relative;z-index:200;
 }
 .search-box{
   display:flex;gap:0.5rem;
@@ -3425,7 +3426,7 @@ function showSearchResults(q, cityResult, airportMatch) {
 
   var panel = document.createElement('div');
   panel.id = 'search-results-panel';
-  panel.style.cssText = 'position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:2000;background:#0c1232;border:1px solid rgba(255,10,84,0.25);border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.8);';
+  panel.style.cssText = 'position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:9999;background:#0c1232;border:1px solid rgba(255,10,84,0.25);border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.8);';
 
   var html = '';
 
