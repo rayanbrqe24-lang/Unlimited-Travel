@@ -3664,7 +3664,7 @@ async function doLogin() {
   updateNavUserPill();
   setTimeout(() => {
     if (found.role === 'admin') nav('admin');
-    else { setupAuthPage(); }
+    else { nav('home'); }
   }, 800);
 }
 
@@ -4125,10 +4125,10 @@ async function modalLogin() {
   if (found.password && found.password !== password) { showToast(_SVG_ICONS.error,'Wrong Password','Incorrect password. Please try again.'); return; }
   DB.currentUser = found;
   closeAuthModal();
-  showToast(_SVG_ICONS.success,'Welcome back, ' + found.fullName.split(' ')[0] + '!','Opening visa application...');
+  showToast(_SVG_ICONS.success,'Welcome back, ' + found.fullName.split(' ')[0] + '!','Logged in successfully!');
   updateNavUserPill();
   if (selectedCountryId) { nav('visa'); setupVisaPage(); }
-  else nav('visa-pick');
+  else nav('home');
 }
 async function modalRegister() {
   const name = document.getElementById('modal-reg-name').value.trim();
