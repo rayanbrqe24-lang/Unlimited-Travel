@@ -7181,54 +7181,85 @@ function handleApproveFile(input) {
 async function confirmApproveWithFile() {
   var btn = document.getElementById('approve-confirm-btn');
   btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.innerHTML = '<span style="opacity:.7">⏳ Uploading...</span>';
 
-  // Update status in DB
-  await updateAppStatus(_approveData.orderNumber, 'Approved');
-
-  // Send approval email with file attachment via EmailJS
   var note = document.getElementById('approve-note').value.trim();
   var app = (_cache.apps || []).find(function(a) { return a.orderNumber === _approveData.orderNumber; });
+  var fileUrl = null;
+
+  // Step 1: Upload file to Supabase Storage if file selected
+  if (_approveData.file) {
+    try {
+      btn.innerHTML = '<span style="opacity:.7">⏳ Uploading file...</span>';
+      var fileName = 'visa-' + _approveData.orderNumber + '-' + Date.now() + '.' + _approveData.file.name.split('.').pop();
+      var uploadResp = await supa.storage.from('visa-documents').upload(fileName, _approveData.file, {
+        cacheControl: '3600',
+        upsert: true,
+        contentType: _approveData.file.type
+      });
+      if (uploadResp.error) throw uploadResp.error;
+      // Get public URL
+      var urlResp = supa.storage.from('visa-documents').getPublicUrl(fileName);
+      fileUrl = urlResp.data.publicUrl;
+      console.log('File uploaded:', fileUrl);
+    } catch(e) {
+      console.error('Upload error:', e);
+      showToastSVG('warn', 'Upload Failed', 'Could not upload file: ' + (e.message || 'Check Supabase storage bucket'));
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & Send Email';
+      return;
+    }
+  }
+
+  // Step 2: Update status in DB + save file URL
+  await updateAppStatus(_approveData.orderNumber, 'Approved');
+  if (fileUrl) {
+    try {
+      await supa.from('applications').update({ visa_document_url: fileUrl }).eq('order_number', _approveData.orderNumber);
+    } catch(e) { console.log('Could not save file URL to DB'); }
+  }
+
+  // Step 3: Send email with download link
+  btn.innerHTML = '<span style="opacity:.7">⏳ Sending email...</span>';
+  var downloadBlock = fileUrl
+    ? '<div style="text-align:center;margin:1.5rem 0;"><a href="' + fileUrl + '" style="display:inline-block;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:0.875rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;">📄 Download Your Visa Document</a></div>'
+    : '';
+
+  var message = note
+    ? note
+    : 'Congratulations! Your visa application for ' + (app ? app.countryNameEn : 'your destination') + ' has been APPROVED.' + (fileUrl ? ' Your visa document is ready for download below.' : ' Our team will contact you for delivery.');
 
   try {
     if (typeof emailjs !== 'undefined') {
       emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
       var params = {
-        to_name: _approveData.customerName,
-        to_email: _approveData.email,
-        subject: '✅ Visa Approved — ' + _approveData.orderNumber,
-        order_number: _approveData.orderNumber,
-        country: app ? app.countryNameEn : '—',
-        travel_date: app ? (app.travelDate || '—') : '—',
-        status: 'Approved',
-        status_icon: '✅',
-        message: note || ('Congratulations! Your visa application for ' + (app ? app.countryNameEn : 'your destination') + ' has been APPROVED. ' + (_approveData.file ? 'Your visa document is attached to this email.' : 'Our team will contact you for delivery.')),
-        invoice_block: 'none',
-        status_block: 'block',
+        to_name:        _approveData.customerName,
+        to_email:       _approveData.email,
+        subject:        '✅ Visa Approved — ' + _approveData.orderNumber,
+        order_number:   _approveData.orderNumber,
+        country:        app ? app.countryNameEn : '—',
+        travel_date:    app ? (app.travelDate || '—') : '—',
+        status:         'Approved',
+        status_icon:    '✅',
+        message:        message,
+        download_block: downloadBlock,
+        file_url:       fileUrl || '',
+        invoice_block:  'none',
+        status_block:   'block',
         approved_block: 'block',
         rejected_block: 'none',
-        date: new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
+        date:           new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
       };
-
-      // Send to customer
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-      // Send copy to manager
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, params, { to_email: MANAGER_EMAIL, to_name: MANAGER_NAME }));
-
       showToastSVG('mail', 'Email Sent!', 'Approval email sent to ' + _approveData.email);
     }
   } catch(e) {
     console.error('Email error:', e);
-    showToastSVG('warn', 'Email Failed', 'Status updated but email failed: ' + (e.text || e.message || ''));
+    showToastSVG('warn', 'Email Failed', 'Status updated but email failed.');
   }
 
-  if (_approveData.file) {
-    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified with visa document.');
-  } else {
-    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified by email.');
-  }
-
+  showToastSVG('success', 'Approved!', fileUrl ? 'Visa document uploaded & emailed to customer.' : 'Customer notified by email.');
   closeApproveModal();
   btn.disabled = false;
   btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & Send Email';
