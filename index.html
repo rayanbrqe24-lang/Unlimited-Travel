@@ -3322,53 +3322,189 @@ function sendContact() {
   showToast(_SVG_ICONS.success,'Message Sent!','We will contact you within 1 hour.'); 
 }
 function handleSearch() {
-  const q = document.getElementById('heroSearch').value.trim().toLowerCase();
+  var q = (document.getElementById('heroSearch').value || '').trim().toLowerCase();
   if (!q) { nav('visa-pick'); return; }
 
-  // Search in countries list
-  const countries = _cache.countries || [];
-  const match = countries.find(c =>
-    c.nameEn.toLowerCase().includes(q) ||
-    (c.nameAr && c.nameAr.includes(q)) ||
-    c.id.toLowerCase() === q
-  );
+  // City/destination keywords that should show results panel
+  var cityMap = {
+    'dubai':    { visa:'ae', flight:'DXB', label:'Dubai, UAE' },
+    'abu dhabi':{ visa:'ae', flight:'AUH', label:'Abu Dhabi, UAE' },
+    'istanbul': { visa:'tr', flight:'IST', label:'Istanbul, Turkey' },
+    'ankara':   { visa:'tr', flight:'ESB', label:'Ankara, Turkey' },
+    'london':   { visa:'uk', flight:'LHR', label:'London, UK' },
+    'paris':    { visa:'de', flight:'CDG', label:'Paris, France' },
+    'berlin':   { visa:'de', flight:'BER', label:'Berlin, Germany' },
+    'frankfurt':{ visa:'de', flight:'FRA', label:'Frankfurt, Germany' },
+    'new york': { visa:'us', flight:'JFK', label:'New York, USA' },
+    'los angeles':{ visa:'us', flight:'LAX', label:'Los Angeles, USA' },
+    'cairo':    { visa:'eg', flight:'CAI', label:'Cairo, Egypt' },
+    'hurghada': { visa:'eg', flight:'HRG', label:'Hurghada, Egypt' },
+    'amman':    { visa:'jo', flight:'AMM', label:'Amman, Jordan' },
+    'riyadh':   { visa:'sa', flight:'RUH', label:'Riyadh, Saudi Arabia' },
+    'jeddah':   { visa:'sa', flight:'JED', label:'Jeddah, Saudi Arabia' },
+    'kuwait':   { visa:'kw', flight:'KWI', label:'Kuwait City, Kuwait' },
+    'doha':     { visa:'qa', flight:'DOH', label:'Doha, Qatar' },
+    'muscat':   { visa:'om', flight:'MCT', label:'Muscat, Oman' },
+    'beirut':   { visa:'lb', flight:'BEY', label:'Beirut, Lebanon' },
+    'bangkok':  { visa:'th', flight:'BKK', label:'Bangkok, Thailand' },
+    'singapore':{ visa:'sg', flight:'SIN', label:'Singapore' },
+    'kuala lumpur':{ visa:'my', flight:'KUL', label:'Kuala Lumpur' },
+    'maldives': { visa:'mv', flight:'MLE', label:'Maldives' },
+    'athens':   { visa:'gr', flight:'ATH', label:'Athens, Greece' },
+    'vienna':   { visa:'at', flight:'VIE', label:'Vienna, Austria' },
+    'amsterdam':{ visa:'nl', flight:'AMS', label:'Amsterdam, Netherlands' },
+    'madrid':   { visa:'es', flight:'MAD', label:'Madrid, Spain' },
+    'barcelona':{ visa:'es', flight:'BCN', label:'Barcelona, Spain' },
+    'rome':     { visa:'it', flight:'FCO', label:'Rome, Italy' },
+    'milan':    { visa:'it', flight:'MXP', label:'Milan, Italy' },
+    'moscow':   { visa:'ru', flight:'SVO', label:'Moscow, Russia' },
+    'tokyo':    { visa:'jp', flight:'NRT', label:'Tokyo, Japan' },
+    'beijing':  { visa:'cn', flight:'PEK', label:'Beijing, China' },
+    'shanghai': { visa:'cn', flight:'PVG', label:'Shanghai, China' },
+    'seoul':    { visa:'kr', flight:'ICN', label:'Seoul, South Korea' },
+    'sydney':   { visa:'au', flight:'SYD', label:'Sydney, Australia' },
+  };
 
-  if (match) {
-    // Found a country — go directly to visa application
-    selectedCountryId = match.id;
-    showToast(_SVG_ICONS.success, match.flag + ' ' + match.nameEn + ' Found!', 'Starting your visa application...');
-    setTimeout(() => {
-      if (!DB.currentUser) { nav('auth'); return; }
-      nav('visa');
-      setupVisaPage();
-    }, 600);
+  // Check if query matches a city
+  var cityResult = null;
+  for (var city in cityMap) {
+    if (q.includes(city) || city.includes(q)) {
+      cityResult = cityMap[city];
+      cityResult.cityName = city;
+      break;
+    }
+  }
+
+  // Also check airport codes
+  var airportMatch = (typeof AIRPORTS !== 'undefined') ? AIRPORTS.find(function(a) {
+    return a.code.toLowerCase() === q || a.city.toLowerCase().includes(q) || a.name.toLowerCase().includes(q);
+  }) : null;
+
+  if (cityResult || airportMatch) {
+    showSearchResults(q, cityResult, airportMatch);
     return;
   }
 
-  // Check services keywords
-  const svcKeywords = {
-    flights: ['flight','fly','plane','ticket','airplane','طيران','رحلة'],
-    hotels: ['hotel','room','stay','accommodation','فندق','سكن'],
-    transfer: ['transfer','car','taxi','pickup','ride','سيارة','نقل'],
-    tours: ['tour','package','trip','travel','رحلة','سياحة'],
-  };
+  // Check exact country match
+  var countries = _cache.countries || [];
+  var countryMatch = countries.find(function(c) {
+    return c.nameEn.toLowerCase().includes(q) || (c.nameAr && c.nameAr.includes(q)) || c.id.toLowerCase() === q;
+  });
+  if (countryMatch) {
+    showSearchResults(q, { visa: countryMatch.id, flight: null, label: countryMatch.nameEn, flag: countryMatch.flag }, null);
+    return;
+  }
 
-  for (const [type, keywords] of Object.entries(svcKeywords)) {
-    if (keywords.some(k => q.includes(k))) {
+  // Service keywords
+  var svcKeywords = {
+    flights: ['flight','fly','plane','ticket','airplane','طيران'],
+    hotels: ['hotel','room','stay','accommodation','فندق'],
+    transfer: ['transfer','car','taxi','pickup','سيارة','نقل'],
+    tours: ['tour','package','trip','سياحة'],
+  };
+  for (var type in svcKeywords) {
+    if (svcKeywords[type].some(function(k){ return q.includes(k); })) {
       nav('services');
-      setTimeout(() => openSvcForm(type), 300);
+      setTimeout(function(t){ return function(){ openSvcForm(t); }; }(type), 300);
       return;
     }
   }
 
-  // Default — go to country picker with search pre-filled
+  // Default — country picker
   nav('visa-pick');
-  setTimeout(() => {
-    const searchInput = document.getElementById('cp-search');
-    if (searchInput) {
-      searchInput.value = document.getElementById('heroSearch').value;
-      searchInput.dispatchEvent(new Event('input'));
-    }
+  setTimeout(function() {
+    var si = document.getElementById('cp-search');
+    if (si) { si.value = document.getElementById('heroSearch').value; si.dispatchEvent(new Event('input')); }
+  }, 300);
+}
+
+function showSearchResults(q, cityResult, airportMatch) {
+  // Remove existing results panel
+  var existing = document.getElementById('search-results-panel');
+  if (existing) existing.remove();
+
+  var panel = document.createElement('div');
+  panel.id = 'search-results-panel';
+  panel.style.cssText = 'position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:9999;background:#0c1232;border:1px solid rgba(255,10,84,0.25);border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.6);';
+
+  var html = '';
+
+  // Visa option
+  if (cityResult && cityResult.visa) {
+    var countries = _cache.countries || [];
+    var c = countries.find(function(x){ return x.id === cityResult.visa; });
+    var flag = (c && c.flag) ? c.flag : '🌍';
+    var price = c ? '$' + c.priceUSD : '';
+    var time = c ? c.processingTime : '';
+    html += '<div class="sr-visa-item" data-vid="'+cityResult.visa+'" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.15s;">';
+    html += '<div style="width:40px;height:40px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">'+flag+'</div>';
+    html += '<div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;color:#fff;">'+cityResult.label+' — Visa</div>';
+    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.15rem;">'+price+' · '+time+'</div></div>';
+    html += '<span style="background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);color:var(--gold-400);font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:6px;">VISA</span></div>';
+  }
+
+  // Flight option
+  if (cityResult && cityResult.flight) {
+    html += '<div class="sr-flight-item" data-fcode="'+cityResult.flight+'" data-flabel="'+cityResult.label+'" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;transition:background 0.15s;">';
+    html += '<div style="width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;">';
+    html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div>';
+    html += '<div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;color:#fff;">Flight to '+cityResult.label+'</div>';
+    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.15rem;">'+cityResult.flight+' · Book now</div></div>';
+    html += '<span style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:#818cf8;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:6px;">FLIGHT</span></div>';
+  }
+
+  if (!html) { nav('visa-pick'); return; }
+
+  panel.innerHTML = html;
+
+  // Position relative to search box
+  var searchBox = document.querySelector('.hero-search .search-box');
+  if (searchBox) {
+    searchBox.style.position = 'relative';
+    searchBox.appendChild(panel);
+  }
+
+  // Add click handlers
+  panel.querySelectorAll('.sr-visa-item').forEach(function(el) {
+    el.addEventListener('mouseover', function(){ this.style.background='rgba(255,10,84,0.08)'; });
+    el.addEventListener('mouseout', function(){ this.style.background=''; });
+    el.addEventListener('click', function(){ searchSelectVisa(this.dataset.vid); });
+  });
+  panel.querySelectorAll('.sr-flight-item').forEach(function(el) {
+    el.addEventListener('mouseover', function(){ this.style.background='rgba(99,102,241,0.08)'; });
+    el.addEventListener('mouseout', function(){ this.style.background=''; });
+    el.addEventListener('click', function(){ searchSelectFlight(this.dataset.fcode, this.dataset.flabel); });
+  });
+
+  // Close on outside click
+  setTimeout(function() {
+    document.addEventListener('click', function closePan(e) {
+      if (!panel.contains(e.target)) {
+        panel.remove();
+        document.removeEventListener('click', closePan);
+      }
+    });
+  }, 100);
+}
+
+function searchSelectVisa(countryId) {
+  var p = document.getElementById('search-results-panel');
+  if (p) p.remove();
+  selectedCountryId = countryId;
+  if (!DB.currentUser) { nav('auth'); return; }
+  nav('visa'); setupVisaPage();
+}
+
+function searchSelectFlight(code, label) {
+  var p = document.getElementById('search-results-panel');
+  if (p) p.remove();
+  nav('services');
+  setTimeout(function() {
+    openSvcForm('flights');
+    setTimeout(function() {
+      var flTo = document.getElementById('fl-to');
+      if (flTo) { flTo.value = code + ' — ' + label; }
+    }, 400);
   }, 300);
 }
 
