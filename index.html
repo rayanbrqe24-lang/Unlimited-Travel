@@ -3425,7 +3425,7 @@ function showSearchResults(q, cityResult, airportMatch) {
 
   var panel = document.createElement('div');
   panel.id = 'search-results-panel';
-  panel.style.cssText = 'position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:9999;background:#0c1232;border:1px solid rgba(255,10,84,0.25);border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.6);';
+  panel.style.cssText = 'position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:2000;background:#0c1232;border:1px solid rgba(255,10,84,0.25);border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.8);';
 
   var html = '';
 
@@ -3457,11 +3457,14 @@ function showSearchResults(q, cityResult, airportMatch) {
 
   panel.innerHTML = html;
 
-  // Position relative to search box
-  var searchBox = document.querySelector('.hero-search .search-box');
-  if (searchBox) {
-    searchBox.style.position = 'relative';
-    searchBox.appendChild(panel);
+  // Position relative to hero-search wrapper
+  var heroSearch = document.querySelector('.hero-search');
+  if (heroSearch) {
+    heroSearch.style.position = 'relative';
+    // Remove old panel first
+    var old = heroSearch.querySelector('#search-results-panel');
+    if (old) old.remove();
+    heroSearch.appendChild(panel);
   }
 
   // Add click handlers
