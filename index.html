@@ -3438,20 +3438,27 @@ function showSearchResults(q, cityResult, airportMatch) {
     var price = c ? '$' + c.priceUSD : '';
     var time = c ? c.processingTime : '';
     html += '<div class="sr-visa-item" data-vid="'+cityResult.visa+'" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.15s;">';
-    html += '<div style="width:40px;height:40px;border-radius:10px;background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;">'+flag+'</div>';
-    html += '<div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;color:#fff;">'+cityResult.label+' — Visa</div>';
-    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.15rem;">'+price+' · '+time+'</div></div>';
-    html += '<span style="background:rgba(255,10,84,0.1);border:1px solid rgba(255,10,84,0.2);color:var(--gold-400);font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:6px;">VISA</span></div>';
+    html += '<div style="width:44px;height:44px;border-radius:12px;background:rgba(255,10,84,0.12);border:1px solid rgba(255,10,84,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
+    html += '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF0A54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/><path d="M11 15h4"/></svg>';
+    html += '</div>';
+    html += '<div style="flex:1;">';
+    html += '<div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-size:1.2rem;">'+flag+'</span><span style="font-weight:700;font-size:0.9rem;color:#fff;">'+cityResult.label+'</span></div>';
+    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.2rem;">Visa Application · '+price+' · '+time+'</div>';
+    html += '</div>';
+    html += '<span style="background:rgba(255,10,84,0.15);border:1px solid rgba(255,10,84,0.3);color:#FF0A54;font-size:0.7rem;font-weight:700;padding:0.25rem 0.75rem;border-radius:6px;letter-spacing:0.06em;">VISA</span></div>';
   }
 
   // Flight option
   if (cityResult && cityResult.flight) {
     html += '<div class="sr-flight-item" data-fcode="'+cityResult.flight+'" data-flabel="'+cityResult.label+'" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;cursor:pointer;transition:background 0.15s;">';
-    html += '<div style="width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;">';
-    html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></div>';
-    html += '<div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;color:#fff;">Flight to '+cityResult.label+'</div>';
-    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.15rem;">'+cityResult.flight+' · Book now</div></div>';
-    html += '<span style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:#818cf8;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:6px;">FLIGHT</span></div>';
+    html += '<div style="width:44px;height:44px;border-radius:12px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">';
+    html += '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>';
+    html += '</div>';
+    html += '<div style="flex:1;">';
+    html += '<div style="display:flex;align-items:center;gap:0.4rem;"><span style="font-size:1.2rem;">'+flag+'</span><span style="font-weight:700;font-size:0.9rem;color:#fff;">Flight to '+cityResult.label+'</span></div>';
+    html += '<div style="font-size:0.72rem;color:var(--gray-400);margin-top:0.2rem;">'+cityResult.flight+' · Book your flight now</div>';
+    html += '</div>';
+    html += '<span style="background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:#818cf8;font-size:0.7rem;font-weight:700;padding:0.25rem 0.75rem;border-radius:6px;letter-spacing:0.06em;">FLIGHT</span></div>';
   }
 
   if (!html) { nav('visa-pick'); return; }
