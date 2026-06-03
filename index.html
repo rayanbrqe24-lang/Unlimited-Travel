@@ -2863,7 +2863,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
         </div>
         <div class="data-table-box">
           <table class="data-table">
-            <thead><tr><th>Customer</th><th>From</th><th>To</th><th>Date</th><th>Passengers</th><th>Class</th><th>Status</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Customer</th><th>Account Info</th><th>From</th><th>To</th><th>Date</th><th>Passengers</th><th>Class</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="flights-tbody"><tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">Loading...</td></tr></tbody>
           </table>
         </div>
@@ -6861,20 +6861,58 @@ async function loadFlightRequests() {
     return;
   }
 
+  // Enrich with account data from cache
+  var users = _cache.users || [];
+  
   tbody.innerHTML = requests.map(function(r) {
+    // Find matching user account
+    var user = users.find(function(u) {
+      return u.email && u.email.toLowerCase() === (r.customerEmail || '').toLowerCase();
+    });
+    var avatar = r.customerName ? r.customerName.charAt(0).toUpperCase() : '?';
+    var joinDate = user ? user.createdAt : '—';
+    var totalApps = user ? (_cache.apps || []).filter(function(a){ return a.userId === user.id || a.email === user.email; }).length : 0;
+    var phone = r.customerPhone || (user ? user.phone : '') || '—';
+    var verified = user && user.isVerified;
+    var passportId = user ? (user.passportId || '—') : '—';
+
     return '<tr>' +
-      '<td><div style="font-weight:600;font-size:.85rem;">' + r.customerName + '</div>' +
-      '<div style="font-size:.72rem;color:var(--gray-500);">' + r.customerEmail + '</div>' +
-      '<div style="font-size:.7rem;color:var(--gray-500);">' + (r.customerPhone || '') + '</div></td>' +
-      '<td style="font-weight:600;color:var(--gold-400);">' + r.from + '</td>' +
-      '<td style="font-weight:600;color:var(--gold-400);">' + r.to + '</td>' +
+      // Customer column
+      '<td>' +
+        '<div style="display:flex;align-items:center;gap:.6rem;">' +
+          '<div style="width:34px;height:34px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">' + avatar + '</div>' +
+          '<div>' +
+            '<div style="font-weight:700;font-size:.85rem;">' + r.customerName + '</div>' +
+            '<div style="font-size:.7rem;color:var(--gray-500);">' + r.customerEmail + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</td>' +
+      // Account Info column
+      '<td>' +
+        '<div style="display:flex;flex-direction:column;gap:.2rem;">' +
+          '<div style="font-size:.75rem;display:flex;align-items:center;gap:.35rem;">' +
+            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/></svg>' +
+            '<span style="color:#fff;">' + phone + '</span>' +
+          '</div>' +
+          '<div style="font-size:.72rem;color:var(--gray-500);">Joined: ' + joinDate + '</div>' +
+          '<div style="font-size:.72rem;color:var(--gray-500);">Apps: ' + totalApps + ' · Passport: ' + passportId + '</div>' +
+          '<span style="font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;' + (verified ? 'background:rgba(16,185,129,.12);color:#10b981;' : 'background:rgba(245,158,11,.12);color:#f59e0b;') + '">' + (verified ? '✓ Verified' : '⏳ Unverified') + '</span>' +
+        '</div>' +
+      '</td>' +
+      // Flight details
+      '<td style="font-weight:700;color:var(--gold-400);font-size:.85rem;">' + r.from + '</td>' +
+      '<td style="font-weight:700;color:var(--gold-400);font-size:.85rem;">' + r.to + '</td>' +
       '<td style="color:var(--gray-400);font-size:.8rem;">' + r.departDate + '</td>' +
       '<td style="font-size:.8rem;">' + r.passengers + '</td>' +
       '<td style="font-size:.8rem;">' + r.cabin + '</td>' +
+      '<td style="font-size:.72rem;color:var(--gray-500);">' + r.createdAt + '</td>' +
       '<td><span class="status-chip ' + (r.status === 'Contacted' ? 's-approved' : 's-pending') + '">' + r.status + '</span></td>' +
       '<td>' +
-        '<button class="action-btn ab-approve" data-rid="' + r.rawId + '" onclick="markFlightContacted(this.dataset.rid,this)">✓ Contacted</button>' +
-        '<a href="mailto:' + r.customerEmail + '" class="action-btn ab-view" style="text-decoration:none;">📧 Email</a>' +
+        '<div style="display:flex;flex-direction:column;gap:.3rem;">' +
+          '<button class="action-btn ab-approve" data-rid="' + r.rawId + '" onclick="markFlightContacted(this.dataset.rid,this)">✓ Contacted</button>' +
+          '<a href="mailto:' + r.customerEmail + '" class="action-btn ab-view" style="text-decoration:none;">📧 Email</a>' +
+          (phone !== '—' ? '<a href="tel:' + phone + '" class="action-btn ab-view" style="text-decoration:none;">📞 Call</a>' : '') +
+        '</div>' +
       '</td>' +
     '</tr>';
   }).join('');
