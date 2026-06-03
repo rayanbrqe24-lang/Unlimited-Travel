@@ -4578,7 +4578,56 @@ function downloadInvoice() {
       <p style="text-align:right;">This is an official receipt.<br>Keep for your records.</p>
     </div>
   </div>
-  </body></html>`);
+  
+<!-- Approve Modal with File Upload -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    
+    <div style="text-align:center;margin-bottom:1.75rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+    </div>
+
+    <!-- Upload Zone -->
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
+      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
+      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
+      <div id="approve-upload-placeholder">
+        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
+        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+      </div>
+      <div id="approve-upload-done" style="display:none;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+      </div>
+    </div>
+
+    <!-- Note to customer -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Note to Customer (optional)</label>
+      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approve & Send Email
+      </button>
+      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
+        Approve Only
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+  </div>
+</div>
+
+</body></html>`);
   win.document.close();
 }
 
@@ -4657,11 +4706,7 @@ function renderAppsTable() {
       <td>
         <div style="display:flex;align-items:center;gap:0.4rem;">
           <span style="font-weight:600;">${a.customerName}</span>
-          ${(function(){
-            var d = new Date(a.createdAt); var now = new Date();
-            var diffH = (now - d) / 36e5;
-            return diffH < 24 ? '<span style="background:rgba(255,10,84,0.15);border:1px solid rgba(255,10,84,0.35);color:#FF0A54;font-size:0.6rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;letter-spacing:0.06em;">NEW</span>' : '';
-          })()}
+
         </div>
         <span style="font-size:0.72rem;color:var(--gray-500);">${a.email}</span>
         <div style="font-size:0.65rem;color:var(--gray-500);margin-top:0.1rem;">${a.createdAt}</div>
@@ -4672,7 +4717,7 @@ function renderAppsTable() {
       <td style="font-size:0.78rem;">${a.currency === 'IQD' ? a.amountPaid.toLocaleString()+' IQD' : '$'+a.amountPaid}</td>
       <td><span class="status-chip ${a.status==='Approved'?'s-approved':a.status==='Rejected'?'s-rejected':'s-pending'}">${a.status}</span></td>
       <td>
-        <button class="action-btn ab-approve" onclick="updateAppStatus('${a.orderNumber}','Approved')">Approve</button>
+        <button class="action-btn ab-approve" onclick="openApproveModal('${a.orderNumber}','${a.customerName}','${a.email}')">Approve</button>
         <button class="action-btn ab-reject" onclick="updateAppStatus('${a.orderNumber}','Rejected')">Reject</button>
         <button class="action-btn ab-view" onclick="viewAppDetails('${a.orderNumber}')">View</button>
       </td>
@@ -5589,10 +5634,108 @@ window.addEventListener('load', function() {
   1. Open your original project HTML file (the big one you shared)
   
   2. Press Ctrl+F (Find) and search for:
-        </body>
+        
+<!-- Approve Modal with File Upload -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    
+    <div style="text-align:center;margin-bottom:1.75rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+    </div>
+
+    <!-- Upload Zone -->
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
+      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
+      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
+      <div id="approve-upload-placeholder">
+        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
+        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+      </div>
+      <div id="approve-upload-done" style="display:none;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+      </div>
+    </div>
+
+    <!-- Note to customer -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Note to Customer (optional)</label>
+      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approve & Send Email
+      </button>
+      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
+        Approve Only
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+  </div>
+</div>
+
+</body>
      (it's near the very end of the file)
   
-  3. Place your cursor RIGHT BEFORE </body>
+  3. Place your cursor RIGHT BEFORE 
+<!-- Approve Modal with File Upload -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    
+    <div style="text-align:center;margin-bottom:1.75rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+    </div>
+
+    <!-- Upload Zone -->
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
+      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
+      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
+      <div id="approve-upload-placeholder">
+        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
+        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+      </div>
+      <div id="approve-upload-done" style="display:none;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+      </div>
+    </div>
+
+    <!-- Note to customer -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Note to Customer (optional)</label>
+      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approve & Send Email
+      </button>
+      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
+        Approve Only
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+  </div>
+</div>
+
+</body>
   
   4. Paste the entire contents of "unlimited_features_patch.html" here
   
@@ -5621,7 +5764,56 @@ window.addEventListener('load', function() {
 
 <!-- ================================================================
      FEATURE PATCH — ALL 6 ADDITIONS
-     Paste this entire block just before </body> in your main file
+     Paste this entire block just before 
+<!-- Approve Modal with File Upload -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    
+    <div style="text-align:center;margin-bottom:1.75rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+    </div>
+
+    <!-- Upload Zone -->
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
+      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
+      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
+      <div id="approve-upload-placeholder">
+        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
+        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+      </div>
+      <div id="approve-upload-done" style="display:none;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+      </div>
+    </div>
+
+    <!-- Note to customer -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Note to Customer (optional)</label>
+      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approve & Send Email
+      </button>
+      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
+        Approve Only
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+  </div>
+</div>
+
+</body> in your main file
      ================================================================ -->
 
 <!-- AI chat removed -->
@@ -6947,6 +7139,107 @@ async function markFlightContacted(id, btn) {
   showToastSVG('success', 'Marked as Contacted', 'Customer status updated.');
 }
 
+
+// ================================================================
+//  APPROVE WITH FILE UPLOAD
+// ================================================================
+var _approveData = { orderNumber: '', customerName: '', email: '', file: null, fileData: null };
+
+function openApproveModal(orderNumber, customerName, email) {
+  _approveData = { orderNumber: orderNumber, customerName: customerName, email: email, file: null, fileData: null };
+  document.getElementById('approve-modal-subtitle').textContent = 'Approving: ' + customerName + ' — ' + orderNumber;
+  document.getElementById('approve-upload-placeholder').style.display = 'block';
+  document.getElementById('approve-upload-done').style.display = 'none';
+  document.getElementById('approve-note').value = '';
+  document.getElementById('approve-file-input').value = '';
+  document.getElementById('approve-modal').style.display = 'flex';
+}
+
+function closeApproveModal() {
+  document.getElementById('approve-modal').style.display = 'none';
+  _approveData = { orderNumber: '', customerName: '', email: '', file: null, fileData: null };
+}
+
+function handleApproveFile(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    showToastSVG('warn', 'File Too Large', 'Maximum file size is 5MB.');
+    return;
+  }
+  _approveData.file = file;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _approveData.fileData = e.target.result;
+    document.getElementById('approve-upload-placeholder').style.display = 'none';
+    document.getElementById('approve-upload-done').style.display = 'block';
+    document.getElementById('approve-file-name').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function confirmApproveWithFile() {
+  var btn = document.getElementById('approve-confirm-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  // Update status in DB
+  await updateAppStatus(_approveData.orderNumber, 'Approved');
+
+  // Send approval email with file attachment via EmailJS
+  var note = document.getElementById('approve-note').value.trim();
+  var app = (_cache.apps || []).find(function(a) { return a.orderNumber === _approveData.orderNumber; });
+
+  try {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+      var params = {
+        to_name: _approveData.customerName,
+        to_email: _approveData.email,
+        subject: '✅ Visa Approved — ' + _approveData.orderNumber,
+        order_number: _approveData.orderNumber,
+        country: app ? app.countryNameEn : '—',
+        travel_date: app ? (app.travelDate || '—') : '—',
+        status: 'Approved',
+        status_icon: '✅',
+        message: note || ('Congratulations! Your visa application for ' + (app ? app.countryNameEn : 'your destination') + ' has been APPROVED. ' + (_approveData.file ? 'Your visa document is attached to this email.' : 'Our team will contact you for delivery.')),
+        invoice_block: 'none',
+        status_block: 'block',
+        approved_block: 'block',
+        rejected_block: 'none',
+        date: new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
+      };
+
+      // Send to customer
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      // Send copy to manager
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, params, { to_email: MANAGER_EMAIL, to_name: MANAGER_NAME }));
+
+      showToastSVG('mail', 'Email Sent!', 'Approval email sent to ' + _approveData.email);
+    }
+  } catch(e) {
+    console.error('Email error:', e);
+    showToastSVG('warn', 'Email Failed', 'Status updated but email failed: ' + (e.text || e.message || ''));
+  }
+
+  if (_approveData.file) {
+    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified with visa document.');
+  } else {
+    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified by email.');
+  }
+
+  closeApproveModal();
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & Send Email';
+}
+
+async function confirmApproveWithoutFile() {
+  await updateAppStatus(_approveData.orderNumber, 'Approved');
+  showToastSVG('success', 'Approved!', _approveData.customerName + ' visa application approved.');
+  closeApproveModal();
+}
+
 // ================================================================
 //  AIRPORT DATABASE & SEARCH
 // ================================================================
@@ -7307,5 +7600,54 @@ window.addEventListener('load', function() {
 });
 
 </script>
+
+<!-- Approve Modal with File Upload -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+    <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+    
+    <div style="text-align:center;margin-bottom:1.75rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+    </div>
+
+    <!-- Upload Zone -->
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
+      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
+      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
+      <div id="approve-upload-placeholder">
+        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
+        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+      </div>
+      <div id="approve-upload-done" style="display:none;">
+        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+      </div>
+    </div>
+
+    <!-- Note to customer -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Note to Customer (optional)</label>
+      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approve & Send Email
+      </button>
+      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
+        Approve Only
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+  </div>
+</div>
+
 </body>
 </html>
