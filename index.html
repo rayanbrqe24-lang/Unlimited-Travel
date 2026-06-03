@@ -2857,15 +2857,8 @@ body.rtl-mode .mobile-nav { text-align:right; }
           <div class="dash-title">Flight Requests</div>
           <button class="btn-primary" style="font-size:.8rem;padding:.5rem 1rem;" onclick="loadFlightRequests()">↻ Refresh</button>
         </div>
-        <div style="background:rgba(99,102,241,.05);border:1px solid rgba(99,102,241,.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:#818cf8;display:flex;align-items:center;gap:.5rem;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>
-          Customer flight booking requests — contact them to confirm and book.
-        </div>
-        <div class="data-table-box">
-          <table class="data-table">
-            <thead><tr><th>Customer</th><th>Account Info</th><th>From</th><th>To</th><th>Date</th><th>Passengers</th><th>Class</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="flights-tbody"><tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">Loading...</td></tr></tbody>
-          </table>
+        <div id="flights-cards" style="display:flex;flex-direction:column;gap:1rem;">
+          <div style="text-align:center;padding:3rem;color:var(--gray-500);">Loading...</div>
         </div>
       </div>
 
@@ -6816,9 +6809,9 @@ function resetFlightForm() {
 }
 
 async function loadFlightRequests() {
-  var tbody = document.getElementById('flights-tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">Loading...</td></tr>';
+  var container = document.getElementById('flights-cards');
+  if (!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray-500);">Loading...</div>';
 
   // Load from Supabase notifications where type = flight_request
   var requests = [];
@@ -6857,14 +6850,14 @@ async function loadFlightRequests() {
   if (badge) badge.textContent = pending;
 
   if (!requests.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">No flight requests yet.</td></tr>';
+    container.innerHTML = '<div style="text-align:center;padding:3rem;"><div style="font-size:3rem;margin-bottom:1rem;">✈️</div><div style="color:var(--gray-400);">No flight requests yet.</div></div>';
     return;
   }
 
   // Enrich with account data from cache
   var users = _cache.users || [];
-  
-  tbody.innerHTML = requests.map(function(r) {
+
+  container.innerHTML = requests.map(function(r) {
     // Find matching user account
     var user = users.find(function(u) {
       return u.email && u.email.toLowerCase() === (r.customerEmail || '').toLowerCase();
@@ -6875,46 +6868,68 @@ async function loadFlightRequests() {
     var phone = r.customerPhone || (user ? user.phone : '') || '—';
     var verified = user && user.isVerified;
     var passportId = user ? (user.passportId || '—') : '—';
+    var isContacted = r.status === 'Contacted';
 
-    return '<tr>' +
-      // Customer column
-      '<td>' +
-        '<div style="display:flex;align-items:center;gap:.6rem;">' +
-          '<div style="width:34px;height:34px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">' + avatar + '</div>' +
+    return '<div style="background:rgba(5,11,59,.4);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.25rem;' + (isContacted ? '' : 'border-left:3px solid #818cf8;') + '">' +
+
+      // Top row: customer + flight route + status + actions
+      '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">' +
+
+        // Avatar + name
+        '<div style="display:flex;align-items:center;gap:.75rem;min-width:200px;">' +
+          '<div style="width:42px;height:42px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;color:#fff;flex-shrink:0;">' + avatar + '</div>' +
           '<div>' +
-            '<div style="font-weight:700;font-size:.85rem;">' + r.customerName + '</div>' +
-            '<div style="font-size:.7rem;color:var(--gray-500);">' + r.customerEmail + '</div>' +
+            '<div style="font-weight:700;font-size:.9rem;color:#fff;">' + r.customerName + '</div>' +
+            '<div style="font-size:.72rem;color:var(--gray-500);">' + r.customerEmail + '</div>' +
           '</div>' +
         '</div>' +
-      '</td>' +
-      // Account Info column
-      '<td>' +
-        '<div style="display:flex;flex-direction:column;gap:.2rem;">' +
-          '<div style="font-size:.75rem;display:flex;align-items:center;gap:.35rem;">' +
-            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/></svg>' +
-            '<span style="color:#fff;">' + phone + '</span>' +
+
+        // Flight route
+        '<div style="flex:1;display:flex;align-items:center;gap:.75rem;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.15);border-radius:12px;padding:.75rem 1rem;">' +
+          '<div style="text-align:center;">' +
+            '<div style="font-size:.62rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;">FROM</div>' +
+            '<div style="font-weight:700;color:var(--gold-400);font-size:.9rem;">' + r.from.split(' — ')[0] + '</div>' +
           '</div>' +
-          '<div style="font-size:.72rem;color:var(--gray-500);">Joined: ' + joinDate + '</div>' +
-          '<div style="font-size:.72rem;color:var(--gray-500);">Apps: ' + totalApps + ' · Passport: ' + passportId + '</div>' +
-          '<span style="font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;' + (verified ? 'background:rgba(16,185,129,.12);color:#10b981;' : 'background:rgba(245,158,11,.12);color:#f59e0b;') + '">' + (verified ? '✓ Verified' : '⏳ Unverified') + '</span>' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>' +
+          '<div style="text-align:center;">' +
+            '<div style="font-size:.62rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;">TO</div>' +
+            '<div style="font-weight:700;color:var(--gold-400);font-size:.9rem;">' + r.to.split(' — ')[0] + '</div>' +
+          '</div>' +
+          '<div style="margin-left:.5rem;padding-left:.75rem;border-left:1px solid rgba(255,255,255,.08);">' +
+            '<div style="font-size:.7rem;color:var(--gray-500);">📅 ' + r.departDate + '</div>' +
+            '<div style="font-size:.7rem;color:var(--gray-400);">👥 ' + r.passengers + ' · ' + r.cabin + '</div>' +
+          '</div>' +
         '</div>' +
-      '</td>' +
-      // Flight details
-      '<td style="font-weight:700;color:var(--gold-400);font-size:.85rem;">' + r.from + '</td>' +
-      '<td style="font-weight:700;color:var(--gold-400);font-size:.85rem;">' + r.to + '</td>' +
-      '<td style="color:var(--gray-400);font-size:.8rem;">' + r.departDate + '</td>' +
-      '<td style="font-size:.8rem;">' + r.passengers + '</td>' +
-      '<td style="font-size:.8rem;">' + r.cabin + '</td>' +
-      '<td style="font-size:.72rem;color:var(--gray-500);">' + r.createdAt + '</td>' +
-      '<td><span class="status-chip ' + (r.status === 'Contacted' ? 's-approved' : 's-pending') + '">' + r.status + '</span></td>' +
-      '<td>' +
-        '<div style="display:flex;flex-direction:column;gap:.3rem;">' +
-          '<button class="action-btn ab-approve" data-rid="' + r.rawId + '" onclick="markFlightContacted(this.dataset.rid,this)">✓ Contacted</button>' +
-          '<a href="mailto:' + r.customerEmail + '" class="action-btn ab-view" style="text-decoration:none;">📧 Email</a>' +
-          (phone !== '—' ? '<a href="tel:' + phone + '" class="action-btn ab-view" style="text-decoration:none;">📞 Call</a>' : '') +
+
+        // Status + actions
+        '<div style="display:flex;flex-direction:column;gap:.4rem;align-items:flex-end;">' +
+          '<span class="status-chip ' + (isContacted ? 's-approved' : 's-pending') + '">' + r.status + '</span>' +
+          '<div style="font-size:.7rem;color:var(--gray-500);">' + r.createdAt + '</div>' +
         '</div>' +
-      '</td>' +
-    '</tr>';
+
+      '</div>' +
+
+      // Bottom row: account info + action buttons
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.05);flex-wrap:wrap;gap:.75rem;">' +
+
+        // Account info chips
+        '<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">' +
+          '<span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.2rem .65rem;font-size:.72rem;color:#fff;">📞 ' + phone + '</span>' +
+          '<span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.2rem .65rem;font-size:.72rem;color:var(--gray-400);">Joined ' + joinDate + '</span>' +
+          '<span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.2rem .65rem;font-size:.72rem;color:var(--gray-400);">' + totalApps + ' Applications</span>' +
+          (passportId !== '—' ? '<span style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.2rem .65rem;font-size:.72rem;color:var(--gray-400);">🪪 ' + passportId + '</span>' : '') +
+          '<span style="font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:6px;' + (verified ? 'background:rgba(16,185,129,.12);color:#10b981;' : 'background:rgba(245,158,11,.12);color:#f59e0b;') + '">' + (verified ? '✓ Verified' : '⏳ Unverified') + '</span>' +
+        '</div>' +
+
+        // Action buttons
+        '<div style="display:flex;gap:.5rem;">' +
+          (!isContacted ? '<button class="action-btn ab-approve" data-rid="' + r.rawId + '" onclick="markFlightContacted(this.dataset.rid,this)" style="padding:.35rem .875rem;">✓ Mark Contacted</button>' : '') +
+          '<a href="mailto:' + r.customerEmail + '?subject=Your Flight Request ' + r.id + '&body=Dear ' + r.customerName + ', regarding your flight request from ' + r.from.split(' — ')[0] + ' to ' + r.to.split(' — ')[0] + ' on ' + r.departDate + '..." class="action-btn ab-view" style="text-decoration:none;padding:.35rem .875rem;">📧 Email</a>' +
+          (phone !== '—' ? '<a href="tel:' + phone.replace(/\s/g,'') + '" class="action-btn ab-view" style="text-decoration:none;padding:.35rem .875rem;">📞 Call</a>' : '') +
+        '</div>' +
+
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
