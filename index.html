@@ -1943,9 +1943,9 @@ body.rtl-mode .mobile-nav { text-align:right; }
                 </div>
 
                 <div><label class="input-label">Your Name & Phone</label><input class="input" id="fl-contact" placeholder="Name — +964 7XX XXX XXXX"></div>
-                <button class="btn-primary" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);" onclick="sendWhatsApp('flight')">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                  Search Flights
+                <button class="btn-primary" style="width:100%;justify-content:center;" onclick="submitFlightRequest()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>
+                  Submit Flight Request
                 </button>
               </div>
             </div>
@@ -2668,6 +2668,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
         <button class="sidebar-btn" onclick="dashSection('notifications',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>Notifications<span class="sidebar-badge" id="sb-notifs">0</span></button>
         <button class="sidebar-btn" onclick="dashSection('analytics',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>Analytics</button>
         <button class="sidebar-btn" onclick="dashSection('invoices',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Invoices</button>
+        <button class="sidebar-btn" id="sb-flights-btn" onclick="dashSection('flights',this)"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg></span>Flight Requests<span class="sidebar-badge" id="sb-flights-count">0</span></button>
         <div style="margin-top:1rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
           <button class="sidebar-btn" onclick="nav('home')"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>View Website</button>
           <button class="sidebar-btn" onclick="logout()"><span class="sidebar-btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>Logout</button>
@@ -2850,6 +2851,24 @@ body.rtl-mode .mobile-nav { text-align:right; }
           <div class="bar-labels" id="analytics-labels"></div>
         </div>
       </div>
+      <!-- Flight Requests -->
+      <div id="dash-flights" style="display:none;">
+        <div class="dash-header">
+          <div class="dash-title">Flight Requests</div>
+          <button class="btn-primary" style="font-size:.8rem;padding:.5rem 1rem;" onclick="loadFlightRequests()">↻ Refresh</button>
+        </div>
+        <div style="background:rgba(99,102,241,.05);border:1px solid rgba(99,102,241,.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:#818cf8;display:flex;align-items:center;gap:.5rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a.5.5 0 0 0-.3.8L4 9.5l-2 3.5 4 1 1 4 3.5-2 2.5 2.5a.5.5 0 0 0 .8-.3z"/></svg>
+          Customer flight booking requests — contact them to confirm and book.
+        </div>
+        <div class="data-table-box">
+          <table class="data-table">
+            <thead><tr><th>Customer</th><th>From</th><th>To</th><th>Date</th><th>Passengers</th><th>Class</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="flights-tbody"><tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Invoices -->
       <div id="dash-invoices" style="display:none;">
         <div class="dash-header">
@@ -4620,7 +4639,7 @@ async function setupAdmin() {
   renderCountryAdmin();
 }
 function dashSection(section, btn) {
-  ['overview','applications','countries','users','accounts','notifications','analytics','invoices'].forEach(s => {
+  ['overview','applications','countries','users','accounts','notifications','analytics','invoices','flights','reviews'].forEach(s => {
     const el = document.getElementById('dash-' + s);
     if (el) el.style.display = s === section ? 'block' : 'none';
   });
@@ -4630,6 +4649,7 @@ function dashSection(section, btn) {
   if (section === 'accounts') renderAccountsPanel();
   if (section === 'notifications') renderNotificationsPanel();
   if (section === 'invoices') renderInvoicesTable();
+  if (section === 'flights') loadFlightRequests();
 }
 function renderAppsTable() {
   const search = (document.getElementById('app-search')?.value || '').toLowerCase();
@@ -6665,6 +6685,214 @@ window.addEventListener('load', function() {
 
 console.log('[UNLIMITED] All 6 features loaded OK');
 
+
+
+// ================================================================
+//  FLIGHT REQUESTS SYSTEM
+// ================================================================
+var _flightRequests = [];
+
+async function submitFlightRequest() {
+  var u = DB.currentUser;
+  if (!u) {
+    showToastSVG('warn', 'Login Required', 'Please sign in to submit a flight request.');
+    setTimeout(function(){ nav('auth'); }, 800);
+    return;
+  }
+
+  var from    = document.getElementById('fl-from')?.value.trim();
+  var to      = document.getElementById('fl-to')?.value.trim();
+  var depart  = document.getElementById('fl-depart')?.value;
+  var contact = document.getElementById('fl-contact')?.value.trim();
+  var cabin   = document.getElementById('svc-cabin-class')?.value || 'Economy';
+
+  if (!from || !to) {
+    showToastSVG('warn', 'Missing Fields', 'Please enter departure and destination airports.');
+    return;
+  }
+  if (!depart) {
+    showToastSVG('warn', 'Select Date', 'Please select a departure date.');
+    return;
+  }
+
+  var paxParts = [];
+  if (_svcPax.adults) paxParts.push(_svcPax.adults + ' Adult' + (_svcPax.adults > 1 ? 's' : ''));
+  if (_svcPax.children) paxParts.push(_svcPax.children + ' Child' + (_svcPax.children > 1 ? 'ren' : ''));
+  if (_svcPax.infants) paxParts.push(_svcPax.infants + ' Infant' + (_svcPax.infants > 1 ? 's' : ''));
+  var passengers = paxParts.join(' + ') || '1 Adult';
+
+  var request = {
+    id: 'FLT-' + Date.now(),
+    userId: u.id,
+    customerName: u.fullName,
+    customerEmail: u.email,
+    customerPhone: contact || u.phone || '—',
+    from: from,
+    to: to,
+    departDate: depart,
+    returnDate: document.getElementById('fl-return')?.value || '',
+    passengers: passengers,
+    cabin: cabin,
+    status: 'Pending',
+    createdAt: new Date().toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+  };
+
+  // Save to Supabase notifications table (reuse existing)
+  try {
+    await supa.from('notifications').insert({
+      id: request.id,
+      type: 'flight_request',
+      title: 'Flight Request: ' + from + ' → ' + to,
+      description: request.customerName + ' | ' + passengers + ' | ' + cabin + ' | ' + depart,
+      order_number: request.id,
+      email: request.customerEmail,
+      manager_email: MANAGER_EMAIL,
+      customer_email_sent: false,
+      manager_email_sent: false,
+      created_at: new Date().toISOString(),
+      is_read: false
+    });
+  } catch(e) {
+    console.log('Saved locally:', request);
+  }
+
+  // Store locally too
+  _flightRequests.unshift(request);
+
+  // Update badge
+  var badge = document.getElementById('sb-flights-count');
+  if (badge) badge.textContent = parseInt(badge.textContent || 0) + 1;
+
+  // Show success message
+  document.getElementById('svc-panel-flights').innerHTML = 
+    '<div style="text-align:center;padding:2rem 1rem;">' +
+    '<div style="width:72px;height:72px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:2rem;">✅</div>' +
+    '<h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.75rem;color:#10b981;">Request Submitted!</h3>' +
+    '<p style="color:var(--gray-400);font-size:.875rem;line-height:1.7;margin-bottom:1.5rem;">Thank you <strong style="color:#fff;">' + u.fullName.split(' ')[0] + '</strong>! We have received your flight request.<br>Our team will contact you soon with the best available options.</p>' +
+    '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1rem;text-align:left;margin-bottom:1.25rem;">' +
+    '<div style="font-size:.72rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">Request Summary</div>' +
+    '<div style="font-size:.825rem;color:#fff;display:flex;flex-direction:column;gap:.3rem;">' +
+    '<div>✈️ <strong>' + from + '</strong> → <strong>' + to + '</strong></div>' +
+    '<div>📅 ' + depart + '</div>' +
+    '<div>👥 ' + passengers + ' · ' + cabin + '</div>' +
+    '<div>🆔 ' + request.id + '</div>' +
+    '</div></div>' +
+    '<button class="btn-primary" style="width:100%;justify-content:center;" onclick="resetFlightForm()">Submit Another Request</button>' +
+    '</div>';
+
+  // Send notification email to manager
+  try {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_name: MANAGER_NAME,
+        to_email: MANAGER_EMAIL,
+        subject: 'New Flight Request: ' + from + ' → ' + to,
+        order_number: request.id,
+        country: from + ' → ' + to,
+        travel_date: depart,
+        message: 'New flight request from ' + request.customerName + ' (' + request.customerEmail + '). ' + passengers + ', ' + cabin + ' class.',
+        status: 'New Request',
+        status_icon: '✈️',
+        invoice_block: 'none',
+        status_block: 'block',
+        approved_block: 'block',
+        rejected_block: 'none',
+      });
+    }
+  } catch(e) { console.log('Email notification failed:', e); }
+}
+
+function resetFlightForm() {
+  var panel = document.getElementById('svc-panel-flights');
+  if (!panel) return;
+  // Reset inputs
+  ['fl-from','fl-to','fl-depart','fl-return','fl-contact'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  // Re-render the form by closing and reopening
+  closeSvcForm();
+  setTimeout(function(){ openSvcForm('flights'); }, 100);
+}
+
+async function loadFlightRequests() {
+  var tbody = document.getElementById('flights-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">Loading...</td></tr>';
+
+  // Load from Supabase notifications where type = flight_request
+  var requests = [];
+  try {
+    var resp = await supa.from('notifications').select('*').eq('type', 'flight_request').order('created_at', { ascending: false });
+    if (resp.data) {
+      requests = resp.data.map(function(r) {
+        var parts = (r.description || '').split(' | ');
+        return {
+          id: r.id,
+          customerName: parts[0] || '—',
+          customerEmail: r.email || '—',
+          from: (r.title || '').replace('Flight Request: ', '').split(' → ')[0] || '—',
+          to: (r.title || '').replace('Flight Request: ', '').split(' → ')[1] || '—',
+          passengers: parts[1] || '—',
+          cabin: parts[2] || '—',
+          departDate: parts[3] || '—',
+          status: r.is_read ? 'Contacted' : 'Pending',
+          createdAt: r.created_at ? new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—',
+          rawId: r.id,
+        };
+      });
+    }
+  } catch(e) {
+    console.error('Load flight requests error:', e);
+  }
+
+  // Also add local requests not yet saved
+  _flightRequests.forEach(function(r) {
+    if (!requests.find(function(x){ return x.id === r.id; })) requests.unshift(r);
+  });
+
+  // Update badge
+  var pending = requests.filter(function(r){ return r.status === 'Pending'; }).length;
+  var badge = document.getElementById('sb-flights-count');
+  if (badge) badge.textContent = pending;
+
+  if (!requests.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--gray-500);padding:2rem;">No flight requests yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = requests.map(function(r) {
+    return '<tr>' +
+      '<td><div style="font-weight:600;font-size:.85rem;">' + r.customerName + '</div>' +
+      '<div style="font-size:.72rem;color:var(--gray-500);">' + r.customerEmail + '</div>' +
+      '<div style="font-size:.7rem;color:var(--gray-500);">' + (r.customerPhone || '') + '</div></td>' +
+      '<td style="font-weight:600;color:var(--gold-400);">' + r.from + '</td>' +
+      '<td style="font-weight:600;color:var(--gold-400);">' + r.to + '</td>' +
+      '<td style="color:var(--gray-400);font-size:.8rem;">' + r.departDate + '</td>' +
+      '<td style="font-size:.8rem;">' + r.passengers + '</td>' +
+      '<td style="font-size:.8rem;">' + r.cabin + '</td>' +
+      '<td><span class="status-chip ' + (r.status === 'Contacted' ? 's-approved' : 's-pending') + '">' + r.status + '</span></td>' +
+      '<td>' +
+        '<button class="action-btn ab-approve" data-rid="' + r.rawId + '" onclick="markFlightContacted(this.dataset.rid,this)">✓ Contacted</button>' +
+        '<a href="mailto:' + r.customerEmail + '" class="action-btn ab-view" style="text-decoration:none;">📧 Email</a>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+async function markFlightContacted(id, btn) {
+  try {
+    await supa.from('notifications').update({ is_read: true }).eq('id', id);
+  } catch(e) {}
+  var row = btn.closest('tr');
+  if (row) {
+    var chip = row.querySelector('.status-chip');
+    if (chip) { chip.className = 'status-chip s-approved'; chip.textContent = 'Contacted'; }
+  }
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  showToastSVG('success', 'Marked as Contacted', 'Customer status updated.');
+}
 
 // ================================================================
 //  AIRPORT DATABASE & SEARCH
