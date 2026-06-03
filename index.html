@@ -1210,6 +1210,39 @@ body.light-mode .dest-name,body.light-mode .dest-price,body.light-mode .dest-pri
 body.light-mode .hero-badge { color:#1a202c!important; -webkit-text-fill-color:#1a202c!important; background:rgba(0,0,0,0.07)!important; border-color:rgba(0,0,0,0.2)!important; }
 body.light-mode #theme-toggle { color:#1a202c!important; }
 
+/* Phone selector */
+.phone-input-wrap{display:flex;gap:0;}
+.country-code-select{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-right:none;
+  border-radius:12px 0 0 12px;
+  padding:0.825rem 0.5rem;
+  color:#fff;
+  font-size:0.85rem;
+  font-family:var(--font-body);
+  cursor:pointer;
+  min-width:110px;
+  transition:border-color 0.2s;
+  outline:none;
+}
+.country-code-select:focus{border-color:var(--gold-400);}
+.country-code-select option{background:#020617;color:#fff;}
+.phone-number-input{
+  flex:1;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-left:none;
+  border-radius:0 12px 12px 0;
+  padding:0.825rem 1rem;
+  color:#fff;
+  font-size:0.9rem;
+  font-family:var(--font-body);
+  transition:border-color 0.2s;
+  outline:none;
+}
+.phone-number-input:focus{border-color:var(--gold-400);}
+.phone-number-input::placeholder{color:rgba(255,255,255,0.3);}
 /* RTL */
 body.rtl-mode { font-family:"Cairo",sans-serif!important; direction:rtl!important; }
 body.rtl-mode .nav-links { flex-direction:row-reverse; }
@@ -1963,7 +1996,34 @@ body.rtl-mode .mobile-nav { text-align:right; }
             <div class="form-field"><label class="input-label">Email</label><input class="input" type="email" placeholder="your@email.com"></div>
           </div>
           <div class="form-row-2">
-            <div class="form-field"><label class="input-label">Phone</label><input class="input" type="tel" placeholder="+964 7XX XXX XXXX"></div>
+            <div class="form-field">
+  <label class="input-label">Phone</label>
+  <div class="phone-input-wrap">
+  <select class="country-code-select" onchange="updatePhoneCode(this)">
+    <option value="+964" data-flag="🇮🇶">🇮🇶 +964</option>
+    <option value="+966" data-flag="🇸🇦">🇸🇦 +966</option>
+    <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+    <option value="+962" data-flag="🇯🇴">🇯🇴 +962</option>
+    <option value="+963" data-flag="🇸🇾">🇸🇾 +963</option>
+    <option value="+965" data-flag="🇰🇼">🇰🇼 +965</option>
+    <option value="+968" data-flag="🇴🇲">🇴🇲 +968</option>
+    <option value="+974" data-flag="🇶🇦">🇶🇦 +974</option>
+    <option value="+973" data-flag="🇧🇭">🇧🇭 +973</option>
+    <option value="+967" data-flag="🇾🇪">🇾🇪 +967</option>
+    <option value="+20" data-flag="🇪🇬">🇪🇬 +20</option>
+    <option value="+90" data-flag="🇹🇷">🇹🇷 +90</option>
+    <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+    <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+    <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+    <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+    <option value="+7" data-flag="🇷🇺">🇷🇺 +7</option>
+    <option value="+98" data-flag="🇮🇷">🇮🇷 +98</option>
+    <option value="+92" data-flag="🇵🇰">🇵🇰 +92</option>
+    <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
+  </select>
+    <input class="phone-number-input" type="tel" id="contact-phone" placeholder="7XX XXX XXXX" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+  </div>
+</div>
             <div class="form-field"><label class="input-label">Subject</label><select class="input"><option>Visa Inquiry</option><option>Tour Package</option><option>Flight Booking</option><option>Hotel Reservation</option><option>General Inquiry</option></select></div>
           </div>
           <div class="form-field"><label class="input-label">Message</label><textarea class="input" rows="5" placeholder="How can we help you?" style="resize:vertical;"></textarea></div>
@@ -2093,7 +2153,34 @@ body.rtl-mode .mobile-nav { text-align:right; }
           <div id="reg-step-1" class="auth-form">
             <div><label class="input-label">Full Name</label><input class="input" type="text" id="reg-name" placeholder="Full Name"></div>
             <div><label class="input-label">Email</label><input class="input" type="email" id="reg-email" placeholder="your@email.com"></div>
-            <div><label class="input-label">Phone</label><input class="input" type="tel" id="reg-phone" placeholder="+964 7XX XXX XXXX"></div>
+            <div>
+  <label class="input-label">Phone</label>
+  <div class="phone-input-wrap">
+  <select class="country-code-select" onchange="updatePhoneCode(this)">
+    <option value="+964" data-flag="🇮🇶">🇮🇶 +964</option>
+    <option value="+966" data-flag="🇸🇦">🇸🇦 +966</option>
+    <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+    <option value="+962" data-flag="🇯🇴">🇯🇴 +962</option>
+    <option value="+963" data-flag="🇸🇾">🇸🇾 +963</option>
+    <option value="+965" data-flag="🇰🇼">🇰🇼 +965</option>
+    <option value="+968" data-flag="🇴🇲">🇴🇲 +968</option>
+    <option value="+974" data-flag="🇶🇦">🇶🇦 +974</option>
+    <option value="+973" data-flag="🇧🇭">🇧🇭 +973</option>
+    <option value="+967" data-flag="🇾🇪">🇾🇪 +967</option>
+    <option value="+20" data-flag="🇪🇬">🇪🇬 +20</option>
+    <option value="+90" data-flag="🇹🇷">🇹🇷 +90</option>
+    <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+    <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+    <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+    <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+    <option value="+7" data-flag="🇷🇺">🇷🇺 +7</option>
+    <option value="+98" data-flag="🇮🇷">🇮🇷 +98</option>
+    <option value="+92" data-flag="🇵🇰">🇵🇰 +92</option>
+    <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
+  </select>
+    <input class="phone-number-input" type="tel" id="reg-phone" placeholder="7XX XXX XXXX" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+  </div>
+</div>
             <div><label class="input-label">Password</label><input class="input" type="password" id="reg-password" placeholder="Create password"></div>
             <button class="btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.45 5.45l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -2244,7 +2331,34 @@ body.rtl-mode .mobile-nav { text-align:right; }
         </div>
         <div class="form-3col">
           <div><label class="input-label">Email</label><input class="input" id="v-email" type="email" placeholder="your@email.com"></div>
-          <div><label class="input-label">Phone</label><input class="input" id="v-phone" type="tel" placeholder="+964 7XX XXX XXXX"></div>
+          <div>
+  <label class="input-label">Phone</label>
+  <div class="phone-input-wrap">
+  <select class="country-code-select" onchange="updatePhoneCode(this)">
+    <option value="+964" data-flag="🇮🇶">🇮🇶 +964</option>
+    <option value="+966" data-flag="🇸🇦">🇸🇦 +966</option>
+    <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+    <option value="+962" data-flag="🇯🇴">🇯🇴 +962</option>
+    <option value="+963" data-flag="🇸🇾">🇸🇾 +963</option>
+    <option value="+965" data-flag="🇰🇼">🇰🇼 +965</option>
+    <option value="+968" data-flag="🇴🇲">🇴🇲 +968</option>
+    <option value="+974" data-flag="🇶🇦">🇶🇦 +974</option>
+    <option value="+973" data-flag="🇧🇭">🇧🇭 +973</option>
+    <option value="+967" data-flag="🇾🇪">🇾🇪 +967</option>
+    <option value="+20" data-flag="🇪🇬">🇪🇬 +20</option>
+    <option value="+90" data-flag="🇹🇷">🇹🇷 +90</option>
+    <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+    <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+    <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+    <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+    <option value="+7" data-flag="🇷🇺">🇷🇺 +7</option>
+    <option value="+98" data-flag="🇮🇷">🇮🇷 +98</option>
+    <option value="+92" data-flag="🇵🇰">🇵🇰 +92</option>
+    <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
+  </select>
+    <input class="phone-number-input" type="tel" id="v-phone" placeholder="7XX XXX XXXX" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+  </div>
+</div>
           <div><label class="input-label">Passport Number</label><input class="input" id="v-passport" type="text" placeholder="A12345678"></div>
         </div>
         <div class="step-actions">
@@ -3331,6 +3445,30 @@ async function doLogin() {
 }
 
 // ================================================================
+//  PHONE HELPER
+// ================================================================
+function getFullPhone(inputId) {
+  var inp = document.getElementById(inputId);
+  if (!inp) return '';
+  // Find the nearest country code select
+  var wrap = inp.closest('.phone-input-wrap');
+  if (!wrap) return inp.value;
+  var sel = wrap.querySelector('.country-code-select');
+  var code = sel ? sel.value : '+964';
+  var num = inp.value.trim().replace(/^0+/, ''); // remove leading zeros
+  return code + ' ' + num;
+}
+
+function updatePhoneCode(sel) {
+  // Visual feedback when changing country code
+  var wrap = sel.closest('.phone-input-wrap');
+  if (wrap) {
+    var inp = wrap.querySelector('.phone-number-input');
+    if (inp) inp.focus();
+  }
+}
+
+// ================================================================
 //  FORGOT PASSWORD WITH OTP
 // ================================================================
 var _forgotOTP = { code: '', email: '' };
@@ -3445,7 +3583,7 @@ function generateOTP() {
 async function doRegister() {
   const name = document.getElementById('reg-name').value.trim();
   const email = document.getElementById('reg-email').value.trim();
-  const phone = document.getElementById('reg-phone').value.trim();
+  const phone = getFullPhone('reg-phone') || document.getElementById('reg-phone').value.trim();
   const password = document.getElementById('reg-password').value;
 
   if (!name || !email || !phone || !password) {
@@ -4075,7 +4213,7 @@ function processPayment() {
     userId: u.id,
     customerName: name,
     email: email,
-    phone: document.getElementById('v-phone').value || u.phone,
+    phone: getFullPhone('v-phone') || document.getElementById('v-phone').value || u.phone,
     passportId: passport,
     dateOfBirth: document.getElementById('v-dob').value,
     countryId: selectedCountryId,
