@@ -5213,12 +5213,12 @@ function previewCountryPhoto(input) {
   const reader = new FileReader();
   reader.onload = function(e) {
     newCountryPhotoUrl = e.target.result;
-    document.getElementById('nc-photo-placeholder').style.display = 'none';
+    const placeholder = document.getElementById('nc-photo-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
     const preview = document.getElementById('nc-photo-preview');
-    preview.src = e.target.result;
-    preview.style.display = 'block';
-    document.getElementById('nc-photo-done').style.display = 'block';
-    document.getElementById('nc-photo-zone').style.borderColor = '#10b981';
+    if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
+    const zone = document.getElementById('nc-photo-zone');
+    if (zone) zone.style.borderColor = '#10b981';
   };
   reader.readAsDataURL(file);
 }
@@ -5250,8 +5250,7 @@ function addCountry() {
   showToast(_SVG_ICONS.success,'Country Added!', nameEn + ' is now available for visa applications.');
   // Reset form
   document.getElementById('nc-name-en').value = '';
-  document.getElementById('nc-name-ar').value = '';
-  document.getElementById('nc-rules').value = '';
+document.getElementById('nc-rules').value = '';
   clearCountryPhoto();
   renderCountryAdmin();
 }
