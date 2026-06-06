@@ -1675,11 +1675,11 @@ body.rtl-mode .mobile-nav { text-align:right; }
   <footer>
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+        <div class="footer-brand" style="direction:ltr;text-align:left;">
+          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;display:flex;align-items:center;gap:4px;direction:ltr;">
             <span>UNLI</span><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">M</span><span>ITED</span>
           </div>
-          <p>Iraq's #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.</p>
+          <p style="direction:ltr;text-align:left;">Iraq's #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.</p>
           <div class="footer-social">
             <a class="footer-social-btn" href="#">f</a>
             <a class="footer-social-btn" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
@@ -1717,7 +1717,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 UNLIMITED Travel & Tourism. All rights reserved.</p>
+        <p style="direction:ltr;">© 2025 UNLIMITED Travel & Tourism. All rights reserved.</p>
         <p><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
       </div>
     </div>
@@ -2980,6 +2980,8 @@ body.rtl-mode .kpi-grid,body.rtl-mode .charts-row{direction:rtl;}
 body.rtl-mode .data-table{direction:rtl;}
 body.rtl-mode .testi-author{flex-direction:row;}
 body.rtl-mode .footer-grid{direction:rtl;text-align:right;}
+body.rtl-mode .footer-brand{direction:ltr;text-align:left;}
+body.rtl-mode .footer-brand p{direction:ltr;text-align:left;}
 body.rtl-mode .hero-stats{direction:rtl;}
 body.rtl-mode .upload-grid{direction:rtl;}
 body.rtl-mode .country-picker-grid{direction:rtl;}
