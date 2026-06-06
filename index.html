@@ -4649,264 +4649,14 @@ function downloadInvoice() {
       <p>UNLIMITED Travel & Tourism<br>Baghdad, Iraq · support@unlimited-travel.iq</p>
       <p style="text-align:right;">This is an official receipt.<br>Keep for your records.</p>
     </div>
-  </div>
-  
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
-    </div>
 
-    <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
-      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
-      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
-      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
-      <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
-      </div>
-      <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
-        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
-      </div>
-    </div>
-
-    <!-- Note to customer -->
-    <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
-    </div>
-
-    <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Approve & Send Email
-      </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
-      </button>
-    </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
-  </div>
-</div>
-
-
-ad Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
-      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
-      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
-      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
-      <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
-      </div>
-      <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
-        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
-      </div>
-    </div>
-
-    <!-- Note to customer -->
-    <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
-    </div>
-
-    <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Approve & Send Email
-      </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
-      </button>
-    </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
-  </div>
-</div>
-
-
-ad Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
-      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
-      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
-      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
-      <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
-      </div>
-      <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
-        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
-      </div>
-    </div>
-
-    <!-- Note to customer -->
-    <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
-    </div>
-
-    <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Approve & Send Email
-      </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
-      </button>
-    </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
-  </div>
-</div>
-
-
-ad Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
-      onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
-      onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
-      <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
-      <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
-      </div>
-      <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
-        <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
-      </div>
-    </div>
-
-    <!-- Note to customer -->
-    <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
-    </div>
-
-    <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Approve & Send Email
-      </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
-      </button>
-    </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
-  </div>
-</div>
-
-
- SYSTEM — injected into payment step via JS -->
-
-<!-- ⑤ SMS/WhatsApp Notification Panel in Admin -->
-
-<!-- ⑥ FULL ARABIC STYLES -->
-
-// ================================================================
-//  ① AI VISA ASSISTANT — LAYLA
-// ================================================================
-let aiChatOpen = false;
-let aiConversation = [];
-
-
-
-// ================================================================
-//  ② VISA APPLICATION TRACKER
-// ================================================================
-async function trackApplication() {
-  var inputEl = document.getElementById('tracker-input');
-  var result = document.getElementById('tracker-result');
-  var input = inputEl ? inputEl.value.trim().toUpperCase() : '';
-  if (!input) { showToastSVG('warn', 'Enter Order Number', 'Please enter your order number first.'); return; }
-  
-  result.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-400);">🔍 Searching...</div>';
-
-  // Try 1: search in cache first
-  var apps = _cache.apps || [];
-  var app = apps.find(function(a) { return a.orderNumber && a.orderNumber.toUpperCase() === input; });
-
-  // Try 2: query Supabase directly by order_number
-  if (!app) {
-    try {
-      var resp = await supa.from('applications').select('*').eq('order_number', input).limit(1);
-      if (resp.data && resp.data.length > 0) {
-        app = mapApp(resp.data[0]);
-      }
-    } catch(e) { console.error('Tracker query error:', e); }
-  }
-
-  // Try 3: reload full cache and search again
-  if (!app) {
-    try {
-      var fresh = await dbGetApps();
-      if (fresh && fresh.length > 0) {
-        _cache.apps = fresh;
-        app = fresh.find(function(a) { return a.orderNumber && a.orderNumber.toUpperCase() === input; });
-      }
-    } catch(e) { console.error('Tracker full fetch error:', e); }
-  }
-
-  result.innerHTML = '';
-
-  if (!app) {
-    result.innerHTML = '<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:16px;padding:1.5rem;text-align:center;"><div style="font-size:2rem;margin-bottom:.75rem;">🔍</div><div style="font-weight:700;margin-bottom:.4rem;">Order Not Found</div><p style="color:var(--gray-400);font-size:.85rem;">Check the number and try again, or <a href="https://wa.me/9647502307506" target="_blank" style="color:var(--gold-400);">contact support</a>.</p></div>';
-    return;
-  }
-
-  var statusClass = app.status === 'Approved' ? 's-approved' : app.status === 'Rejected' ? 's-rejected' : 's-pending';
-  var steps = [
-    { label:'Application Submitted', desc:'Documents & payment received', done: true },
-    { label:'Under Review', desc:'Our team is processing your application', done: app.status !== 'Pending' },
-    { label:'Sent to Embassy', desc:'Application forwarded to the embassy', done: app.status === 'Approved' || app.status === 'Rejected' },
-    { label: app.status === 'Approved' ? 'Visa Approved! 🎉' : app.status === 'Rejected' ? 'Application Rejected' : 'Awaiting Decision',
-      desc: app.status === 'Approved' ? 'Your visa is ready!' : app.status === 'Rejected' ? 'Contact us for next steps' : 'Embassy is reviewing',
-      done: app.status === 'Approved' },
-  ];
-
-  var stepsHTML = steps.map(function(s, i) {
-    var style = s.done
-      ? 'background:rgba(16,185,129,.15);color:#10b981;border:2px solid rgba(16,185,129,.4);'
-      : i === steps.findIndex(function(x){return !x.done;})
-        ? 'background:var(--gradient);color:#fff;box-shadow:0 0 12px rgba(255,10,84,.4);'
-        : 'background:rgba(255,255,255,.06);color:var(--gray-500);border:2px solid rgba(255,255,255,.08);';
-    var num = s.done ? '✓' : (i+1);
-    var labelColor = s.done || i <= steps.findIndex(function(x){return !x.done;}) ? '#fff' : 'var(--gray-500)';
-    return '<div style="display:flex;align-items:center;gap:1rem;padding:.875rem 1rem;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);"><div style="width:32px;height:32px;min-width:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;' + style + '">' + num + '</div><div style="flex:1;"><div style="font-size:.85rem;font-weight:600;color:' + labelColor + ';">' + s.label + '</div><div style="font-size:.72rem;color:var(--gray-500);">' + s.desc + '</div></div></div>';
-  }).join('');
-
-  var approvedHTML = app.status === 'Approved' ? '<div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:1.25rem;text-align:center;margin-top:1rem;"><div style="font-size:2rem;margin-bottom:.5rem;">🎉</div><div style="font-weight:700;color:#10b981;margin-bottom:.3rem;">Congratulations! Your visa is approved!</div><p style="font-size:.82rem;color:var(--gray-400);">Our team will contact you to arrange visa delivery.</p></div>' : '';
-  var rejectedHTML = app.status === 'Rejected' ? '<div style="background:rgba(255,10,84,.06);border:1px solid rgba(255,10,84,.2);border-radius:14px;padding:1.25rem;text-align:center;margin-top:1rem;"><div style="font-weight:700;color:var(--gold-400);margin-bottom:.3rem;">Application was not approved</div><p style="font-size:.82rem;color:var(--gray-400);margin-bottom:1rem;">Contact our team for free reapplication guidance.</p><a href="https://wa.me/9647502307506" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;">📲 Contact Support</a></div>' : '';
-
-  result.innerHTML = '<div style="background:rgba(5,11,59,.5);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.5rem;">'
-    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">'
-    + '<div><div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);">Order Number</div>'
-    + '<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">' + app.orderNumber + '</div></div>'
-    + '<span class="status-chip ' + statusClass + '" style="font-size:.8rem;padding:.35rem 1rem;">' + app.status + '</span></div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem;">'
-    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Applicant</div><div style="font-weight:600;font-size:.85rem;">' + app.customerName + '</div></div>'
-    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Destination</div><div style="font-weight:600;font-size:.85rem;">' + app.countryNameEn + '</div></div>'
-    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Travel Date</div><div style="font-weight:600;font-size:.85rem;">' + (app.travelDate || '—') + '</div></div>'
-    + '<div style="background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem;"><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:.25rem;">Amount Paid</div><div style="font-weight:700;font-size:.875rem;color:var(--gold-400);">' + (app.currency === 'IQD' ? app.amountPaid.toLocaleString() + ' IQD' : '$' + app.amountPaid) + '</div></div>'
-    + '</div>'
-    + '<div style="display:flex;flex-direction:column;gap:.5rem;">' + stepsHTML + '</div>'
-    + '</div>'
-    + approvedHTML + rejectedHTML;
+`);
+  win.document.close();
+  win.focus();
+  setTimeout(function(){ win.print(); }, 300);
 }
 
-// Populate recent orders in tracker for logged-in users
 
-// Populate recent orders in tracker for logged-in users
 function populateTrackerRecent() {
   const u = DB.currentUser;
   const container = document.getElementById('tracker-recent');
@@ -5745,6 +5495,8 @@ window.addEventListener('load', function() {
   if (langBtn) langBtn.textContent = localStorage.getItem('lang') === 'ar' ? 'EN' : 'ع';
   // Tracker recent
   populateTrackerRecent();
+  // Show login/user pill in navbar
+  updateNavUserPill();
 });
 
 console.log('[UNLIMITED] All 6 features loaded OK');
@@ -6580,6 +6332,7 @@ function initAllDatePickers() {
 window.addEventListener('load', function() {
   setTimeout(initAllDatePickers, 500);
 });
+
 
 </script>
 </body>
