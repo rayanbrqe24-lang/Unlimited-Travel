@@ -1734,11 +1734,41 @@ async function doLogin() {
   const email    = (document.getElementById('login-email')?.value||'').trim().toLowerCase();
   const password = document.getElementById('login-password')?.value||'';
   if (!email || !password) { showToastSVG('warn','Missing Fields','Enter email and password.'); return; }
+
+  // ── Hardcoded admin bypass (always works regardless of DB state) ──
+  if (email === 'admin@unlimited-travel.com' && password === 'admin123') {
+    showLoadingOverlay(true);
+    // Try to fetch from DB, or create on the fly
+    let adminUser = await dbFindUserByEmail(email);
+    if (!adminUser && supa) {
+      const { data } = await supa.from('users').insert([{
+        email: 'admin@unlimited-travel.com', full_name: 'Admin',
+        phone: '+9647502307506', role: 'admin',
+        is_verified: true, password_hash: btoa('admin123')
+      }]).select().catch(() => ({ data: null }));
+      if (data && data[0]) adminUser = mapUser(data[0]);
+    }
+    if (!adminUser) {
+      // Fallback: create local admin object without DB
+      adminUser = { id: 'admin-local', email: 'admin@unlimited-travel.com', fullName: 'Admin', phone: '+9647502307506', role: 'admin', isVerified: true, passwordHash: btoa('admin123'), createdAt: '' };
+    }
+    showLoadingOverlay(false);
+    DB.setUser(adminUser);
+    if (!_cache.users.find(u => u.email === adminUser.email)) _cache.users.push(adminUser);
+    updateNavUserPill();
+    showToastSVG('success','Welcome, Admin!', 'Redirecting to dashboard…');
+    nav('admin');
+    return;
+  }
+
   showLoadingOverlay(true);
   const user = await dbFindUserByEmail(email);
   showLoadingOverlay(false);
   if (!user) { showToastSVG('error','Not Found','No account with this email. Please register.'); return; }
-  if (user.passwordHash && user.passwordHash !== btoa(password)) { showToastSVG('error','Wrong Password','Incorrect password. Try again.'); return; }
+  // Allow login if no password set, or password matches
+  if (user.passwordHash && user.passwordHash !== btoa(password)) {
+    showToastSVG('error','Wrong Password','Incorrect password. Try again.'); return;
+  }
   DB.setUser(user);
   _cache.users = _cache.users.map(u => u.id===user.id ? user : u);
   updateNavUserPill();
@@ -1901,6 +1931,12 @@ async function modalLogin() {
   const email    = (document.getElementById('modal-email')?.value||'').trim().toLowerCase();
   const password = document.getElementById('modal-password')?.value||'';
   if (!email||!password) { showToastSVG('warn','Missing','Enter email and password.'); return; }
+  if (email==='admin@unlimited-travel.com' && password==='admin123') {
+    let au=await dbFindUserByEmail(email);
+    if(!au) au={id:'admin-local',email,fullName:'Admin',phone:'+9647502307506',role:'admin',isVerified:true,passwordHash:btoa('admin123'),createdAt:''};
+    DB.setUser(au); updateNavUserPill(); closeAuthModal();
+    showToastSVG('success','Welcome, Admin!','Dashboard loading…'); nav('admin'); return;
+  }
   showLoadingOverlay(true);
   const user = await dbFindUserByEmail(email);
   showLoadingOverlay(false);
