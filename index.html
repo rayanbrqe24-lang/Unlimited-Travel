@@ -3883,28 +3883,21 @@ async function doRegister() {
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       to_name:        name,
       to_email:       email,
-      order_number:   'OTP-' + _otp.code,
-      country:        'Account Verification',
-      visa_type:      'Email Verification',
+      order_number:   'Verification Code: ' + _otp.code,
+      country:        '—',
       travel_date:    '—',
-      return_date:    '—',
+      date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
       base_amount:    '—',
       proc_amount:    '—',
       total_amount:   '—',
-      currency:       '',
-      payment_method: '',
-      date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-      customer_name:  name,
-      customer_email: email,
-      customer_phone: phone,
-      subject:        'Your UNLIMITED Travel Verification Code: ' + _otp.code,
+      payment_method: 'none',
       invoice_block:  'none',
       status_block:   'block',
       approved_block: 'block',
       rejected_block: 'none',
-      status:         'Verification Code',
-      status_icon:    '🔐',
-      message:        'Your email verification code is: ' + _otp.code + '\n\nThis code expires in 10 minutes. Do not share it with anyone.',
+      status:         '',
+      status_icon:    'none',
+      message:        'Your verification code is:\n\n' + _otp.code + '\n\nEnter this code to complete your registration. It expires in 10 minutes.',
     });
     showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
   } catch(e) {
@@ -3978,11 +3971,37 @@ async function completeRegistration() {
 
 function resendOTP() {
   _otp.code = generateOTP();
-  supa.auth.signInWithOtp({ email: _otp.email, options: { shouldCreateUser: false } })
-    .catch(() => {});
-  console.log('📧 Resent OTP for', _otp.email, ':', _otp.code);
-  showToast(_SVG_ICONS.info, 'Code Resent', 'New code sent to ' + _otp.email);
   startResendTimer();
+  try {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_name:        _otp.name,
+        to_email:       _otp.email,
+        order_number:   'Verification Code: ' + _otp.code,
+        country:        '—',
+        travel_date:    '—',
+        date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+        base_amount:    '—',
+        proc_amount:    '—',
+        total_amount:   '—',
+        payment_method: 'none',
+        invoice_block:  'none',
+        status_block:   'block',
+        approved_block: 'block',
+        rejected_block: 'none',
+        status:         '',
+        status_icon:    'none',
+        message:        'Your new verification code is:\n\n' + _otp.code + '\n\nEnter this code to complete your registration. It expires in 10 minutes.',
+      }).then(() => {
+        showToast(_SVG_ICONS.success, 'Code Resent! 📧', 'New code sent to ' + _otp.email);
+      }).catch(() => {
+        showToast(_SVG_ICONS.info, 'New Code: ' + _otp.code, 'Email failed — use this code');
+      });
+    }
+  } catch(e) {
+    showToast(_SVG_ICONS.info, 'New Code: ' + _otp.code, 'Email failed — use this code');
+  }
 }
 
 function startResendTimer() {
