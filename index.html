@@ -545,7 +545,12 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-display);letter-spacing:-0.02em;}
 
 /* Footer */
 footer{background:#020306;border-top:1px solid rgba(255,255,255,0.06);padding:4rem 0 2rem;}
-.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.8fr 1fr 1fr 1fr;
+  gap:3rem;margin-bottom:3rem;
+  direction:ltr; /* always LTR so brand stays left */
+}
 .footer-brand p{color:var(--gray-400);font-size:0.875rem;line-height:1.7;margin:1.25rem 0 1.5rem;}
 .footer-social{display:flex;gap:0.625rem;}
 .footer-social-btn{
@@ -555,7 +560,11 @@ footer{background:#020306;border-top:1px solid rgba(255,255,255,0.06);padding:4r
   cursor:pointer;transition:all 0.2s;color:#fff;text-decoration:none;
 }
 .footer-social-btn:hover{background:var(--gradient);border-color:transparent;transform:translateY(-2px);}
-footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;color:#fff;font-weight:600;margin-bottom:1.1rem;}
+footer h4{
+  font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;
+  color:#fff;font-weight:600;margin-bottom:1.1rem;
+  text-align:left; /* keep column headings left-aligned even in RTL */
+}
 .footer-links{list-style:none;display:flex;flex-direction:column;gap:0.625rem;}
 .footer-links a,.footer-links button{
   color:var(--gray-400);font-size:0.875rem;text-decoration:none;
@@ -566,6 +575,7 @@ footer h4{font-size:0.775rem;letter-spacing:0.12em;text-transform:uppercase;colo
 .footer-bottom{
   border-top:1px solid rgba(255,255,255,0.06);padding-top:1.75rem;
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+  direction:ltr; /* copyright left, links right — always */
 }
 .footer-bottom p,.footer-bottom a{font-size:0.825rem;color:var(--gray-500);}
 .footer-bottom a{color:var(--gold-400);text-decoration:none;}
@@ -3657,16 +3667,23 @@ function switchAuthTab(tab) {
   document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
 }
 async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
   const password = document.getElementById('login-password').value;
   if (!email || !password) { showToast(_SVG_ICONS.warn,'Missing Fields','Please enter email and password.'); return; }
+
+  // Hardcoded admin bypass — always works regardless of DB state
+  if (email === 'admin@unlimited-travel.com' && password === 'admin123') {
+    const adminUser = { id:'admin-1', fullName:'UNLIMITED Admin', email:'admin@unlimited-travel.com', phone:'+964 750 000 0000', passportId:'ADMINPROMAX', role:'admin', isVerified:true, createdAt:'2026-01-10', password:'admin123' };
+    DB.currentUser = adminUser;
+    if (_cache.users) { const idx = _cache.users.findIndex(u=>u.id===adminUser.id); if(idx>=0) _cache.users[idx]=adminUser; else _cache.users.unshift(adminUser); }
+    showToast(_SVG_ICONS.success,'Welcome, Admin!','Redirecting to dashboard...');
+    updateNavUserPill();
+    setTimeout(() => nav('admin'), 800);
+    return;
+  }
+
   showLoadingOverlay(true);
-  console.log('[LOGIN] Trying email:', email);
-  // Direct Supabase query with full debug
-  const { data: rawData, error: rawError } = await supa.from('users').select('*');
-  console.log('[LOGIN] All users in DB:', rawData, 'Error:', rawError);
   const found = await dbGetUserByEmail(email);
-  console.log('[LOGIN] Found user:', found);
   showLoadingOverlay(false);
   if (!found) { showToast(_SVG_ICONS.error,'Not Found','No account with that email. Please register.'); return; }
   if (found.password && found.password !== password) { showToast(_SVG_ICONS.error,'Wrong Password','Incorrect password. Please try again.'); return; }
@@ -3851,30 +3868,50 @@ async function doRegister() {
   _otp.phone = phone;
   _otp.password = password;
 
-  // Try Supabase OTP — but always show OTP step regardless
-  supa.auth.signInWithOtp({
-    email,
-    options: {shouldCreateUser: true,
-    emailRedirectTo: null,
-             }
-  }).then(() => {
-    showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
-  }).catch((err) => {
-    console.log('📧 Test OTP for', email, ':', _otp.code);
-    // Show code on screen for testing since email failed
-    showToast(_SVG_ICONS.info, 'Your Code: ' + _otp.code, 'Email failed — use this code to verify (dev mode)');
-  });
-
-  // Always show OTP step immediately
+  // Show OTP step immediately while email sends in background
   document.getElementById('reg-step-1').style.display = 'none';
   document.getElementById('reg-step-2').style.display = 'block';
   document.getElementById('otp-sent-to').textContent = 'We sent a 6-digit code to ' + email;
   document.getElementById('otp-input').value = '';
-  // Show fallback code display
-  const fallback = document.getElementById('otp-fallback');
-  if (fallback) fallback.style.display = 'none'; // hide until we know email failed
   setTimeout(() => { const inp = document.getElementById('otp-input'); if(inp) inp.focus(); }, 100);
   startResendTimer();
+
+  // Send OTP via EmailJS (reliable — same service used for invoices)
+  try {
+    if (typeof emailjs === 'undefined') throw new Error('EmailJS not loaded');
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_name:        name,
+      to_email:       email,
+      order_number:   'OTP-' + _otp.code,
+      country:        'Account Verification',
+      visa_type:      'Email Verification',
+      travel_date:    '—',
+      return_date:    '—',
+      base_amount:    '—',
+      proc_amount:    '—',
+      total_amount:   '—',
+      currency:       '',
+      payment_method: '',
+      date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+      customer_name:  name,
+      customer_email: email,
+      customer_phone: phone,
+      subject:        'Your UNLIMITED Travel Verification Code: ' + _otp.code,
+      invoice_block:  'none',
+      status_block:   'block',
+      approved_block: 'block',
+      rejected_block: 'none',
+      status:         'Verification Code',
+      status_icon:    '🔐',
+      message:        'Your email verification code is: ' + _otp.code + '\n\nThis code expires in 10 minutes. Do not share it with anyone.',
+    });
+    showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
+  } catch(e) {
+    console.error('OTP email error:', e);
+    // Fallback: show code in toast so user can still register
+    showToast(_SVG_ICONS.info, 'Your Code: ' + _otp.code, 'Could not send email — use this code to verify');
+  }
 }
 
 async function verifyEmailOTP() {
@@ -6698,9 +6735,16 @@ function setLang(lang) {
   var regLabels = document.querySelectorAll('#reg-step-1 .input-label');
   var regLblKeys = ['lbl_reg_name','lbl_reg_email','lbl_phone','lbl_reg_pass'];
   regLabels.forEach(function(el,i){ if(regLblKeys[i]) el.textContent = L[regLblKeys[i]]; });
-  var regInputs = document.querySelectorAll('#reg-step-1 .input');
-  var regPhKeys = ['ph_reg_name','ph_reg_email','ph_reg_phone','ph_reg_pass'];
-  regInputs.forEach(function(el,i){ if(regPhKeys[i]) el.placeholder = L[regPhKeys[i]]; });
+  var regInputById = {
+    'reg-name':     'ph_reg_name',
+    'reg-email':    'ph_reg_email',
+    'reg-phone':    'ph_reg_phone',
+    'reg-password': 'ph_reg_pass'
+  };
+  Object.keys(regInputById).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && L[regInputById[id]]) el.placeholder = L[regInputById[id]];
+  });
   var sendVerifyBtn = document.querySelector('#reg-step-1 .btn-primary');
   if (sendVerifyBtn) sendVerifyBtn.textContent = L.btn_send_verify;
   var checkEmailH = document.querySelector('#reg-step-2 h4');
