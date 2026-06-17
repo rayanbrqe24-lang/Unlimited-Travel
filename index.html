@@ -7,7 +7,7 @@
 <meta name="description" content="Iraq's #1 premium travel agency. Visa processing, luxury tours, FIB Bank payments.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Neon PostgreSQL via HTTP API -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
@@ -2929,24 +2929,15 @@ body.rtl-mode .mobile-nav { text-align:right; }
 // ================================================================
 //  NEON DATABASE CLIENT
 // ================================================================
-const NEON_CONNECTION = 'postgresql://neondb_owner:npg_lxtLTdv96ksS@ep-snowy-hill-aokakgjl.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require';
-
-async function neonQuery(sql, params = []) {
-  const res = await fetch('https://ep-snowy-hill-aokakgjl.c-2.ap-southeast-1.aws.neon.tech/sql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Neon-Connection-String': NEON_CONNECTION
-    },
-    body: JSON.stringify({ query: sql, params })
-  });
-  if (!res.ok) { const e = await res.text(); console.error('Neon error:', e); throw new Error(e); }
-  const json = await res.json();
-  return json.rows || [];
-}
+// ================================================================
+//  SUPABASE CLIENT
+// ================================================================
+const SUPABASE_URL = 'https://uidbugkercotkyecjlsd.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpZGJ1Z2tlcmNvdGt5ZWNqbHNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NzczMDQsImV4cCI6MjA5NzI1MzMwNH0.Swq1BgDQ9sh4fweUcWeg_DuaE4zmADWlKUkHteL36-E';
+const supa = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ================================================================
-//  DATABASE API — all calls go to Neon
+//  DATABASE API
 // ================================================================
 const DB = {
   get currentUser() { try { return JSON.parse(sessionStorage.getItem('ult_user') || 'null'); } catch(e){ return null; } },
@@ -2955,29 +2946,34 @@ const DB = {
 
 // ---- USERS ----
 async function dbGetUsers() {
-  try {
-    const rows = await neonQuery('SELECT * FROM users ORDER BY created_at DESC');
-    return rows.map(mapUser);
-  } catch(e) { console.error('dbGetUsers:', e); return []; }
+  const { data, error } = await supa.from('users').select('*').order('created_at', { ascending: false });
+  if (error) { console.error('dbGetUsers:', error); return []; }
+  return data.map(mapUser);
 }
 async function dbGetUserByEmail(email) {
-  try {
-    const clean = email.trim().toLowerCase();
-    const rows = await neonQuery('SELECT * FROM users WHERE LOWER(email)=$1 LIMIT 1', [clean]);
-    return rows.length ? mapUser(rows[0]) : null;
-  } catch(e) { console.error('dbGetUserByEmail:', e); return null; }
+  const clean = email.trim().toLowerCase();
+  const { data, error } = await supa.from('users').select('*').eq('email', clean).limit(1);
+  if (error) { console.error('dbGetUserByEmail:', error); return null; }
+  if (!data || data.length === 0) {
+    const { data: all } = await supa.from('users').select('*');
+    const match = (all || []).find(u => u.email.toLowerCase() === clean);
+    return match ? mapUser(match) : null;
+  }
+  return mapUser(data[0]);
 }
 async function dbInsertUser(user) {
-  try {
-    await neonQuery(
-      'INSERT INTO users (id,full_name,email,phone,passport_id,role,is_verified,created_at,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT (email) DO NOTHING',
-      [user.id, user.fullName, user.email.toLowerCase(), user.phone||'', user.passportId||'', user.role||'customer', user.isVerified||false, user.createdAt, user.password||'']
-    );
-  } catch(e) { console.error('dbInsertUser:', e); }
+  const row = {
+    id: user.id, full_name: user.fullName, email: user.email.toLowerCase(),
+    phone: user.phone || '', passport_id: user.passportId || '',
+    role: user.role || 'customer', is_verified: user.isVerified || false,
+    created_at: user.createdAt, password: user.password || ''
+  };
+  const { error } = await supa.from('users').insert(row);
+  if (error) console.error('dbInsertUser:', error);
 }
 async function dbUpdateUserRole(id, role) {
-  try { await neonQuery('UPDATE users SET role=$1 WHERE id=$2', [role, id]); }
-  catch(e) { console.error('dbUpdateUserRole:', e); }
+  const { error } = await supa.from('users').update({ role }).eq('id', id);
+  if (error) console.error('dbUpdateUserRole:', error);
 }
 function mapUser(r) {
   return { id: r.id, fullName: r.full_name, email: r.email, phone: r.phone,
@@ -2987,53 +2983,54 @@ function mapUser(r) {
 
 // ---- COUNTRIES ----
 async function dbGetCountries() {
-  try {
-    const rows = await neonQuery('SELECT * FROM countries ORDER BY name_en');
-    if (!rows.length) { await dbSeedCountries(); return defaultCountries(); }
-    return rows.map(mapCountry);
-  } catch(e) { console.error('dbGetCountries:', e); return defaultCountries(); }
+  const { data, error } = await supa.from('countries').select('*').order('name_en');
+  if (error) { console.error('dbGetCountries:', error); return defaultCountries(); }
+  if (!data || data.length === 0) { await dbSeedCountries(); return defaultCountries(); }
+  return data.map(mapCountry);
 }
 async function dbSeedCountries() {
-  try {
-    for (const c of defaultCountries()) {
-      await neonQuery(
-        'INSERT INTO countries (id,name_en,name_ar,flag,photo_url,price_usd,price_iqd,processing_time,rules_en,rules_ar) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ON CONFLICT (id) DO NOTHING',
-        [c.id, c.nameEn, c.nameAr||c.nameEn, c.flag, c.photoUrl||null, c.priceUSD, c.priceIQD, c.processingTime, c.rulesEn, c.rulesAr||'']
-      );
-    }
-  } catch(e) { console.error('dbSeedCountries:', e); }
+  const rows = defaultCountries().map(c => ({
+    id: c.id, name_en: c.nameEn, name_ar: c.nameAr, flag: c.flag,
+    photo_url: c.photoUrl || null, price_usd: c.priceUSD, price_iqd: c.priceIQD,
+    processing_time: c.processingTime, rules_en: c.rulesEn, rules_ar: c.rulesAr || ''
+  }));
+  await supa.from('countries').upsert(rows, { onConflict: 'id' });
 }
 async function dbSeedUsers() {
-  try {
-    for (const u of defaultUsers()) {
-      await neonQuery(
-        'INSERT INTO users (id,full_name,email,phone,passport_id,role,is_verified,created_at,password) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT (id) DO NOTHING',
-        [u.id, u.fullName, u.email.toLowerCase(), u.phone, u.passportId||'', u.role, u.isVerified, u.createdAt, u.password]
-      );
-    }
-  } catch(e) { console.error('dbSeedUsers:', e); }
+  const rows = defaultUsers().map(u => ({
+    id: u.id, full_name: u.fullName, email: u.email.toLowerCase(),
+    phone: u.phone, passport_id: u.passportId || '', role: u.role,
+    is_verified: u.isVerified, created_at: u.createdAt, password: u.password
+  }));
+  const { error } = await supa.from('users').upsert(rows, { onConflict: 'id' });
+  if (error) console.error('dbSeedUsers error:', error);
 }
-async function dbPatchCountryPhotos() { /* no-op with Neon */ }
+async function dbPatchCountryPhotos() {
+  const defaults = defaultCountries();
+  for (const c of defaults) {
+    if (!c.photoUrl) continue;
+    await supa.from('countries').update({ photo_url: c.photoUrl }).eq('id', c.id).is('photo_url', null);
+  }
+}
 async function dbUpdateCountry(id, fields) {
-  try {
-    const sets = []; const vals = []; let i = 1;
-    if (fields.priceUSD !== undefined)     { sets.push('price_usd=$'+i++);       vals.push(fields.priceUSD); }
-    if (fields.priceIQD !== undefined)     { sets.push('price_iqd=$'+i++);       vals.push(fields.priceIQD); }
-    if (fields.processingTime !== undefined){ sets.push('processing_time=$'+i++); vals.push(fields.processingTime); }
-    if (fields.rulesEn !== undefined)      { sets.push('rules_en=$'+i++);        vals.push(fields.rulesEn); }
-    if (fields.photoUrl !== undefined)     { sets.push('photo_url=$'+i++);       vals.push(fields.photoUrl); }
-    if (!sets.length) return;
-    vals.push(id);
-    await neonQuery('UPDATE countries SET '+sets.join(',')+' WHERE id=$'+i, vals);
-  } catch(e) { console.error('dbUpdateCountry:', e); }
+  const row = {};
+  if (fields.priceUSD !== undefined) row.price_usd = fields.priceUSD;
+  if (fields.priceIQD !== undefined) row.price_iqd = fields.priceIQD;
+  if (fields.processingTime !== undefined) row.processing_time = fields.processingTime;
+  if (fields.rulesEn !== undefined) row.rules_en = fields.rulesEn;
+  if (fields.photoUrl !== undefined) row.photo_url = fields.photoUrl;
+  const { error } = await supa.from('countries').update(row).eq('id', id);
+  if (error) console.error('dbUpdateCountry:', error);
 }
 async function dbInsertCountry(c) {
-  try {
-    await neonQuery(
-      'INSERT INTO countries (id,name_en,name_ar,flag,photo_url,price_usd,price_iqd,processing_time,rules_en,rules_ar) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ON CONFLICT (id) DO NOTHING',
-      [c.id, c.nameEn, c.nameAr||c.nameEn, c.flag||'', c.photoUrl||null, c.priceUSD, c.priceIQD, c.processingTime, c.rulesEn, '']
-    );
-  } catch(e) { console.error('dbInsertCountry:', e); }
+  const row = {
+    id: c.id, name_en: c.nameEn, name_ar: c.nameAr || c.nameEn,
+    flag: c.flag || '', photo_url: c.photoUrl || null,
+    price_usd: c.priceUSD, price_iqd: c.priceIQD,
+    processing_time: c.processingTime, rules_en: c.rulesEn, rules_ar: ''
+  };
+  const { error } = await supa.from('countries').insert(row);
+  if (error) console.error('dbInsertCountry:', error);
 }
 function mapCountry(r) {
   return { id: r.id, nameEn: r.name_en, nameAr: r.name_ar, flag: r.flag,
@@ -3059,31 +3056,36 @@ function defaultUsers() {
 
 // ---- APPLICATIONS ----
 async function dbGetApps() {
-  try {
-    const rows = await neonQuery('SELECT * FROM applications ORDER BY created_at DESC');
-    return rows.map(mapApp);
-  } catch(e) { console.error('dbGetApps:', e); return []; }
+  const { data, error } = await supa.from('applications').select('*').order('created_at', { ascending: false });
+  if (error) { console.error('dbGetApps:', error); return []; }
+  return data.map(mapApp);
 }
 async function dbGetAppsByUser(userId, email) {
-  try {
-    const rows = await neonQuery(
-      'SELECT * FROM applications WHERE user_id=$1 OR LOWER(email)=$2 ORDER BY created_at DESC',
-      [userId, email.toLowerCase()]
-    );
-    return rows.map(mapApp);
-  } catch(e) { console.error('dbGetAppsByUser:', e); return []; }
+  const { data, error } = await supa.from('applications').select('*')
+    .or(`user_id.eq.${userId},email.eq.${email.toLowerCase()}`)
+    .order('created_at', { ascending: false });
+  if (error) { console.error('dbGetAppsByUser:', error); return []; }
+  return data.map(mapApp);
 }
 async function dbInsertApp(app) {
-  try {
-    await neonQuery(
-      'INSERT INTO applications (order_number,user_id,customer_name,email,phone,passport_id,date_of_birth,country_id,country_name_en,travel_date,return_date,passport_expiry,personal_photo_url,passport_copy_url,national_id_url,status,payment_status,amount_paid,currency,created_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)',
-      [app.orderNumber, app.userId, app.customerName, app.email.toLowerCase(), app.phone, app.passportId, app.dateOfBirth, app.countryId, app.countryNameEn, app.travelDate, app.returnDate, app.passportExpiry, app.personalPhotoUrl, app.passportCopyUrl, app.nationalIdUrl, app.status, app.paymentStatus, app.amountPaid, app.currency, app.createdAt]
-    );
-  } catch(e) { console.error('dbInsertApp:', e); }
+  const row = {
+    order_number: app.orderNumber, user_id: app.userId,
+    customer_name: app.customerName, email: app.email.toLowerCase(),
+    phone: app.phone, passport_id: app.passportId, date_of_birth: app.dateOfBirth,
+    country_id: app.countryId, country_name_en: app.countryNameEn,
+    travel_date: app.travelDate, return_date: app.returnDate,
+    passport_expiry: app.passportExpiry,
+    personal_photo_url: app.personalPhotoUrl, passport_copy_url: app.passportCopyUrl,
+    national_id_url: app.nationalIdUrl, status: app.status,
+    payment_status: app.paymentStatus, amount_paid: app.amountPaid,
+    currency: app.currency, created_at: app.createdAt
+  };
+  const { error } = await supa.from('applications').insert(row);
+  if (error) console.error('dbInsertApp:', error);
 }
 async function dbUpdateAppStatus(orderNumber, status) {
-  try { await neonQuery('UPDATE applications SET status=$1 WHERE order_number=$2', [status, orderNumber]); }
-  catch(e) { console.error('dbUpdateAppStatus:', e); }
+  const { error } = await supa.from('applications').update({ status }).eq('order_number', orderNumber);
+  if (error) console.error('dbUpdateAppStatus:', error);
 }
 function mapApp(r) {
   return { orderNumber: r.order_number, userId: r.user_id, customerName: r.customer_name,
@@ -3097,37 +3099,34 @@ function mapApp(r) {
 
 // ---- NOTIFICATIONS ----
 async function dbGetNotifications() {
-  try {
-    const rows = await neonQuery('SELECT * FROM notifications ORDER BY created_at DESC');
-    return rows.map(r => ({
-      id: r.id, type: r.type, title: r.title, desc: r.description,
-      order: r.order_number, email: r.email, managerEmail: r.manager_email,
-      customerEmailSent: r.customer_email_sent, managerEmailSent: r.manager_email_sent,
-      createdAt: r.created_at, read: r.is_read
-    }));
-  } catch(e) { console.error('dbGetNotifications:', e); return []; }
+  const { data, error } = await supa.from('notifications').select('*').order('created_at', { ascending: false });
+  if (error) { console.error('dbGetNotifications:', error); return []; }
+  return data.map(r => ({
+    id: r.id, type: r.type, title: r.title, desc: r.description,
+    order: r.order_number, email: r.email, managerEmail: r.manager_email,
+    customerEmailSent: r.customer_email_sent, managerEmailSent: r.manager_email_sent,
+    createdAt: r.created_at, read: r.is_read
+  }));
 }
 async function dbInsertNotification(n) {
-  try {
-    await neonQuery(
-      'INSERT INTO notifications (id,type,title,description,order_number,email,manager_email,customer_email_sent,manager_email_sent,created_at,is_read) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT (id) DO NOTHING',
-      [n.id, n.type, n.title, n.desc, n.order, n.email, n.managerEmail, true, true, n.createdAt, false]
-    );
-  } catch(e) { console.error('dbInsertNotification:', e); }
+  const row = {
+    id: n.id, type: n.type, title: n.title, description: n.desc,
+    order_number: n.order, email: n.email, manager_email: n.managerEmail,
+    customer_email_sent: true, manager_email_sent: true,
+    created_at: n.createdAt, is_read: false
+  };
+  const { error } = await supa.from('notifications').insert(row);
+  if (error) console.error('dbInsertNotification:', error);
 }
 async function dbMarkNotifsRead() {
-  try { await neonQuery('UPDATE notifications SET is_read=true WHERE is_read=false'); }
-  catch(e) { console.error('dbMarkNotifsRead:', e); }
+  await supa.from('notifications').update({ is_read: true }).eq('is_read', false);
 }
 async function dbClearNotifications() {
-  try { await neonQuery('DELETE FROM notifications'); }
-  catch(e) { console.error('dbClearNotifications:', e); }
+  await supa.from('notifications').delete().neq('id', '');
 }
 async function dbUnreadNotifCount() {
-  try {
-    const rows = await neonQuery('SELECT COUNT(*) as cnt FROM notifications WHERE is_read=false');
-    return parseInt(rows[0]?.cnt || 0);
-  } catch(e) { return 0; }
+  const { count } = await supa.from('notifications').select('id', { count: 'exact', head: true }).eq('is_read', false);
+  return count || 0;
 }
 
 // ================================================================
@@ -3811,7 +3810,7 @@ async function verifyForgotOTP() {
   showLoadingOverlay(true);
   var user = await dbGetUserByEmail(_forgotOTP.email);
   if (user) {
-    await neonQuery('UPDATE users SET password=$1 WHERE LOWER(email)=$2', [newPass, _forgotOTP.email.toLowerCase()]);
+    await supa.from('users').update({ password: newPass }).eq('email', _forgotOTP.email.toLowerCase());
     if (_cache.users) {
       _cache.users = _cache.users.map(function(u) { return u.email === _forgotOTP.email ? Object.assign({}, u, { password: newPass }) : u; });
     }
@@ -5965,7 +5964,7 @@ async function trackApplication() {
   // Try 2: query Supabase directly by order_number
   if (!app) {
     try {
-      var resp = { data: await neonQuery('SELECT * FROM applications WHERE order_number=$1 LIMIT 1', [input]), error: null };
+      var resp = await supa.from('applications').select('*').eq('order_number', input).limit(1);
       if (resp.data && resp.data.length > 0) {
         app = mapApp(resp.data[0]);
       }
@@ -6939,14 +6938,16 @@ async function submitFlightRequest() {
     createdAt: new Date().toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
   };
 
-  // Save to Neon notifications table
+  // Save to Supabase notifications table
   try {
-    await neonQuery(
-      'INSERT INTO notifications (id,type,title,description,order_number,email,manager_email,customer_email_sent,manager_email_sent,created_at,is_read) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT (id) DO NOTHING',
-      [request.id, 'flight_request', 'Flight Request: ' + from + ' → ' + to,
-       request.customerName + ' | ' + passengers + ' | ' + cabin + ' | ' + depart,
-       request.id, request.customerEmail, MANAGER_EMAIL, false, false, new Date().toISOString(), false]
-    );
+    await supa.from('notifications').insert({
+      id: request.id, type: 'flight_request',
+      title: 'Flight Request: ' + from + ' → ' + to,
+      description: request.customerName + ' | ' + passengers + ' | ' + cabin + ' | ' + depart,
+      order_number: request.id, email: request.customerEmail,
+      manager_email: MANAGER_EMAIL, customer_email_sent: false,
+      manager_email_sent: false, created_at: new Date().toISOString(), is_read: false
+    });
   } catch(e) {
     console.log('Saved locally:', request);
   }
@@ -7018,7 +7019,7 @@ async function loadFlightRequests() {
   // Load from Supabase notifications where type = flight_request
   var requests = [];
   try {
-    var resp = { data: await neonQuery("SELECT * FROM notifications WHERE type='flight_request' ORDER BY created_at DESC"), error: null };
+    var resp = await supa.from('notifications').select('*').eq('type', 'flight_request').order('created_at', { ascending: false });
     if (resp.data) {
       requests = resp.data.map(function(r) {
         var parts = (r.description || '').split(' | ');
@@ -7137,7 +7138,7 @@ async function loadFlightRequests() {
 
 async function markFlightContacted(id, btn) {
   try {
-    await neonQuery('UPDATE notifications SET is_read=true WHERE id=$1', [id]);
+    await supa.from('notifications').update({ is_read: true }).eq('id', id);
   } catch(e) {}
   var row = btn.closest('tr');
   if (row) {
