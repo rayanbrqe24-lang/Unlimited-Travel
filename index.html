@@ -4399,6 +4399,7 @@ let _pendingApp = null;
 // ── FIB REAL API ─────────────────────────────────────────────
 const FIB_PROXY = 'https://uidbugkercotkyecjlsd.supabase.co/functions/v1/fib-payment';
 let _fibPaymentId = null;
+let _fibAppLink = null;
 let _fibPollInterval = null;
 
 async function fibCall(body) {
@@ -4450,11 +4451,12 @@ function downloadQR() {
   showToast(_SVG_ICONS.success, 'QR Saved!', 'Show this QR in FIB Bank app to pay.');
 }
 
-async function openFibApp() {
-  if (!_fibPaymentId) { showToast(_SVG_ICONS.warn,'Not Ready','Please wait for payment to initialize.'); return; }
-  // Use personal app deep link from FIB
-  const data = await fibCall({ action: 'status', paymentId: _fibPaymentId });
-  if (data.personalAppLink) window.location.href = data.personalAppLink;
+function openFibApp() {
+  if (!_fibPaymentId || !_fibAppLink) {
+    showToast(_SVG_ICONS.warn, 'Not Ready', 'Payment is still initializing, please wait a moment.');
+    return;
+  }
+  window.open(_fibAppLink, '_blank');
   startFibPolling();
 }
 
@@ -4546,11 +4548,31 @@ function processPayment() {
   const el3=document.getElementById('fib-total'); if(el3) el3.textContent=total;
   document.querySelector('.payment-card')?.scrollIntoView({behavior:'smooth', block:'center'});
 
-  // Create real FIB payment
+  // Reset QR area for new payment
   _fibPaymentId = null;
+  _fibAppLink = null;
+  if (_fibPollInterval) { clearInterval(_fibPollInterval); _fibPollInterval = null; }
+  const qrEl = document.getElementById('fib-qr-canvas');
+  if (qrEl) {
+    // Replace img back to canvas if needed
+    const fresh = document.createElement('canvas');
+    fresh.id = 'fib-qr-canvas';
+    fresh.width = 160; fresh.height = 160;
+    const ctx = fresh.getContext('2d');
+    ctx.fillStyle = '#1a1a2e'; ctx.fillRect(0,0,160,160);
+    ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText('Loading...', 80, 85);
+    qrEl.parentNode.replaceChild(fresh, qrEl);
+  }
+  const refEl = document.getElementById('qr-order-ref');
+  if (refEl) refEl.textContent = 'Generating payment...';
+  const amtEl = document.getElementById('qr-amount');
+  if (amtEl) amtEl.textContent = total;
+
   showToast(_SVG_ICONS.info, 'Creating Payment...', 'Connecting to FIB Bank, please wait.');
   createFibPayment().then(fibData => {
     _fibPaymentId = fibData.paymentId;
+    _fibAppLink = fibData.personalAppLink || fibData.businessAppLink || null;
     // Show real QR image
     const canvas = document.getElementById('fib-qr-canvas');
     if (canvas && fibData.qrCode) {
@@ -4560,15 +4582,8 @@ function processPayment() {
       img.style.cssText = 'width:160px;height:160px;border-radius:8px;';
       canvas.parentNode.replaceChild(img, canvas);
     }
-    const refEl = document.getElementById('qr-order-ref');
     if (refEl) refEl.textContent = 'Code: ' + fibData.readableCode;
-    const amtEl = document.getElementById('qr-amount');
     if (amtEl) amtEl.textContent = total;
-    // Update app button deep link
-    if (fibData.personalAppLink) {
-      const appBtn = document.querySelector('#fib-panel-app button');
-      if (appBtn) appBtn.onclick = () => { window.location.href = fibData.personalAppLink; startFibPolling(); };
-    }
     startFibPolling();
     showToast(_SVG_ICONS.success, 'Payment Ready!', 'Scan QR or open FIB App to pay. Valid for 15 minutes.');
   }).catch(err => {
