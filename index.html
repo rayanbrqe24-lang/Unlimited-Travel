@@ -2570,18 +2570,52 @@ body.rtl-mode .mobile-nav { text-align:right; }
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
               </div>
               <div style="font-size:1rem;font-weight:700;margin-bottom:0.4rem;">Pay with FIB App</div>
-              <div style="font-size:0.82rem;color:var(--gray-400);margin-bottom:1.5rem;">Opens First Iraqi Bank app on your phone to complete payment securely</div>
-              <div style="background:rgba(0,166,81,0.08);border:1px solid rgba(0,166,81,0.2);border-radius:12px;padding:1rem;margin-bottom:1.5rem;text-align:left;">
+              <div style="font-size:0.82rem;color:var(--gray-400);margin-bottom:1.5rem;">Open your FIB app and use the code below to complete payment</div>
+
+              <!-- Payment amount highlight -->
+              <div style="background:rgba(0,166,81,0.1);border:2px solid rgba(0,166,81,0.4);border-radius:16px;padding:1.25rem;margin-bottom:1.25rem;">
+                <div style="font-size:0.75rem;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Amount to Pay</div>
+                <div style="font-size:2rem;font-weight:800;color:#00a651;" id="fib-app-amount">—</div>
+              </div>
+
+              <!-- Steps -->
+              <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:1rem;margin-bottom:1.25rem;text-align:left;">
+                <div style="font-size:0.78rem;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.75rem;">How to pay</div>
+                <div style="display:flex;flex-direction:column;gap:0.6rem;">
+                  <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.83rem;">
+                    <span style="width:22px;height:22px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">1</span>
+                    Open FIB app on your phone
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.83rem;">
+                    <span style="width:22px;height:22px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">2</span>
+                    Tap <strong>QuickPay</strong> → Enter readable code below
+                  </div>
+                  <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.83rem;">
+                    <span style="width:22px;height:22px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;">3</span>
+                    Confirm payment of <span id="fib-app-amount2" style="color:#00a651;font-weight:700;">—</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Readable code -->
+              <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:0.875rem;margin-bottom:1.25rem;">
+                <div style="font-size:0.72rem;color:var(--gray-400);margin-bottom:0.4rem;">Readable Code (enter in FIB app)</div>
+                <div style="font-size:1.4rem;font-weight:800;letter-spacing:0.15em;color:#fff;" id="fib-readable-code">—</div>
+              </div>
+
+              <!-- Payment summary -->
+              <div style="background:rgba(0,166,81,0.08);border:1px solid rgba(0,166,81,0.2);border-radius:12px;padding:1rem;margin-bottom:1.25rem;text-align:left;">
                 <div style="font-size:0.78rem;color:var(--gray-400);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Payment Summary</div>
                 <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;"><span style="color:var(--gray-400);">Visa Fee</span><span id="fib-base-fee">—</span></div>
                 <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.4rem;"><span style="color:var(--gray-400);">Processing Fee</span><span id="fib-proc-fee">—</span></div>
                 <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:700;border-top:1px solid rgba(255,255,255,0.07);padding-top:0.6rem;margin-top:0.4rem;"><span>Total</span><span class="gold-text" id="fib-total">—</span></div>
               </div>
-              <button onclick="openFibApp()" style="width:100%;padding:1rem;border-radius:14px;border:none;background:linear-gradient(135deg,#00a651,#007a3d);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 6px 20px rgba(0,166,81,0.4);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                Open FIB Bank App
+
+              <button onclick="confirmFibPayment()" style="width:100%;padding:1rem;border-radius:14px;border:none;background:linear-gradient(135deg,#00a651,#007a3d);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 6px 20px rgba(0,166,81,0.4);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                I've Paid — Confirm Application
               </button>
-              <div style="font-size:0.72rem;color:var(--gray-500);margin-top:0.75rem;">Don't have FIB app? <a href="https://www.fibbank.iq" target="_blank" style="color:var(--gold-400);text-decoration:none;">Download here →</a></div>
+              <div style="font-size:0.72rem;color:var(--gray-500);margin-top:0.75rem;">Payment auto-detects in 5–15 seconds after paying in the app</div>
             </div>
           </div>
 
@@ -2612,7 +2646,7 @@ body.rtl-mode .mobile-nav { text-align:right; }
         </div>
         <div class="step-actions">
           <button class="btn-ghost" onclick="gotoVisa(3)">← Back</button>
-          <button class="btn-primary" onclick="processPayment()" id="pay-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Confirm & Pay via FIB</button>
+          <button class="btn-ghost" onclick="processPayment()" id="pay-btn" style="opacity:0.6;font-size:0.78rem;">↻ Regenerate Payment</button>
         </div>
       </div>
 
@@ -4331,6 +4365,8 @@ function gotoVisa(n) {
     }
   }
   window.scrollTo({top:0,behavior:'smooth'});
+  // Auto-generate FIB payment when reaching step 4
+  if (n === 4) setTimeout(processPayment, 400);
 }
 // Real file upload handler
 const uploadState = { photo: false, passport: false, nationalId: false };
@@ -4591,6 +4627,13 @@ function processPayment() {
     }
     if (refEl) refEl.textContent = 'Code: ' + fibData.readableCode;
     if (amtEl) amtEl.textContent = total;
+    // Update app tab fields
+    const appAmt = document.getElementById('fib-app-amount');
+    const appAmt2 = document.getElementById('fib-app-amount2');
+    const readableEl = document.getElementById('fib-readable-code');
+    if (appAmt) appAmt.textContent = total;
+    if (appAmt2) appAmt2.textContent = total;
+    if (readableEl) readableEl.textContent = fibData.readableCode || '—';
     startFibPolling();
     showToast(_SVG_ICONS.success, 'Payment Ready!', 'Scan QR or open FIB App to pay. Valid for 15 minutes.');
   }).catch(err => {
