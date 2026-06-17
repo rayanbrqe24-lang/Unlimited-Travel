@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>UNLIMITED Travel & Tourism — Premium e-Visa Platform</title>
 <meta name="description" content="Iraq's #1 premium travel agency. Visa processing, luxury tours, FIB Bank payments.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1101,68 +1101,7 @@ footer h4{
   .testi-grid{grid-template-columns:1fr 1fr;}
   .about-grid{grid-template-columns:1fr;}
 }
-@media(max-width:768px){
-  .nav-links,.nav-actions{display:none!important;}
-  .hamburger{display:flex;}
-  .hero-h1{font-size:clamp(2.5rem,11vw,4rem);}
-  .hero-stats{grid-template-columns:repeat(2,1fr);}
-  .dest-grid{grid-template-columns:1fr;}
-  .services-grid{grid-template-columns:1fr 1fr;}
-  .services-full-grid{grid-template-columns:1fr;}
-  .testi-grid{grid-template-columns:1fr;}
-  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;}
-  .gallery-item:first-child{grid-column:span 2;}
-  .why-grid{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr;}
-  .team-grid{grid-template-columns:repeat(2,1fr);}
-  .dash-layout{grid-template-columns:1fr;}
-  .dash-sidebar{display:none;}
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .form-3col{grid-template-columns:1fr;}
-  .form-2col{grid-template-columns:1fr;}
-  .form-row-2{grid-template-columns:1fr;}
-  .upload-grid{grid-template-columns:1fr;}
-  .country-grid{grid-template-columns:repeat(2,1fr);}
-  .newsletter-form{flex-direction:column;}
-  .vstep span:not(.vstep-num){display:none;}
-  .country-admin-grid{grid-template-columns:1fr;}
-}
-@media(max-width:480px){
-  .hero-stats{grid-template-columns:repeat(2,1fr);}
-  .services-grid{grid-template-columns:1fr;}
-  .hero-h1{font-size:clamp(2rem,9vw,3rem);}
-  .hero-content{padding:6rem 1rem 2rem;}
-  .hero-sub{font-size:0.95rem;}
-  .section{padding:3rem 0;}
-  .container{padding:0 1rem;}
-  .auth-box{padding:1.75rem 1.25rem;}
-  .visa-section{padding:1.5rem 1rem;}
-  .payment-card{padding:1.25rem 1rem;}
-  .success-card .success-header{padding:1.75rem 1.25rem;}
-  .success-card .success-body{padding:1.25rem;}
-  .country-picker-grid{grid-template-columns:repeat(2,1fr);}
-  .cp-proceed-bar{flex-direction:column;align-items:flex-start;}
-  .charts-row{grid-template-columns:1fr;}
-  .kpi-grid{grid-template-columns:1fr 1fr;}
-  .footer-grid{grid-template-columns:1fr;}
-  .dest-grid{grid-template-columns:1fr;}
-  .team-grid{grid-template-columns:1fr 1fr;}
-  .services-full-grid{grid-template-columns:1fr;}
-  .section-header h2{font-size:1.8rem;}
-  .page-hero h1{font-size:2.2rem;}
-  .page-hero{padding:6rem 0 3rem;}
-  .auth-wrap{padding:4rem 1rem 2rem;}
-  .visa-wrap{padding:5.5rem 1rem 2rem;}
-  .contact-grid{padding:2rem 0;}
-  .payment-amount{font-size:2.2rem;}
-  .step-actions{flex-direction:column;}
-  .step-actions button{width:100%;}
-  .form-row-2{grid-template-columns:1fr;}
-  .hero-badge{font-size:0.7rem;padding:0.4rem 0.875rem;}
-}
-
-/* Tablet 768-1024px extra fixes */
+/* ── TABLET 768-1024px ───────────────────────────────────── */
 @media(min-width:769px) and (max-width:1024px){
   .services-grid{grid-template-columns:repeat(2,1fr);}
   .dest-grid{grid-template-columns:repeat(2,1fr);}
@@ -1172,6 +1111,138 @@ footer h4{
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .country-picker-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ── MOBILE 768px ────────────────────────────────────────── */
+@media(max-width:768px){
+  /* Nav */
+  .nav-links,.nav-actions{display:none!important;}
+  .hamburger{display:flex;}
+  #navbar{padding:0 1rem;}
+
+  /* Hero */
+  .hero-h1{font-size:clamp(2.2rem,10vw,3.5rem);}
+  .hero-content{padding:5.5rem 1rem 2rem;text-align:center;}
+  .hero-sub{font-size:0.95rem;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
+  .hero-badge{font-size:0.72rem;}
+  .hero-search-bar{flex-direction:column;gap:0.5rem;padding:0.75rem;}
+  .hero-search-bar input{width:100%;}
+  .hero-search-bar button{width:100%;justify-content:center;}
+
+  /* Sections */
+  .section{padding:3rem 0;}
+  .container{padding:0 1rem;}
+  .section-header h2{font-size:1.9rem;}
+  .section-header p{font-size:0.9rem;}
+
+  /* Grids */
+  .dest-grid{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+  .services-full-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;}
+  .gallery-item:first-child{grid-column:span 2;}
+  .why-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;gap:2rem;}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  .country-grid{grid-template-columns:repeat(2,1fr);}
+  .country-picker-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+  .form-3col,.form-2col,.form-row-2{grid-template-columns:1fr;}
+  .upload-grid{grid-template-columns:1fr;}
+  .country-admin-grid{grid-template-columns:1fr;}
+
+  /* Auth */
+  .auth-wrap{padding:4rem 1rem 2rem;}
+  .auth-box{padding:1.75rem 1.25rem;border-radius:16px;}
+  .auth-tabs{gap:0.25rem;}
+
+  /* Visa */
+  .visa-wrap{padding:5rem 0.75rem 2rem;display:block;}
+  .visa-sidebar{display:none;}
+  .visa-steps-mobile{display:flex;justify-content:center;gap:0.5rem;margin-bottom:1.5rem;}
+  .visa-section{padding:1.5rem 1rem;}
+  .vstep span:not(.vstep-num){display:none;}
+  .step-actions{flex-direction:column;gap:0.75rem;}
+  .step-actions button{width:100%;justify-content:center;}
+
+  /* Payment */
+  .payment-card{padding:1.25rem 1rem;}
+  .payment-amount{font-size:2rem;}
+  .fib-tabs{gap:0.25rem;}
+
+  /* Success */
+  .success-card .success-header{padding:1.75rem 1.25rem;}
+  .success-card .success-body{padding:1.25rem;}
+  .invoice-grid{grid-template-columns:1fr;}
+
+  /* Country picker */
+  .cp-proceed-bar{flex-direction:column;align-items:stretch;gap:0.75rem;}
+  .cp-proceed-bar button{width:100%;}
+
+  /* Admin */
+  .dash-layout{grid-template-columns:1fr;}
+  .dash-sidebar{display:none;}
+  .newsletter-form{flex-direction:column;}
+
+  /* Page hero */
+  .page-hero{padding:5.5rem 0 2.5rem;}
+  .page-hero h1{font-size:2rem;}
+  .page-hero p{font-size:0.9rem;}
+}
+
+/* ── SMALL MOBILE 480px ──────────────────────────────────── */
+@media(max-width:480px){
+  /* Hero */
+  .hero-h1{font-size:clamp(1.9rem,9vw,2.8rem);}
+  .hero-content{padding:5rem 0.875rem 1.5rem;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);gap:0.5rem;}
+  .hero-stat{padding:0.75rem;}
+  .hero-stat-num{font-size:1.4rem;}
+
+  /* Grids */
+  .services-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .country-picker-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .dest-grid{grid-template-columns:1fr;}
+
+  /* Typography */
+  .section-header h2{font-size:1.6rem;}
+  .page-hero h1{font-size:1.8rem;}
+  .page-hero{padding:5rem 0 2rem;}
+
+  /* Spacing */
+  .section{padding:2.5rem 0;}
+  .container{padding:0 0.875rem;}
+
+  /* Components */
+  .auth-box{padding:1.5rem 1rem;}
+  .visa-section{padding:1.25rem 0.875rem;}
+  .payment-card{padding:1rem 0.875rem;}
+  .success-card .success-header{padding:1.5rem 1rem;}
+  .success-card .success-body{padding:1rem;}
+
+  /* Buttons */
+  .btn-primary,.btn-ghost{padding:0.75rem 1.25rem;font-size:0.875rem;}
+  .step-actions{gap:0.5rem;}
+
+  /* Phone input */
+  .phone-input-wrap .country-code-select{min-width:90px;font-size:0.8rem;padding:0.75rem 0.4rem;}
+  .phone-input-wrap .phone-number-input{font-size:0.85rem;padding:0.75rem 0.75rem;}
+
+  /* FIB payment */
+  .fib-tabs button{font-size:0.75rem;padding:0.5rem 0.25rem;}
+  #fib-app-amount{font-size:1.6rem;}
+  #fib-readable-code{font-size:1.1rem;letter-spacing:0.1em;}
+
+  /* Footer */
+  .footer-social{gap:0.4rem;}
+  .footer-bottom{flex-direction:column;text-align:center;gap:0.5rem;}
 }
 
 
@@ -1258,7 +1329,7 @@ body.light-mode #theme-toggle { color:#1a202c!important; }
 body.rtl-mode { font-family:"Cairo",sans-serif!important; direction:rtl!important; }
 body.rtl-mode .nav-links { flex-direction:row-reverse; }
 body.rtl-mode .nav-actions { flex-direction:row-reverse; }
-body.rtl-mode .hero-content,.about-grid,.contact-grid,.footer-grid { direction:rtl; text-align:right; }
+body.rtl-mode .hero-content,.about-grid,.contact-grid { direction:rtl; text-align:right; } body.rtl-mode .footer-grid { direction:ltr; text-align:left; }
 body.rtl-mode .input,body.rtl-mode input,body.rtl-mode textarea { direction:rtl; text-align:right; }
 body.rtl-mode .data-table { direction:rtl; }
 body.rtl-mode .data-table th,body.rtl-mode .data-table td { text-align:right; }
@@ -1343,6 +1414,29 @@ body.rtl-mode .mobile-nav { text-align:right; }
 .cal-day.empty{cursor:default;}
 .cal-day.other-month{color:rgba(255,255,255,0.2);}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ── MOBILE TOUCH IMPROVEMENTS ─────────────────────────── */
+*{-webkit-tap-highlight-color:transparent;}
+button,a,[onclick]{cursor:pointer;}
+input,select,textarea{font-size:16px!important;} /* Prevent iOS zoom on focus */
+@media(max-width:768px){
+  input,select,textarea{font-size:16px!important;}
+  .mobile-nav{max-height:100vh;overflow-y:auto;}
+  /* Admin mobile: show menu button */
+  .dash-mobile-menu-btn{display:flex!important;}
+  /* Scrollable tables on mobile */
+  .data-table-box{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .data-table{min-width:600px;}
+  /* Larger tap targets */
+  .footer-social-btn{width:40px;height:40px;}
+  .nav-link{padding:0.5rem 0.75rem;}
+  /* Country picker cards */
+  .cp-card{padding:0.875rem 0.75rem;}
+  .cp-card-flag{font-size:2rem;}
+  /* Toast position on mobile */
+  .toast-container{right:0.75rem;left:0.75rem;top:4.5rem;}
+  .toast{width:100%;}
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -1685,21 +1779,36 @@ body.rtl-mode .mobile-nav { text-align:right; }
   <!-- Footer -->
   <footer>
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;display:flex;align-items:center;gap:4px;">
-            <span>UNLI</span><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">M</span><span>ITED</span>
+      <div class="footer-grid" style="direction:ltr;">
+        <!-- 1: Brand -->
+        <div class="footer-brand" style="text-align:left;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;display:flex;align-items:center;gap:2px;margin-bottom:0.25rem;">
+            <span style="color:#fff;">UNLI</span><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">M</span><span style="color:#fff;">ITED</span>
           </div>
-          <p>Iraq's #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.</p>
+          <div style="font-size:0.72rem;color:var(--gold-400);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">Travel & Tourism</div>
+          <p style="text-align:left;">Iraq's #1 premium travel & tourism platform — visa services, luxury tours, FIB Bank payments, and 24/7 expert support.</p>
           <div class="footer-social">
-            <a class="footer-social-btn" href="#">f</a>
-            <a class="footer-social-btn" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-            <a class="footer-social-btn" href="#">𝕏</a>
-            <a class="footer-social-btn" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+            <a class="footer-social-btn" href="https://www.facebook.com" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a class="footer-social-btn" href="https://www.instagram.com" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+            <a class="footer-social-btn" href="https://www.x.com" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a class="footer-social-btn" href="https://wa.me/9647502307506" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
           </div>
         </div>
-        <div>
-          <h4>Services</h4>
+
+        <!-- 2: Company -->
+        <div style="text-align:left;">
+          <h4 style="text-align:left;">Company</h4>
+          <ul class="footer-links">
+            <li><button onclick="nav('about')">About Us</button></li>
+            <li><button onclick="nav('about')">Our Team</button></li>
+            <li><button onclick="nav('contact')">Contact</button></li>
+            <li><button onclick="nav('admin')">Admin Portal</button></li>
+          </ul>
+        </div>
+
+        <!-- 3: Services -->
+        <div style="text-align:left;">
+          <h4 style="text-align:left;">Services</h4>
           <ul class="footer-links">
             <li><button onclick="goVisa()">Visa Services</button></li>
             <li><button onclick="nav('services')">Tour Packages</button></li>
@@ -1708,19 +1817,12 @@ body.rtl-mode .mobile-nav { text-align:right; }
             <li><button onclick="nav('services')">Transfer</button></li>
           </ul>
         </div>
-        <div>
-          <h4>Company</h4>
+
+        <!-- 4: Contact -->
+        <div style="text-align:left;">
+          <h4 style="text-align:left;">Contact</h4>
           <ul class="footer-links">
-            <li><button onclick="nav('about')">About Us</button></li>
-            <li><button onclick="nav('about')">Our Team</button></li>
-            <li><button onclick="nav('contact')">Contact</button></li>
-            <li><button onclick="nav('admin')">Admin Portal</button></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Contact</h4>
-          <ul class="footer-links">
-            <li><a href="tel:+9647502307506">+964 750 123 4567</a></li>
+            <li><a href="tel:+9647502307506">+964 750 230 7506</a></li>
             <li><a href="mailto:info@unlimited-travel.iq">info@unlimited-travel.iq</a></li>
             <li><a href="#">Baghdad, Al-Mansour</a></li>
             <li><a href="https://wa.me/9647502307506">WhatsApp Us</a></li>
@@ -2612,12 +2714,16 @@ body.rtl-mode .mobile-nav { text-align:right; }
                 <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:700;border-top:1px solid rgba(255,255,255,0.07);padding-top:0.6rem;margin-top:0.4rem;"><span>Total</span><span class="gold-text" id="fib-total">—</span></div>
               </div>
 
+              <!-- Open in App button -->
+              <button id="fib-open-app-btn" onclick="openFibApp()" style="width:100%;padding:1rem;border-radius:14px;border:none;background:linear-gradient(135deg,#00a651,#007a3d);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:0.6rem;box-shadow:0 6px 20px rgba(0,166,81,0.4);transition:all 0.2s;margin-bottom:0.75rem;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                Open in FIB App
+              </button>
               <!-- Waiting indicator -->
-              <div style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.875rem;background:rgba(255,255,255,0.04);border-radius:12px;font-size:0.83rem;color:var(--gray-400);">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1.5s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-                Waiting for payment confirmation from FIB...
+              <div style="display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.75rem;background:rgba(255,255,255,0.04);border-radius:12px;font-size:0.8rem;color:var(--gray-400);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1.5s linear infinite;flex-shrink:0;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                Waiting for payment confirmation... Do not close this page.
               </div>
-              <div style="font-size:0.72rem;color:var(--gray-500);margin-top:0.5rem;text-align:center;">Payment is detected automatically. Do not close this page.</div>
             </div>
           </div>
 
@@ -3980,7 +4086,7 @@ async function completeRegistration() {
     role: 'customer',
     isVerified: true,
     emailVerified: true,
-    createdAt: new Date().toLocaleDateString(),
+    createdAt: new Date().toISOString(),
     password: _otp.password
   };
   await dbInsertUser(newUser);
@@ -3992,9 +4098,9 @@ async function completeRegistration() {
   document.getElementById('otp-verified-badge').style.display = 'inline';
   document.getElementById('otp-input').style.borderColor = '#10b981';
 
-  showToast(_SVG_ICONS.success, '✅ Email Verified!', 'Welcome to UNLIMITED Travel, ' + _otp.name.split(' ')[0] + '!');
+  showToast(_SVG_ICONS.success, '✅ Verified!', 'Welcome to UNLIMITED Travel, ' + _otp.name.split(' ')[0] + '!');
   updateNavUserPill();
-  setTimeout(setupAuthPage, 800);
+  setTimeout(() => nav('home'), 1200);
 }
 
 function resendOTP() {
@@ -4501,11 +4607,11 @@ function openFibApp() {
     return;
   }
   if (_fibAppLink) {
-    window.open(_fibAppLink, '_blank');
+    window.location.href = _fibAppLink;
   } else {
-    // Fallback: open FIB app store or show readable code
-    const code = document.getElementById('qr-order-ref')?.textContent || '';
-    showToast(_SVG_ICONS.info, 'Use Readable Code', 'Open FIB app → QuickPay → enter: ' + code.replace('Code: ',''));
+    // Fallback: show readable code instruction
+    const code = document.getElementById('fib-readable-code')?.textContent || '';
+    showToast(_SVG_ICONS.info, 'Open FIB App', 'Tap QuickPay in FIB app → enter code: ' + code);
   }
   startFibPolling();
 }
@@ -4766,50 +4872,103 @@ function downloadInvoice() {
   </div>
   
 <!-- Approve Modal with File Upload -->
-<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+<!-- APPROVE MODAL -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
     <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    
-    <div style="text-align:center;margin-bottom:1.75rem;">
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document — required to approve</p>
+    </div>
+
+    <!-- Required file notice -->
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#10b981;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Visa document upload is required before approving
     </div>
 
     <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()"
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:1.75rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
       onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
       onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
       <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
       <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+        <div style="font-size:2.2rem;margin-bottom:.6rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.25rem;">Upload Visa Document <span style="color:#FF0A54;">*</span></div>
+        <div style="font-size:.75rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
       </div>
       <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">✅</div>
         <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
       </div>
     </div>
 
-    <!-- Note to customer -->
+    <!-- Note -->
     <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+      <label class="input-label">Note to Customer <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <textarea class="input" id="approve-note" rows="2" placeholder="e.g. Congratulations! Your visa is approved. Please collect from our office." style="resize:none;"></textarea>
     </div>
 
     <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+      <button class="btn-ghost" onclick="closeApproveModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);opacity:0.4;cursor:not-allowed;" onclick="confirmApproveWithFile()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Approve & Send Email
       </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will receive visa document by email</p>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(59,5,5,.97);border:1px solid rgba(255,10,84,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeRejectModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,10,84,.12);border:2px solid rgba(255,10,84,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">❌</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Reject Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="reject-modal-subtitle">Provide a reason for rejection</p>
+    </div>
+
+    <!-- Reject reason (required) -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Rejection Reason <span style="color:#FF0A54;">*</span></label>
+      <textarea class="input" id="reject-reason" rows="3" placeholder="e.g. Incomplete documents — please resubmit with a valid passport copy and recent photo." style="resize:none;" oninput="checkRejectReady()"></textarea>
+    </div>
+
+    <!-- Optional file -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Supporting Document <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <div id="reject-upload-zone" onclick="document.getElementById('reject-file-input').click()"
+        style="border:2px dashed rgba(255,10,84,.3);background:rgba(255,10,84,.04);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#FF0A54';this.style.background='rgba(255,10,84,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,10,84,.3)';this.style.background='rgba(255,10,84,.04)'">
+        <input type="file" id="reject-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleRejectFile(this)">
+        <div id="reject-upload-placeholder">
+          <div style="font-size:1.8rem;margin-bottom:.4rem;">📎</div>
+          <div style="font-size:.82rem;color:var(--gray-400);">Attach document (optional) · PDF, JPG, PNG</div>
+        </div>
+        <div id="reject-upload-done" style="display:none;">
+          <div style="font-size:1.5rem;margin-bottom:.3rem;">📄</div>
+          <div style="font-weight:600;color:#fff;font-size:.85rem;" id="reject-file-name">File attached</div>
+          <div style="font-size:.7rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-ghost" onclick="closeRejectModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button id="reject-confirm-btn" style="flex:1;padding:.875rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FF0A54,#c8003e);color:#fff;font-size:.9rem;font-weight:700;cursor:not-allowed;opacity:0.4;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:.5rem;" onclick="confirmReject()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Reject & Notify Customer
       </button>
     </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will be notified by email with the rejection reason</p>
   </div>
 </div>
 
@@ -4904,7 +5063,7 @@ function renderAppsTable() {
       <td><span class="status-chip ${a.status==='Approved'?'s-approved':a.status==='Rejected'?'s-rejected':'s-pending'}">${a.status}</span></td>
       <td>
         <button class="action-btn ab-approve" onclick="openApproveModal('${a.orderNumber}','${a.customerName}','${a.email}')">Approve</button>
-        <button class="action-btn ab-reject" onclick="updateAppStatus('${a.orderNumber}','Rejected')">Reject</button>
+        <button class="action-btn ab-reject" onclick="openRejectModal('${a.orderNumber}','${a.customerName}','${a.email}')">Reject</button>
         <button class="action-btn ab-view" onclick="viewAppDetails('${a.orderNumber}')">View</button>
       </td>
     </tr>
@@ -5005,7 +5164,7 @@ function viewAppDetails(orderNumber) {
     </div>
     <div style="display:flex;gap:0.75rem;">
       <button class="btn-primary" style="flex:1;justify-content:center;" onclick="updateAppStatus('${app.orderNumber}','Approved');document.getElementById('app-detail-modal').style.display='none'">✓ Approve</button>
-      <button class="btn-ghost" style="flex:1;justify-content:center;border-color:rgba(255,10,84,0.3);color:var(--gold-400);" onclick="updateAppStatus('${app.orderNumber}','Rejected');document.getElementById('app-detail-modal').style.display='none'">✕ Reject</button>
+      <button class="btn-ghost" style="flex:1;justify-content:center;border-color:rgba(255,10,84,0.3);color:var(--gold-400);" onclick="document.getElementById('app-detail-modal').style.display='none';openRejectModal('${app.orderNumber}','${app.customerName}','${app.email}')">✕ Reject</button>
     </div>
   `;
   modal.style.display = 'flex';
@@ -5813,100 +5972,206 @@ window.addEventListener('load', function() {
  
 
 <!-- Approve Modal with File Upload -->
-<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+<!-- APPROVE MODAL -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
     <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    
-    <div style="text-align:center;margin-bottom:1.75rem;">
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document — required to approve</p>
+    </div>
+
+    <!-- Required file notice -->
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#10b981;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Visa document upload is required before approving
     </div>
 
     <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()"
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:1.75rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
       onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
       onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
       <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
       <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+        <div style="font-size:2.2rem;margin-bottom:.6rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.25rem;">Upload Visa Document <span style="color:#FF0A54;">*</span></div>
+        <div style="font-size:.75rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
       </div>
       <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">✅</div>
         <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
       </div>
     </div>
 
-    <!-- Note to customer -->
+    <!-- Note -->
     <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+      <label class="input-label">Note to Customer <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <textarea class="input" id="approve-note" rows="2" placeholder="e.g. Congratulations! Your visa is approved. Please collect from our office." style="resize:none;"></textarea>
     </div>
 
     <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+      <button class="btn-ghost" onclick="closeApproveModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);opacity:0.4;cursor:not-allowed;" onclick="confirmApproveWithFile()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Approve & Send Email
       </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will receive visa document by email</p>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(59,5,5,.97);border:1px solid rgba(255,10,84,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeRejectModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,10,84,.12);border:2px solid rgba(255,10,84,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">❌</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Reject Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="reject-modal-subtitle">Provide a reason for rejection</p>
+    </div>
+
+    <!-- Reject reason (required) -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Rejection Reason <span style="color:#FF0A54;">*</span></label>
+      <textarea class="input" id="reject-reason" rows="3" placeholder="e.g. Incomplete documents — please resubmit with a valid passport copy and recent photo." style="resize:none;" oninput="checkRejectReady()"></textarea>
+    </div>
+
+    <!-- Optional file -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Supporting Document <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <div id="reject-upload-zone" onclick="document.getElementById('reject-file-input').click()"
+        style="border:2px dashed rgba(255,10,84,.3);background:rgba(255,10,84,.04);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#FF0A54';this.style.background='rgba(255,10,84,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,10,84,.3)';this.style.background='rgba(255,10,84,.04)'">
+        <input type="file" id="reject-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleRejectFile(this)">
+        <div id="reject-upload-placeholder">
+          <div style="font-size:1.8rem;margin-bottom:.4rem;">📎</div>
+          <div style="font-size:.82rem;color:var(--gray-400);">Attach document (optional) · PDF, JPG, PNG</div>
+        </div>
+        <div id="reject-upload-done" style="display:none;">
+          <div style="font-size:1.5rem;margin-bottom:.3rem;">📄</div>
+          <div style="font-weight:600;color:#fff;font-size:.85rem;" id="reject-file-name">File attached</div>
+          <div style="font-size:.7rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-ghost" onclick="closeRejectModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button id="reject-confirm-btn" style="flex:1;padding:.875rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FF0A54,#c8003e);color:#fff;font-size:.9rem;font-weight:700;cursor:not-allowed;opacity:0.4;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:.5rem;" onclick="confirmReject()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Reject & Notify Customer
       </button>
     </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will be notified by email with the rejection reason</p>
   </div>
 </div>
 
 </body>
      
 <!-- Approve Modal with File Upload -->
-<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+<!-- APPROVE MODAL -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
     <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    
-    <div style="text-align:center;margin-bottom:1.75rem;">
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document — required to approve</p>
+    </div>
+
+    <!-- Required file notice -->
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#10b981;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Visa document upload is required before approving
     </div>
 
     <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()"
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:1.75rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
       onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
       onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
       <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
       <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+        <div style="font-size:2.2rem;margin-bottom:.6rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.25rem;">Upload Visa Document <span style="color:#FF0A54;">*</span></div>
+        <div style="font-size:.75rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
       </div>
       <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">✅</div>
         <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
       </div>
     </div>
 
-    <!-- Note to customer -->
+    <!-- Note -->
     <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+      <label class="input-label">Note to Customer <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <textarea class="input" id="approve-note" rows="2" placeholder="e.g. Congratulations! Your visa is approved. Please collect from our office." style="resize:none;"></textarea>
     </div>
 
     <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+      <button class="btn-ghost" onclick="closeApproveModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);opacity:0.4;cursor:not-allowed;" onclick="confirmApproveWithFile()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Approve & Send Email
       </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will receive visa document by email</p>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(59,5,5,.97);border:1px solid rgba(255,10,84,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeRejectModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,10,84,.12);border:2px solid rgba(255,10,84,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">❌</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Reject Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="reject-modal-subtitle">Provide a reason for rejection</p>
+    </div>
+
+    <!-- Reject reason (required) -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Rejection Reason <span style="color:#FF0A54;">*</span></label>
+      <textarea class="input" id="reject-reason" rows="3" placeholder="e.g. Incomplete documents — please resubmit with a valid passport copy and recent photo." style="resize:none;" oninput="checkRejectReady()"></textarea>
+    </div>
+
+    <!-- Optional file -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Supporting Document <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <div id="reject-upload-zone" onclick="document.getElementById('reject-file-input').click()"
+        style="border:2px dashed rgba(255,10,84,.3);background:rgba(255,10,84,.04);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#FF0A54';this.style.background='rgba(255,10,84,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,10,84,.3)';this.style.background='rgba(255,10,84,.04)'">
+        <input type="file" id="reject-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleRejectFile(this)">
+        <div id="reject-upload-placeholder">
+          <div style="font-size:1.8rem;margin-bottom:.4rem;">📎</div>
+          <div style="font-size:.82rem;color:var(--gray-400);">Attach document (optional) · PDF, JPG, PNG</div>
+        </div>
+        <div id="reject-upload-done" style="display:none;">
+          <div style="font-size:1.5rem;margin-bottom:.3rem;">📄</div>
+          <div style="font-weight:600;color:#fff;font-size:.85rem;" id="reject-file-name">File attached</div>
+          <div style="font-size:.7rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-ghost" onclick="closeRejectModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button id="reject-confirm-btn" style="flex:1;padding:.875rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FF0A54,#c8003e);color:#fff;font-size:.9rem;font-weight:700;cursor:not-allowed;opacity:0.4;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:.5rem;" onclick="confirmReject()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Reject & Notify Customer
       </button>
     </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will be notified by email with the rejection reason</p>
   </div>
 </div>
 
@@ -5920,50 +6185,103 @@ window.addEventListener('load', function() {
      FEATURE PATCH — ALL 6 ADDITIONS
      Paste this entire block just before 
 <!-- Approve Modal with File Upload -->
-<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+<!-- APPROVE MODAL -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
     <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    
-    <div style="text-align:center;margin-bottom:1.75rem;">
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document — required to approve</p>
+    </div>
+
+    <!-- Required file notice -->
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#10b981;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Visa document upload is required before approving
     </div>
 
     <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()"
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:1.75rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
       onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
       onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
       <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
       <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+        <div style="font-size:2.2rem;margin-bottom:.6rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.25rem;">Upload Visa Document <span style="color:#FF0A54;">*</span></div>
+        <div style="font-size:.75rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
       </div>
       <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">✅</div>
         <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
       </div>
     </div>
 
-    <!-- Note to customer -->
+    <!-- Note -->
     <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+      <label class="input-label">Note to Customer <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <textarea class="input" id="approve-note" rows="2" placeholder="e.g. Congratulations! Your visa is approved. Please collect from our office." style="resize:none;"></textarea>
     </div>
 
     <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+      <button class="btn-ghost" onclick="closeApproveModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);opacity:0.4;cursor:not-allowed;" onclick="confirmApproveWithFile()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Approve & Send Email
       </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will receive visa document by email</p>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(59,5,5,.97);border:1px solid rgba(255,10,84,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeRejectModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,10,84,.12);border:2px solid rgba(255,10,84,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">❌</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Reject Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="reject-modal-subtitle">Provide a reason for rejection</p>
+    </div>
+
+    <!-- Reject reason (required) -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Rejection Reason <span style="color:#FF0A54;">*</span></label>
+      <textarea class="input" id="reject-reason" rows="3" placeholder="e.g. Incomplete documents — please resubmit with a valid passport copy and recent photo." style="resize:none;" oninput="checkRejectReady()"></textarea>
+    </div>
+
+    <!-- Optional file -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Supporting Document <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <div id="reject-upload-zone" onclick="document.getElementById('reject-file-input').click()"
+        style="border:2px dashed rgba(255,10,84,.3);background:rgba(255,10,84,.04);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#FF0A54';this.style.background='rgba(255,10,84,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,10,84,.3)';this.style.background='rgba(255,10,84,.04)'">
+        <input type="file" id="reject-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleRejectFile(this)">
+        <div id="reject-upload-placeholder">
+          <div style="font-size:1.8rem;margin-bottom:.4rem;">📎</div>
+          <div style="font-size:.82rem;color:var(--gray-400);">Attach document (optional) · PDF, JPG, PNG</div>
+        </div>
+        <div id="reject-upload-done" style="display:none;">
+          <div style="font-size:1.5rem;margin-bottom:.3rem;">📄</div>
+          <div style="font-weight:600;color:#fff;font-size:.85rem;" id="reject-file-name">File attached</div>
+          <div style="font-size:.7rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-ghost" onclick="closeRejectModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button id="reject-confirm-btn" style="flex:1;padding:.875rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FF0A54,#c8003e);color:#fff;font-size:.9rem;font-weight:700;cursor:not-allowed;opacity:0.4;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:.5rem;" onclick="confirmReject()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Reject & Notify Customer
       </button>
     </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will be notified by email with the rejection reason</p>
   </div>
 </div>
 
@@ -6073,7 +6391,7 @@ body.rtl-mode .vstep{flex-direction:row;}
 body.rtl-mode .kpi-grid,body.rtl-mode .charts-row{direction:rtl;}
 body.rtl-mode .data-table{direction:rtl;}
 body.rtl-mode .testi-author{flex-direction:row;}
-body.rtl-mode .footer-grid{direction:rtl;text-align:right;}
+body.rtl-mode .footer-grid{direction:ltr;text-align:left;}
 body.rtl-mode .hero-stats{direction:rtl;}
 body.rtl-mode .upload-grid{direction:rtl;}
 body.rtl-mode .country-picker-grid{direction:rtl;}
@@ -7318,10 +7636,7 @@ function closeApproveModal() {
 function handleApproveFile(input) {
   var file = input.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    showToastSVG('warn', 'File Too Large', 'Maximum file size is 5MB.');
-    return;
-  }
+  if (file.size > 5 * 1024 * 1024) { showToastSVG('warn', 'File Too Large', 'Maximum file size is 5MB.'); return; }
   _approveData.file = file;
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -7329,8 +7644,87 @@ function handleApproveFile(input) {
     document.getElementById('approve-upload-placeholder').style.display = 'none';
     document.getElementById('approve-upload-done').style.display = 'block';
     document.getElementById('approve-file-name').textContent = file.name;
+    // Enable approve button
+    var btn = document.getElementById('approve-confirm-btn');
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
   };
   reader.readAsDataURL(file);
+}
+
+// ── REJECT MODAL ─────────────────────────────────────────────
+var _rejectData = { orderNumber:'', customerName:'', email:'', file:null, fileData:null };
+
+function openRejectModal(orderNumber, customerName, email) {
+  _rejectData = { orderNumber:orderNumber, customerName:customerName, email:email, file:null, fileData:null };
+  document.getElementById('reject-modal-subtitle').textContent = 'Rejecting: ' + customerName + ' — ' + orderNumber;
+  document.getElementById('reject-reason').value = '';
+  document.getElementById('reject-file-input').value = '';
+  document.getElementById('reject-upload-placeholder').style.display = 'block';
+  document.getElementById('reject-upload-done').style.display = 'none';
+  var btn = document.getElementById('reject-confirm-btn');
+  btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed';
+  document.getElementById('reject-modal').style.display = 'flex';
+}
+
+function closeRejectModal() {
+  document.getElementById('reject-modal').style.display = 'none';
+  _rejectData = { orderNumber:'', customerName:'', email:'', file:null, fileData:null };
+}
+
+function checkRejectReady() {
+  var reason = document.getElementById('reject-reason').value.trim();
+  var btn = document.getElementById('reject-confirm-btn');
+  if (reason.length > 5) {
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+  } else {
+    btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed';
+  }
+}
+
+function handleRejectFile(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToastSVG('warn', 'File Too Large', 'Maximum file size is 5MB.'); return; }
+  _rejectData.file = file;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _rejectData.fileData = e.target.result;
+    document.getElementById('reject-upload-placeholder').style.display = 'none';
+    document.getElementById('reject-upload-done').style.display = 'block';
+    document.getElementById('reject-file-name').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function confirmReject() {
+  var reason = document.getElementById('reject-reason').value.trim();
+  if (!reason) { showToastSVG('warn', 'Reason Required', 'Please enter a rejection reason.'); return; }
+  var btn = document.getElementById('reject-confirm-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  await updateAppStatus(_rejectData.orderNumber, 'Rejected');
+  var app = (_cache.apps||[]).find(function(a){ return a.orderNumber === _rejectData.orderNumber; });
+  try {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      var params = {
+        to_name: _rejectData.customerName, to_email: _rejectData.email,
+        subject: 'Visa Application Update — ' + _rejectData.orderNumber,
+        order_number: _rejectData.orderNumber,
+        country: app ? app.countryNameEn : '—',
+        travel_date: app ? (app.travelDate||'—') : '—',
+        status:'Rejected', status_icon:'❌',
+        message: reason,
+        invoice_block:'none', status_block:'block',
+        approved_block:'none', rejected_block:'block',
+        date: new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+      };
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({},params,{to_email:MANAGER_EMAIL,to_name:MANAGER_NAME}));
+      showToastSVG('mail','Email Sent','Rejection email sent to ' + _rejectData.email);
+    }
+  } catch(e) { console.error('Reject email error:', e); }
+  showToastSVG('success','Rejected','Application rejected and customer notified.');
+  closeRejectModal();
 }
 
 async function confirmApproveWithFile() {
@@ -7389,11 +7783,7 @@ async function confirmApproveWithFile() {
   btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve & Send Email';
 }
 
-async function confirmApproveWithoutFile() {
-  await updateAppStatus(_approveData.orderNumber, 'Approved');
-  showToastSVG('success', 'Approved!', _approveData.customerName + ' visa application approved.');
-  closeApproveModal();
-}
+// confirmApproveWithoutFile removed — file required for approval
 
 // ================================================================
 //  AIRPORT DATABASE & SEARCH
@@ -7757,50 +8147,103 @@ window.addEventListener('load', function() {
 </script>
 
 <!-- Approve Modal with File Upload -->
-<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:2rem;">
-  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2.25rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);">
+<!-- APPROVE MODAL -->
+<div id="approve-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(5,11,59,.97);border:1px solid rgba(16,185,129,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
     <button onclick="closeApproveModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
-    
-    <div style="text-align:center;margin-bottom:1.75rem;">
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
       <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">✅</div>
-      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
-      <p style="font-size:.85rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document to notify the customer</p>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Approve Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="approve-modal-subtitle">Upload the visa document — required to approve</p>
+    </div>
+
+    <!-- Required file notice -->
+    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#10b981;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Visa document upload is required before approving
     </div>
 
     <!-- Upload Zone -->
-    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()" 
-      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
+    <div id="approve-upload-zone" onclick="document.getElementById('approve-file-input').click()"
+      style="border:2px dashed rgba(16,185,129,.4);background:rgba(16,185,129,.04);border-radius:16px;padding:1.75rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;"
       onmouseover="this.style.borderColor='#10b981';this.style.background='rgba(16,185,129,.08)'"
       onmouseout="this.style.borderColor='rgba(16,185,129,.4)';this.style.background='rgba(16,185,129,.04)'">
       <input type="file" id="approve-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleApproveFile(this)">
       <div id="approve-upload-placeholder">
-        <div style="font-size:2.5rem;margin-bottom:.75rem;">📄</div>
-        <div style="font-weight:600;color:#fff;margin-bottom:.3rem;">Upload Visa Document</div>
-        <div style="font-size:.78rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
+        <div style="font-size:2.2rem;margin-bottom:.6rem;">📄</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:.25rem;">Upload Visa Document <span style="color:#FF0A54;">*</span></div>
+        <div style="font-size:.75rem;color:var(--gray-400);">PDF, JPG, PNG · Max 5MB</div>
       </div>
       <div id="approve-upload-done" style="display:none;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">✅</div>
         <div style="font-weight:600;color:#10b981;" id="approve-file-name">File ready</div>
-        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.25rem;">Click to change file</div>
+        <div style="font-size:.72rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
       </div>
     </div>
 
-    <!-- Note to customer -->
+    <!-- Note -->
     <div style="margin-bottom:1.25rem;">
-      <label class="input-label">Note to Customer (optional)</label>
-      <textarea class="input" id="approve-note" rows="3" placeholder="e.g. Your visa has been approved. Please collect it from our office..." style="resize:none;"></textarea>
+      <label class="input-label">Note to Customer <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <textarea class="input" id="approve-note" rows="2" placeholder="e.g. Congratulations! Your visa is approved. Please collect from our office." style="resize:none;"></textarea>
     </div>
 
     <div style="display:flex;gap:.75rem;">
-      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);" onclick="confirmApproveWithFile()">
+      <button class="btn-ghost" onclick="closeApproveModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button class="btn-primary" id="approve-confirm-btn" style="flex:1;justify-content:center;background:linear-gradient(135deg,#10b981,#059669);opacity:0.4;cursor:not-allowed;" onclick="confirmApproveWithFile()" disabled>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         Approve & Send Email
       </button>
-      <button class="btn-ghost" onclick="confirmApproveWithoutFile()" style="padding:.75rem 1rem;font-size:.82rem;">
-        Approve Only
+    </div>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will receive visa document by email</p>
+  </div>
+</div>
+
+<!-- REJECT MODAL -->
+<div id="reject-modal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(10px);z-index:9500;align-items:center;justify-content:center;padding:1rem;">
+  <div style="width:100%;max-width:500px;background:rgba(59,5,5,.97);border:1px solid rgba(255,10,84,.25);border-radius:24px;padding:2rem;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6);max-height:90vh;overflow-y:auto;">
+    <button onclick="closeRejectModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:inherit;">✕</button>
+
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,10,84,.12);border:2px solid rgba(255,10,84,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;">❌</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:.4rem;">Reject Visa Application</h3>
+      <p style="font-size:.82rem;color:var(--gray-400);" id="reject-modal-subtitle">Provide a reason for rejection</p>
+    </div>
+
+    <!-- Reject reason (required) -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Rejection Reason <span style="color:#FF0A54;">*</span></label>
+      <textarea class="input" id="reject-reason" rows="3" placeholder="e.g. Incomplete documents — please resubmit with a valid passport copy and recent photo." style="resize:none;" oninput="checkRejectReady()"></textarea>
+    </div>
+
+    <!-- Optional file -->
+    <div style="margin-bottom:1.25rem;">
+      <label class="input-label">Supporting Document <span style="color:var(--gray-500);font-weight:400;">(optional)</span></label>
+      <div id="reject-upload-zone" onclick="document.getElementById('reject-file-input').click()"
+        style="border:2px dashed rgba(255,10,84,.3);background:rgba(255,10,84,.04);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#FF0A54';this.style.background='rgba(255,10,84,.08)'"
+        onmouseout="this.style.borderColor='rgba(255,10,84,.3)';this.style.background='rgba(255,10,84,.04)'">
+        <input type="file" id="reject-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleRejectFile(this)">
+        <div id="reject-upload-placeholder">
+          <div style="font-size:1.8rem;margin-bottom:.4rem;">📎</div>
+          <div style="font-size:.82rem;color:var(--gray-400);">Attach document (optional) · PDF, JPG, PNG</div>
+        </div>
+        <div id="reject-upload-done" style="display:none;">
+          <div style="font-size:1.5rem;margin-bottom:.3rem;">📄</div>
+          <div style="font-weight:600;color:#fff;font-size:.85rem;" id="reject-file-name">File attached</div>
+          <div style="font-size:.7rem;color:var(--gray-400);margin-top:.2rem;">Click to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.75rem;">
+      <button class="btn-ghost" onclick="closeRejectModal()" style="padding:.75rem 1rem;">Cancel</button>
+      <button id="reject-confirm-btn" style="flex:1;padding:.875rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FF0A54,#c8003e);color:#fff;font-size:.9rem;font-weight:700;cursor:not-allowed;opacity:0.4;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:.5rem;" onclick="confirmReject()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Reject & Notify Customer
       </button>
     </div>
-    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.875rem;">Customer will receive an email notification</p>
+    <p style="text-align:center;font-size:.72rem;color:var(--gray-500);margin-top:.75rem;">Customer will be notified by email with the rejection reason</p>
   </div>
 </div>
 
