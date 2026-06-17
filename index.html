@@ -3039,18 +3039,18 @@ function mapCountry(r) {
 }
 function defaultCountries() {
   return [
-    { id:'ae', nameEn:'United Arab Emirates (UAE)', nameAr:'الإمارات', flag:'🇦🇪', photoUrl:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80', priceUSD:120, priceIQD:156000, processingTime:'2-3 Working Days', rulesEn:'Valid passport 6+ months. Return ticket confirmed.' },
-    { id:'tr', nameEn:'Turkey', nameAr:'تركيا', flag:'🇹🇷', photoUrl:'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=400&q=80', priceUSD:85, priceIQD:110500, processingTime:'24-48 Hours', rulesEn:'E-Visa available. Valid health insurance required.' },
-    { id:'uk', nameEn:'United Kingdom', nameAr:'المملكة المتحدة', flag:'🇬🇧', photoUrl:'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&q=80', priceUSD:250, priceIQD:325000, processingTime:'10-15 Working Days', rulesEn:'Biometrics required at local embassy. Bank statement mandatory.' },
-    { id:'de', nameEn:'Germany (Schengen)', nameAr:'ألمانيا', flag:'🇩🇪', photoUrl:'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=400&q=80', priceUSD:185, priceIQD:240500, processingTime:'5-10 Working Days', rulesEn:'Schengen visa. Travel insurance €30K minimum required.' },
-    { id:'us', nameEn:'United States of America', nameAr:'الولايات المتحدة', flag:'🇺🇸', photoUrl:'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&q=80', priceUSD:320, priceIQD:416000, processingTime:'15-30 Working Days', rulesEn:'DS-160 form + interview required. Biometrics at embassy.' },
-    { id:'eg', nameEn:'Egypt', nameAr:'مصر', flag:'🇪🇬', photoUrl:'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6c?w=400&q=80', priceUSD:45, priceIQD:58500, processingTime:'1-2 Working Days', rulesEn:'Visa on arrival available. Standard passport scan required.' },
+    { id:'10000000-0000-0000-0000-000000000001', nameEn:'United Arab Emirates (UAE)', nameAr:'الإمارات', flag:'🇦🇪', photoUrl:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80', priceUSD:120, priceIQD:156000, processingTime:'2-3 Working Days', rulesEn:'Valid passport 6+ months. Return ticket confirmed.' },
+    { id:'10000000-0000-0000-0000-000000000002', nameEn:'Turkey', nameAr:'تركيا', flag:'🇹🇷', photoUrl:'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=400&q=80', priceUSD:85, priceIQD:110500, processingTime:'24-48 Hours', rulesEn:'E-Visa available. Valid health insurance required.' },
+    { id:'10000000-0000-0000-0000-000000000003', nameEn:'United Kingdom', nameAr:'المملكة المتحدة', flag:'🇬🇧', photoUrl:'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&q=80', priceUSD:250, priceIQD:325000, processingTime:'10-15 Working Days', rulesEn:'Biometrics required at local embassy. Bank statement mandatory.' },
+    { id:'10000000-0000-0000-0000-000000000004', nameEn:'Germany (Schengen)', nameAr:'ألمانيا', flag:'🇩🇪', photoUrl:'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=400&q=80', priceUSD:185, priceIQD:240500, processingTime:'5-10 Working Days', rulesEn:'Schengen visa. Travel insurance €30K minimum required.' },
+    { id:'10000000-0000-0000-0000-000000000005', nameEn:'United States of America', nameAr:'الولايات المتحدة', flag:'🇺🇸', photoUrl:'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&q=80', priceUSD:320, priceIQD:416000, processingTime:'15-30 Working Days', rulesEn:'DS-160 form + interview required. Biometrics at embassy.' },
+    { id:'10000000-0000-0000-0000-000000000006', nameEn:'Egypt', nameAr:'مصر', flag:'🇪🇬', photoUrl:'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6c?w=400&q=80', priceUSD:45, priceIQD:58500, processingTime:'1-2 Working Days', rulesEn:'Visa on arrival available. Standard passport scan required.' },
   ];
 }
 function defaultUsers() {
   return [
-    { id:'admin-1', fullName:'UNLIMITED Admin', email:'admin@unlimited-travel.com', phone:'+964 750 000 0000', passportId:'ADMINPROMAX', role:'admin', isVerified:true, createdAt:'2026-01-10', password:'admin123' },
-    { id:'usr-1', fullName:'Ahmed Al-Rashid', email:'ahmed@example.com', phone:'+964 770 123 4567', passportId:'A98765432', role:'customer', isVerified:true, createdAt:'2026-02-14', password:'test123' }
+    { id:'00000000-0000-0000-0000-000000000001', fullName:'UNLIMITED Admin', email:'admin@unlimited-travel.com', phone:'+964 750 000 0000', passportId:'ADMINPROMAX', role:'admin', isVerified:true, createdAt:'2026-01-10', password:'admin123' },
+    { id:'00000000-0000-0000-0000-000000000002', fullName:'Ahmed Al-Rashid', email:'ahmed@example.com', phone:'+964 770 123 4567', passportId:'A98765432', role:'customer', isVerified:true, createdAt:'2026-02-14', password:'test123' }
   ];
 }
 
@@ -3663,7 +3663,7 @@ async function doLogin() {
 
   // Hardcoded admin bypass — always works regardless of DB state
   if (email === 'admin@unlimited-travel.com' && password === 'admin123') {
-    const adminUser = { id:'admin-1', fullName:'UNLIMITED Admin', email:'admin@unlimited-travel.com', phone:'+964 750 000 0000', passportId:'ADMINPROMAX', role:'admin', isVerified:true, createdAt:'2026-01-10', password:'admin123' };
+    const adminUser = { id:'00000000-0000-0000-0000-000000000001', fullName:'UNLIMITED Admin', email:'admin@unlimited-travel.com', phone:'+964 750 000 0000', passportId:'ADMINPROMAX', role:'admin', isVerified:true, createdAt:'2026-01-10', password:'admin123' };
     DB.currentUser = adminUser;
     if (_cache.users) { const idx = _cache.users.findIndex(u=>u.id===adminUser.id); if(idx>=0) _cache.users[idx]=adminUser; else _cache.users.unshift(adminUser); }
     showToast(_SVG_ICONS.success,'Welcome, Admin!','Redirecting to dashboard...');
