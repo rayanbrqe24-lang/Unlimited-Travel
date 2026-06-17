@@ -2929,13 +2929,15 @@ body.rtl-mode .mobile-nav { text-align:right; }
 // ================================================================
 //  NEON DATABASE CLIENT
 // ================================================================
-const NEON_URL  = 'https://ep-snowy-hill-aokakgjl.apirest.c-2.ap-southeast-1.aws.neon.tech/neondb/rest/v1';
-const NEON_KEY  = 'napi_k537vkaapl5xpj5uy2albn49ogkqq9h5qxi4ugad9qsra07rakg9p1l1o6ju8kn6';
+const NEON_CONNECTION = 'postgresql://neondb_owner:npg_lxtLTdv96ksS@ep-snowy-hill-aokakgjl.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require';
 
 async function neonQuery(sql, params = []) {
-  const res = await fetch(NEON_URL + '/query', {
+  const res = await fetch('https://ep-snowy-hill-aokakgjl.c-2.ap-southeast-1.aws.neon.tech/sql', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + NEON_KEY },
+    headers: {
+      'Content-Type': 'application/json',
+      'Neon-Connection-String': NEON_CONNECTION
+    },
     body: JSON.stringify({ query: sql, params })
   });
   if (!res.ok) { const e = await res.text(); console.error('Neon error:', e); throw new Error(e); }
@@ -3144,8 +3146,9 @@ async function loadCache() {
     _cache.apps = apps;
   } catch(e) {
     console.error('loadCache error:', e);
+  } finally {
+    showLoadingOverlay(false);
   }
-  showLoadingOverlay(false);
 }
 
 function showLoadingOverlay(show) {
@@ -3912,29 +3915,17 @@ async function verifyEmailOTP() {
 
   showLoadingOverlay(true);
 
-  // Try Supabase OTP verification first (real email)
-  try {
-    const { data, error } = { data: null, error: null }; // OTP verified locally — dummy
-      email: _otp.email,
-      token: entered,
-      type: 'email'
-    });
-    if (error) throw error;
-    // Supabase verified ✅
+  // Verify OTP locally
+  if (entered === _otp.code) {
     await completeRegistration();
-  } catch(e) {
-    // Supabase failed — check our internal fallback code
-    if (entered === _otp.code) {
-      await completeRegistration();
-    } else {
-      showLoadingOverlay(false);
-      showToast(_SVG_ICONS.error, 'Wrong Code ❌', 'The code is incorrect. Check your email or request a new code.');
-      const inp = document.getElementById('otp-input');
-      inp.style.borderColor = '#ef4444';
-      inp.value = '';
-      inp.focus();
-      setTimeout(() => inp.style.borderColor = '', 3000);
-    }
+  } else {
+    showLoadingOverlay(false);
+    showToast(_SVG_ICONS.error, 'Wrong Code ❌', 'The code is incorrect. Check your email or request a new code.');
+    const inp = document.getElementById('otp-input');
+    inp.style.borderColor = '#ef4444';
+    inp.value = '';
+    inp.focus();
+    setTimeout(() => inp.style.borderColor = '', 3000);
   }
 }
 
@@ -5344,22 +5335,22 @@ function buildAnalyticsChart() {
 //  INIT — load from Supabase on first open
 // ================================================================
 (async function init() {
-  await loadCache();
-
-  // Always upsert default countries (safe — uses onConflict:'id')
-  await dbSeedCountries();
-
-  // Always upsert default users including admin (safe — uses onConflict:'id')
-  await dbSeedUsers();
-
-  // Reload cache after seeding
-  const [users, countries, apps] = await Promise.all([
-    dbGetUsers(), dbGetCountries(), dbGetApps()
-  ]);
-  _cache.users = users;
-  _cache.countries = countries;
-  _cache.apps = apps;
-
+  try {
+    await loadCache();
+    await dbSeedCountries();
+    await dbSeedUsers();
+    const [users, countries, apps] = await Promise.all([
+      dbGetUsers(), dbGetCountries(), dbGetApps()
+    ]);
+    _cache.users = users;
+    _cache.countries = countries;
+    _cache.apps = apps;
+  } catch(e) {
+    console.error('Init DB error:', e);
+  } finally {
+    // Always unblock the UI regardless of DB errors
+    showLoadingOverlay(false);
+  }
   updateNavUserPill();
   renderCountryPicker();
   setupAOS();
