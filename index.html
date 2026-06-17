@@ -4404,9 +4404,18 @@ let _fibPollInterval = null;
 async function fibCall(body) {
   const res = await fetch(FIB_PROXY, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'apikey': SUPABASE_KEY
+    },
     body: JSON.stringify(body)
   });
+  if (!res.ok) {
+    const txt = await res.text();
+    console.error('FIB proxy error:', res.status, txt);
+    throw new Error(txt);
+  }
   return res.json();
 }
 
