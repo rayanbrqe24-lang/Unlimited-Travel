@@ -2980,6 +2980,12 @@ const DB = {
   set currentUser(v) { sessionStorage.setItem('ult_user', v ? JSON.stringify(v) : 'null'); },
 };
 
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
 // ---- USERS ----
 async function dbGetUsers() {
   const { data, error } = await supa.from('users').select('*').order('created_at', { ascending: false });
@@ -3966,7 +3972,7 @@ async function verifyEmailOTP() {
 
 async function completeRegistration() {
   const newUser = {
-    id: 'usr-' + Date.now(),
+    id: generateUUID(),
     fullName: _otp.name,
     email: _otp.email,
     phone: _otp.phone,
@@ -4229,7 +4235,7 @@ async function modalRegister() {
   showLoadingOverlay(true);
   const existing = await dbGetUserByEmail(email);
   if (existing) { showLoadingOverlay(false); showToast(_SVG_ICONS.warn,'Already Registered','Account exists. Please sign in.'); switchModalTab('login'); return; }
-  const newUser = { id:'usr-'+Date.now(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password:pass };
+  const newUser = { id: generateUUID(), fullName:name, email, phone:phone||'+964 770 000 0000', passportId:'', role:'customer', isVerified:false, createdAt:new Date().toLocaleDateString(), password:pass };
   await dbInsertUser(newUser);
   showLoadingOverlay(false);
   if (_cache.users) _cache.users.unshift(newUser);
@@ -4368,7 +4374,7 @@ function gotoVisa(n) {
   }
   window.scrollTo({top:0,behavior:'smooth'});
   // Auto-generate FIB payment when reaching step 4
-  if (n === 4) setTimeout(processPayment, 400);
+  if (n === 4) setTimeout(processPayment, 50);
 }
 // Real file upload handler
 const uploadState = { photo: false, passport: false, nationalId: false };
@@ -4613,7 +4619,22 @@ function processPayment() {
   const amtEl = document.getElementById('qr-amount');
   if (amtEl) amtEl.textContent = total;
 
-  showToast(_SVG_ICONS.info, 'Creating Payment...', 'Connecting to FIB Bank, please wait.');
+  // Show loading state on QR immediately
+  const qrLoadEl = document.getElementById('fib-qr-canvas');
+  if (qrLoadEl) {
+    const fresh = document.createElement('canvas');
+    fresh.id = 'fib-qr-canvas'; fresh.width = 160; fresh.height = 160;
+    const ctx = fresh.getContext('2d');
+    ctx.fillStyle = '#0f172a'; ctx.fillRect(0,0,160,160);
+    ctx.fillStyle = 'rgba(255,10,84,0.3)'; ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText('Connecting to FIB...', 80, 75);
+    ctx.fillText('Please wait', 80, 95);
+    qrLoadEl.parentNode.replaceChild(fresh, qrLoadEl);
+  }
+  const refLoadEl = document.getElementById('qr-order-ref');
+  if (refLoadEl) refLoadEl.textContent = 'Generating...';
+  const readableLoadEl = document.getElementById('fib-readable-code');
+  if (readableLoadEl) readableLoadEl.textContent = '— — —';
   createFibPayment().then(fibData => {
     _fibPaymentId = fibData.paymentId;
     console.log('FIB full response:', JSON.stringify(fibData));
