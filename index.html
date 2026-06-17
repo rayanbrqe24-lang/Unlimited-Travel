@@ -3092,6 +3092,107 @@ function generateUUID() {
     return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
 }
+
+// ================================================================
+//  RESEND EMAIL WITH ATTACHMENT
+// ================================================================
+const RESEND_PROXY = 'https://uidbugkercotkyecjlsd.supabase.co/functions/v1/send-email';
+
+async function sendResendEmail({ to, toName, subject, html, attachmentBase64, attachmentName }) {
+  const res = await fetch(RESEND_PROXY, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'apikey': SUPABASE_KEY
+    },
+    body: JSON.stringify({ to, toName, subject, html, attachmentBase64, attachmentName })
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error('Resend failed: ' + txt);
+  }
+  return res.json();
+}
+
+function buildApprovalEmailHTML(customerName, orderNumber, country, travelDate, note, hasAttachment) {
+  return `<!DOCTYPE html><html><head><style>
+    body{font-family:Arial,sans-serif;background:#f0f2f5;padding:20px;color:#1a1a2e;}
+    .page{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+    .header{background:linear-gradient(135deg,#020617,#0c1660);padding:28px 32px;color:#fff;}
+    .logo{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+    .logo span{color:#FF0A54;}
+    .body{padding:28px 32px;}
+    .status-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px;}
+    .status-icon{font-size:40px;margin-bottom:8px;}
+    .status-title{font-size:18px;font-weight:800;color:#10b981;margin-bottom:6px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+    .box{background:#f8faff;border-radius:8px;padding:12px;}
+    .label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+    .value{font-size:14px;font-weight:600;color:#1a1a2e;}
+    .footer{background:#f8fafc;padding:16px 32px;text-align:center;font-size:11px;color:#94a3b8;}
+    .divider{border:none;border-top:1px solid #e2e8f0;margin:20px 0;}
+  </style></head><body><div class="page">
+    <div class="header"><div class="logo">UNLI<span>M</span>ITED <small style="font-size:13px;font-weight:400;opacity:0.6;">Travel & Tourism</small></div></div>
+    <div class="body">
+      <p>Hello <strong>${customerName}</strong>,</p>
+      <div class="status-box">
+        <div class="status-icon">✅</div>
+        <div class="status-title">Visa Application Approved!</div>
+        <p style="font-size:13px;color:#166534;margin:0;">${note || 'Congratulations! Your visa application has been approved. ' + (hasAttachment ? 'Your visa document is attached to this email.' : 'Our team will contact you for document delivery.')}</p>
+      </div>
+      <div class="grid">
+        <div class="box"><div class="label">Order Number</div><div class="value">${orderNumber}</div></div>
+        <div class="box"><div class="label">Destination</div><div class="value">${country}</div></div>
+        <div class="box"><div class="label">Travel Date</div><div class="value">${travelDate}</div></div>
+        <div class="box"><div class="label">Status</div><div class="value" style="color:#10b981;">✅ Approved</div></div>
+      </div>
+      ${hasAttachment ? '<p style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;font-size:13px;color:#166534;">📎 Your visa document is attached to this email as a PDF/image file.</p>' : ''}
+      <hr class="divider">
+      <p style="font-size:13px;color:#64748b;text-align:center;">Need help? Contact us on WhatsApp:<br><a href="https://wa.me/9647502307506" style="color:#FF0A54;font-weight:700;">+964 750 230 7506</a></p>
+    </div>
+    <div class="footer">UNLIMITED Travel & Tourism · +964 750 230 7506 · support@unlimited-travel.iq</div>
+  </div></body></html>`;
+}
+
+function buildRejectionEmailHTML(customerName, orderNumber, country, travelDate, reason) {
+  return `<!DOCTYPE html><html><head><style>
+    body{font-family:Arial,sans-serif;background:#f0f2f5;padding:20px;color:#1a1a2e;}
+    .page{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+    .header{background:linear-gradient(135deg,#020617,#0c1660);padding:28px 32px;color:#fff;}
+    .logo{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+    .logo span{color:#FF0A54;}
+    .body{padding:28px 32px;}
+    .status-box{background:#fff5f5;border:1px solid #fecaca;border-radius:10px;padding:20px;text-align:center;margin-bottom:20px;}
+    .status-icon{font-size:40px;margin-bottom:8px;}
+    .status-title{font-size:18px;font-weight:800;color:#FF0A54;margin-bottom:6px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+    .box{background:#f8faff;border-radius:8px;padding:12px;}
+    .label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+    .value{font-size:14px;font-weight:600;color:#1a1a2e;}
+    .footer{background:#f8fafc;padding:16px 32px;text-align:center;font-size:11px;color:#94a3b8;}
+    .divider{border:none;border-top:1px solid #e2e8f0;margin:20px 0;}
+  </style></head><body><div class="page">
+    <div class="header"><div class="logo">UNLI<span>M</span>ITED <small style="font-size:13px;font-weight:400;opacity:0.6;">Travel & Tourism</small></div></div>
+    <div class="body">
+      <p>Hello <strong>${customerName}</strong>,</p>
+      <div class="status-box">
+        <div class="status-icon">❌</div>
+        <div class="status-title">Application Not Approved</div>
+        <p style="font-size:13px;color:#991b1b;margin:0;">${reason}</p>
+      </div>
+      <div class="grid">
+        <div class="box"><div class="label">Order Number</div><div class="value">${orderNumber}</div></div>
+        <div class="box"><div class="label">Destination</div><div class="value">${country}</div></div>
+        <div class="box"><div class="label">Travel Date</div><div class="value">${travelDate}</div></div>
+        <div class="box"><div class="label">Status</div><div class="value" style="color:#FF0A54;">❌ Rejected</div></div>
+      </div>
+      <hr class="divider">
+      <p style="font-size:13px;color:#64748b;text-align:center;">You may reapply or contact us for assistance:<br><a href="https://wa.me/9647502307506" style="color:#FF0A54;font-weight:700;">+964 750 230 7506</a></p>
+    </div>
+    <div class="footer">UNLIMITED Travel & Tourism · +964 750 230 7506 · support@unlimited-travel.iq</div>
+  </div></body></html>`;
+}
 // ---- USERS ----
 async function dbGetUsers() {
   const { data, error } = await supa.from('users').select('*').order('created_at', { ascending: false });
@@ -7698,84 +7799,77 @@ function handleRejectFile(input) {
 
 async function confirmReject() {
   var reason = document.getElementById('reject-reason').value.trim();
-  if (!reason) { showToastSVG('warn', 'Reason Required', 'Please enter a rejection reason.'); return; }
+  if (!reason) { showToastSVG('warn','Reason Required','Please enter a rejection reason.'); return; }
   var btn = document.getElementById('reject-confirm-btn');
   btn.disabled = true; btn.textContent = 'Sending...';
-  await updateAppStatus(_rejectData.orderNumber, 'Rejected');
   var app = (_cache.apps||[]).find(function(a){ return a.orderNumber === _rejectData.orderNumber; });
+  var country = app ? app.countryNameEn : '—';
+  var travelDate = app ? (app.travelDate||'—') : '—';
+  var base64Content = _rejectData.fileData ? _rejectData.fileData.split(',')[1] : null;
+
+  await updateAppStatus(_rejectData.orderNumber, 'Rejected');
+
   try {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-      var params = {
-        to_name: _rejectData.customerName, to_email: _rejectData.email,
-        subject: 'Visa Application Update — ' + _rejectData.orderNumber,
-        order_number: _rejectData.orderNumber,
-        country: app ? app.countryNameEn : '—',
-        travel_date: app ? (app.travelDate||'—') : '—',
-        status:'Rejected', status_icon:'❌',
-        message: reason,
-        invoice_block:'none', status_block:'block',
-        approved_block:'none', rejected_block:'block',
-        date: new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-      };
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({},params,{to_email:MANAGER_EMAIL,to_name:MANAGER_NAME}));
-      showToastSVG('mail','Email Sent','Rejection email sent to ' + _rejectData.email);
-    }
-  } catch(e) { console.error('Reject email error:', e); }
-  showToastSVG('success','Rejected','Application rejected and customer notified.');
+    await sendResendEmail({
+      to: _rejectData.email,
+      toName: _rejectData.customerName,
+      subject: 'Visa Application Update — ' + _rejectData.orderNumber,
+      html: buildRejectionEmailHTML(_rejectData.customerName, _rejectData.orderNumber, country, travelDate, reason),
+      attachmentBase64: base64Content || undefined,
+      attachmentName: _rejectData.file ? _rejectData.file.name : undefined
+    });
+    await sendResendEmail({
+      to: MANAGER_EMAIL,
+      toName: MANAGER_NAME,
+      subject: '[Manager Copy] Visa Rejected — ' + _rejectData.orderNumber,
+      html: buildRejectionEmailHTML(_rejectData.customerName, _rejectData.orderNumber, country, travelDate, reason),
+    });
+    showToastSVG('success','Rejected & Notified','Rejection email sent to ' + _rejectData.email);
+  } catch(e) {
+    console.error('Reject email error:', e);
+    showToastSVG('warn','Email Failed','Status updated but email failed: ' + e.message);
+  }
   closeRejectModal();
 }
 
 async function confirmApproveWithFile() {
+  if (!_approveData.file) { showToastSVG('warn','File Required','Please upload the visa document first.'); return; }
   var btn = document.getElementById('approve-confirm-btn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.disabled = true; btn.textContent = 'Sending...';
+  var note = document.getElementById('approve-note').value.trim();
+  var app = (_cache.apps||[]).find(function(a){ return a.orderNumber === _approveData.orderNumber; });
+  var country = app ? app.countryNameEn : '—';
+  var travelDate = app ? (app.travelDate||'—') : '—';
 
-  // Update status in DB
+  // Update DB status
   await updateAppStatus(_approveData.orderNumber, 'Approved');
 
-  // Send approval email with file attachment via EmailJS
-  var note = document.getElementById('approve-note').value.trim();
-  var app = (_cache.apps || []).find(function(a) { return a.orderNumber === _approveData.orderNumber; });
+  // Get base64 content only (strip data:...;base64, prefix)
+  var base64Content = _approveData.fileData ? _approveData.fileData.split(',')[1] : null;
 
   try {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-      var params = {
-        to_name: _approveData.customerName,
-        to_email: _approveData.email,
-        subject: '✅ Visa Approved — ' + _approveData.orderNumber,
-        order_number: _approveData.orderNumber,
-        country: app ? app.countryNameEn : '—',
-        travel_date: app ? (app.travelDate || '—') : '—',
-        status: 'Approved',
-        status_icon: '✅',
-        message: note || ('Congratulations! Your visa application for ' + (app ? app.countryNameEn : 'your destination') + ' has been APPROVED. ' + (_approveData.file ? 'Your visa document is attached to this email.' : 'Our team will contact you for delivery.')),
-        invoice_block: 'none',
-        status_block: 'block',
-        approved_block: 'block',
-        rejected_block: 'none',
-        date: new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}),
-      };
-
-      // Send to customer
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-      // Send copy to manager
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, Object.assign({}, params, { to_email: MANAGER_EMAIL, to_name: MANAGER_NAME }));
-
-      showToastSVG('mail', 'Email Sent!', 'Approval email sent to ' + _approveData.email);
-    }
+    // Send to customer with attachment via Resend
+    await sendResendEmail({
+      to: _approveData.email,
+      toName: _approveData.customerName,
+      subject: '✅ Visa Approved — ' + _approveData.orderNumber,
+      html: buildApprovalEmailHTML(_approveData.customerName, _approveData.orderNumber, country, travelDate, note, true),
+      attachmentBase64: base64Content,
+      attachmentName: _approveData.file.name
+    });
+    // Send copy to manager
+    await sendResendEmail({
+      to: MANAGER_EMAIL,
+      toName: MANAGER_NAME,
+      subject: '[Manager Copy] Visa Approved — ' + _approveData.orderNumber,
+      html: buildApprovalEmailHTML(_approveData.customerName, _approveData.orderNumber, country, travelDate, note, true),
+      attachmentBase64: base64Content,
+      attachmentName: _approveData.file.name
+    });
+    showToastSVG('success','Approved & Sent!','Visa document emailed to ' + _approveData.email);
   } catch(e) {
-    console.error('Email error:', e);
-    showToastSVG('warn', 'Email Failed', 'Status updated but email failed: ' + (e.text || e.message || ''));
-  }
-
-  if (_approveData.file) {
-    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified with visa document.');
-  } else {
-    showToastSVG('success', 'Approved!', _approveData.customerName + ' notified by email.');
+    console.error('Approve email error:', e);
+    showToastSVG('warn','Email Failed','Status updated but email failed: ' + e.message);
   }
 
   closeApproveModal();
