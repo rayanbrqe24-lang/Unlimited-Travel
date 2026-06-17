@@ -3099,6 +3099,9 @@ function generateUUID() {
 const RESEND_PROXY = 'https://uidbugkercotkyecjlsd.supabase.co/functions/v1/send-email';
 
 async function sendResendEmail({ to, toName, subject, html, attachmentBase64, attachmentName }) {
+  // Resend test mode — all emails go to verified address
+  const testEmail = 'rayanbrqe7@gmail.com';
+  const finalSubject = subject + ' [TO: ' + to + ']';
   const res = await fetch(RESEND_PROXY, {
     method: 'POST',
     headers: {
@@ -3106,7 +3109,7 @@ async function sendResendEmail({ to, toName, subject, html, attachmentBase64, at
       'Authorization': 'Bearer ' + SUPABASE_KEY,
       'apikey': SUPABASE_KEY
     },
-    body: JSON.stringify({ to, toName, subject, html, attachmentBase64, attachmentName })
+    body: JSON.stringify({ to: testEmail, toName, subject: finalSubject, html, attachmentBase64, attachmentName })
   });
   if (!res.ok) {
     const txt = await res.text();
