@@ -4452,11 +4452,17 @@ function downloadQR() {
 }
 
 function openFibApp() {
-  if (!_fibPaymentId || !_fibAppLink) {
+  if (!_fibPaymentId) {
     showToast(_SVG_ICONS.warn, 'Not Ready', 'Payment is still initializing, please wait a moment.');
     return;
   }
-  window.open(_fibAppLink, '_blank');
+  if (_fibAppLink) {
+    window.open(_fibAppLink, '_blank');
+  } else {
+    // Fallback: open FIB app store or show readable code
+    const code = document.getElementById('qr-order-ref')?.textContent || '';
+    showToast(_SVG_ICONS.info, 'Use Readable Code', 'Open FIB app → QuickPay → enter: ' + code.replace('Code: ',''));
+  }
   startFibPolling();
 }
 
@@ -4572,7 +4578,8 @@ function processPayment() {
   showToast(_SVG_ICONS.info, 'Creating Payment...', 'Connecting to FIB Bank, please wait.');
   createFibPayment().then(fibData => {
     _fibPaymentId = fibData.paymentId;
-    _fibAppLink = fibData.personalAppLink || fibData.businessAppLink || null;
+    console.log('FIB full response:', JSON.stringify(fibData));
+    _fibAppLink = fibData.personalAppLink || fibData.businessAppLink || fibData.corporateAppLink || null;
     // Show real QR image
     const canvas = document.getElementById('fib-qr-canvas');
     if (canvas && fibData.qrCode) {
