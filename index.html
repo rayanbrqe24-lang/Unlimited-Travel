@@ -4396,6 +4396,32 @@ function formatCard(el) {
 
 // FIB Bank Payment
 let _pendingApp = null;
+// ── FIB REAL API ─────────────────────────────────────────────
+const FIB_PROXY = 'https://uidbugkercotkyecjlsd.supabase.co/functions/v1/fib-payment';
+let _fibPaymentId = null;
+let _fibPollInterval = null;
+
+async function fibCall(body) {
+  const res = await fetch(FIB_PROXY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+async function createFibPayment() {
+  const country = (_cache.countries||[]).find(x=>x.id===selectedCountryId);
+  const amountIQD = country ? country.priceIQD : 156000;
+  const data = await fibCall({
+    action: 'create',
+    amount: amountIQD,
+    description: 'UNLIMITED Travel — Visa: ' + (country ? country.nameEn : '') + ' — Order: ' + (_pendingApp ? _pendingApp.orderNumber : '')
+  });
+  if (!data.paymentId) throw new Error(data.error || 'Failed to create payment');
+  return data;
+}
+
 function switchFibTab(tab) {
   document.getElementById('fib-tab-app').style.background = tab==='app' ? 'var(--gradient)' : 'transparent';
   document.getElementById('fib-tab-app').style.color = tab==='app' ? '#fff' : 'var(--gray-400)';
@@ -4403,50 +4429,43 @@ function switchFibTab(tab) {
   document.getElementById('fib-tab-qr').style.color = tab==='qr' ? '#fff' : 'var(--gray-400)';
   document.getElementById('fib-panel-app').style.display = tab==='app' ? 'block' : 'none';
   document.getElementById('fib-panel-qr').style.display = tab==='qr' ? 'block' : 'none';
-  if (tab === 'qr') generateQR();
 }
-function generateQR() {
-  const canvas = document.getElementById('fib-qr-canvas');
-  if (!canvas || !_pendingApp) return;
-  const country = (_cache.countries||[]).find(x=>x.id===selectedCountryId);
-  const amt = selectedCurrency==='USD' ? '$'+(country?country.priceUSD:120)+' USD' : (country?country.priceIQD:156000).toLocaleString()+' IQD';
-  const qrData = 'fib://pay?to=UNLIMITED-TRAVEL&amount='+(country?country.priceUSD:120)+'&currency='+selectedCurrency+'&ref='+(_pendingApp?_pendingApp.orderNumber:'VISA')+'&desc=Visa+Application';
-  canvas.width = 160; canvas.height = 160;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,160,160);
-  // Simple QR-like pattern as placeholder (real FIB integration would provide actual QR)
-  ctx.fillStyle='#fff'; ctx.fillRect(0,0,160,160);
-  ctx.fillStyle='#020617';
-  const cells=21, size=Math.floor(160/cells);
-  for(let r=0;r<cells;r++) for(let c=0;c<cells;c++) if(Math.random()>0.5) ctx.fillRect(c*size+4,r*size+4,size-1,size-1);
-  // Corner squares
-  [[1,1],[14,1],[1,14]].forEach(([x,y])=>{
-    ctx.fillStyle='#020617'; ctx.fillRect(x*size+4,y*size+4,6*size,6*size);
-    ctx.fillStyle='#fff'; ctx.fillRect((x+1)*size+4,(y+1)*size+4,4*size,4*size);
-    ctx.fillStyle='#020617'; ctx.fillRect((x+2)*size+4,(y+2)*size+4,2*size,2*size);
-  });
-  document.getElementById('qr-amount').textContent = amt;
-  document.getElementById('qr-order-ref').textContent = 'Order: ' + (_pendingApp?_pendingApp.orderNumber:'—');
-}
+
 function downloadQR() {
-  const canvas = document.getElementById('fib-qr-canvas');
-  if (!canvas) return;
+  const img = document.getElementById('fib-qr-canvas');
+  if (!img || !img.src) return;
   const link = document.createElement('a');
   link.download = 'FIB-Payment-QR.png';
-  link.href = canvas.toDataURL();
+  link.href = img.src;
   link.click();
   showToast(_SVG_ICONS.success, 'QR Saved!', 'Show this QR in FIB Bank app to pay.');
 }
-function openFibApp() {
-  const country = (_cache.countries||[]).find(x=>x.id===selectedCountryId);
-  const amt = selectedCurrency==='USD' ? (country?country.priceUSD:120) : (country?country.priceIQD:156000);
-  const deepLink = 'fib://pay?to=UNLIMITED-TRAVEL&amount='+amt+'&currency='+selectedCurrency+'&ref='+(_pendingApp?_pendingApp.orderNumber:'VISA')+'&desc=Visa+Application';
-  window.location.href = deepLink;
-  setTimeout(() => {
-    if (confirm('Did you complete the payment in FIB Bank app?\n\nClick OK to confirm your application.')) {
-      confirmFibPayment();
-    }
-  }, 2500);
+
+async function openFibApp() {
+  if (!_fibPaymentId) { showToast(_SVG_ICONS.warn,'Not Ready','Please wait for payment to initialize.'); return; }
+  // Use personal app deep link from FIB
+  const data = await fibCall({ action: 'status', paymentId: _fibPaymentId });
+  if (data.personalAppLink) window.location.href = data.personalAppLink;
+  startFibPolling();
+}
+
+function startFibPolling() {
+  if (_fibPollInterval) clearInterval(_fibPollInterval);
+  _fibPollInterval = setInterval(async () => {
+    if (!_fibPaymentId) return;
+    try {
+      const data = await fibCall({ action: 'status', paymentId: _fibPaymentId });
+      if (data.status === 'PAID') {
+        clearInterval(_fibPollInterval);
+        _fibPollInterval = null;
+        await confirmFibPayment();
+      } else if (data.status === 'DECLINED') {
+        clearInterval(_fibPollInterval);
+        _fibPollInterval = null;
+        showToast(_SVG_ICONS.error, 'Payment Declined', 'The payment was declined or expired. Please try again.');
+      }
+    } catch(e) { console.error('FIB poll error:', e); }
+  }, 5000);
 }
 async function confirmFibPayment() {
   if (!_pendingApp) return;
@@ -4507,7 +4526,7 @@ function processPayment() {
     paymentStatus: 'Paid via FIB (' + selectedCurrency + ')',
     amountPaid: selectedCurrency === 'USD' ? (country ? country.priceUSD : 120) : (country ? country.priceIQD : 156000),
     currency: selectedCurrency,
-    createdAt: new Date().toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+    createdAt: new Date().toISOString()
   };
   // Update FIB summary
   const base = selectedCurrency==='USD' ? '$'+(country?country.priceUSD-10:110) : (country?country.priceIQD-13000:143000).toLocaleString()+' IQD';
@@ -4516,9 +4535,37 @@ function processPayment() {
   const el1=document.getElementById('fib-base-fee'); if(el1) el1.textContent=base;
   const el2=document.getElementById('fib-proc-fee'); if(el2) el2.textContent=proc;
   const el3=document.getElementById('fib-total'); if(el3) el3.textContent=total;
-  // Scroll to payment card so FIB options are visible
   document.querySelector('.payment-card')?.scrollIntoView({behavior:'smooth', block:'center'});
-  showToast(_SVG_ICONS.info, 'Choose Payment', 'Open FIB App or scan the QR code to pay.');
+
+  // Create real FIB payment
+  _fibPaymentId = null;
+  showToast(_SVG_ICONS.info, 'Creating Payment...', 'Connecting to FIB Bank, please wait.');
+  createFibPayment().then(fibData => {
+    _fibPaymentId = fibData.paymentId;
+    // Show real QR image
+    const canvas = document.getElementById('fib-qr-canvas');
+    if (canvas && fibData.qrCode) {
+      const img = document.createElement('img');
+      img.id = 'fib-qr-canvas';
+      img.src = fibData.qrCode;
+      img.style.cssText = 'width:160px;height:160px;border-radius:8px;';
+      canvas.parentNode.replaceChild(img, canvas);
+    }
+    const refEl = document.getElementById('qr-order-ref');
+    if (refEl) refEl.textContent = 'Code: ' + fibData.readableCode;
+    const amtEl = document.getElementById('qr-amount');
+    if (amtEl) amtEl.textContent = total;
+    // Update app button deep link
+    if (fibData.personalAppLink) {
+      const appBtn = document.querySelector('#fib-panel-app button');
+      if (appBtn) appBtn.onclick = () => { window.location.href = fibData.personalAppLink; startFibPolling(); };
+    }
+    startFibPolling();
+    showToast(_SVG_ICONS.success, 'Payment Ready!', 'Scan QR or open FIB App to pay. Valid for 15 minutes.');
+  }).catch(err => {
+    console.error('FIB create error:', err);
+    showToast(_SVG_ICONS.warn, 'FIB Unavailable', 'Could not connect to FIB. Click Confirm to proceed manually.');
+  });
 }
 
 // ================================================================
@@ -4972,7 +5019,7 @@ async function sendEmailInvoice(app) {
     managerEmail: MANAGER_EMAIL,
     customerEmailSent: EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY',
     managerEmailSent:  EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY',
-    createdAt: new Date().toLocaleString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+    createdAt: new Date().toISOString(),
     read: false
   };
   await dbInsertNotification(notif);
@@ -6204,7 +6251,7 @@ async function sendStatusEmail(app, status) {
     managerEmail: MANAGER_EMAIL,
     customerEmailSent: true,
     managerEmailSent: true,
-    createdAt: new Date().toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}),
+    createdAt: new Date().toISOString(),
     read: false,
   });
 
@@ -6935,7 +6982,7 @@ async function submitFlightRequest() {
     passengers: passengers,
     cabin: cabin,
     status: 'Pending',
-    createdAt: new Date().toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+    createdAt: new Date().toISOString()
   };
 
   // Save to Supabase notifications table
