@@ -3099,7 +3099,6 @@ function generateUUID() {
 const RESEND_PROXY = 'https://uidbugkercotkyecjlsd.supabase.co/functions/v1/send-email';
 
 async function sendResendEmail({ to, toName, subject, html, attachmentBase64, attachmentName }) {
-  // Resend test mode — all emails go to verified address
   const testEmail = 'rayanbrqe7@gmail.com';
   const finalSubject = subject + ' [TO: ' + to + ']';
   const res = await fetch(RESEND_PROXY, {
@@ -3118,6 +3117,33 @@ async function sendResendEmail({ to, toName, subject, html, attachmentBase64, at
   return res.json();
 }
 
+
+function buildOTPEmailHTML(name, code) {
+  return `<!DOCTYPE html><html><head><style>
+    body{font-family:Arial,sans-serif;background:#f0f2f5;padding:20px;color:#1a1a2e;}
+    .page{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+    .header{background:linear-gradient(135deg,#020617,#0c1660);padding:28px 32px;color:#fff;}
+    .logo{font-size:22px;font-weight:800;letter-spacing:-0.02em;}
+    .logo span{color:#FF0A54;}
+    .body{padding:28px 32px;}
+    .code-box{background:#f0f4ff;border:2px solid #c7d2fe;border-radius:16px;padding:24px;text-align:center;margin:20px 0;}
+    .code{font-size:42px;font-weight:800;letter-spacing:0.2em;color:#4f46e5;margin:12px 0;}
+    .footer{background:#f8fafc;padding:16px 32px;text-align:center;font-size:11px;color:#94a3b8;}
+  <\/style><\/head><body><div class="page">
+    <div class="header"><div class="logo">UNLI<span>M</span>ITED <small style="font-size:13px;font-weight:400;opacity:0.6;">Travel & Tourism</small></div></div>
+    <div class="body">
+      <p>Hello <strong>${name}</strong>,</p>
+      <p>Use the verification code below to complete your registration:</p>
+      <div class="code-box">
+        <div style="font-size:14px;color:#64748b;margin-bottom:4px;">🔐 Your Verification Code</div>
+        <div class="code">${code}</div>
+        <div style="font-size:12px;color:#94a3b8;">Expires in 10 minutes · Do not share this code</div>
+      </div>
+      <p style="font-size:13px;color:#64748b;">If you didn't request this, you can safely ignore this email.</p>
+    </div>
+    <div class="footer">UNLIMITED Travel & Tourism · +964 750 230 7506 · support@unlimited-travel.iq</div>
+  </div><\/body><\/html>`;
+}
 function buildApprovalEmailHTML(customerName, orderNumber, country, travelDate, note, hasAttachment) {
   return `<!DOCTYPE html><html><head><style>
     body{font-family:Arial,sans-serif;background:#f0f2f5;padding:20px;color:#1a1a2e;}
@@ -3135,7 +3161,7 @@ function buildApprovalEmailHTML(customerName, orderNumber, country, travelDate, 
     .value{font-size:14px;font-weight:600;color:#1a1a2e;}
     .footer{background:#f8fafc;padding:16px 32px;text-align:center;font-size:11px;color:#94a3b8;}
     .divider{border:none;border-top:1px solid #e2e8f0;margin:20px 0;}
-  </style></head><body><div class="page">
+  <\/style><\/head><body><div class="page">
     <div class="header"><div class="logo">UNLI<span>M</span>ITED <small style="font-size:13px;font-weight:400;opacity:0.6;">Travel & Tourism</small></div></div>
     <div class="body">
       <p>Hello <strong>${customerName}</strong>,</p>
@@ -3155,7 +3181,7 @@ function buildApprovalEmailHTML(customerName, orderNumber, country, travelDate, 
       <p style="font-size:13px;color:#64748b;text-align:center;">Need help? Contact us on WhatsApp:<br><a href="https://wa.me/9647502307506" style="color:#FF0A54;font-weight:700;">+964 750 230 7506</a></p>
     </div>
     <div class="footer">UNLIMITED Travel & Tourism · +964 750 230 7506 · support@unlimited-travel.iq</div>
-  </div></body></html>`;
+  </div><\/body><\/html>`;
 }
 
 function buildRejectionEmailHTML(customerName, orderNumber, country, travelDate, reason) {
@@ -3175,7 +3201,7 @@ function buildRejectionEmailHTML(customerName, orderNumber, country, travelDate,
     .value{font-size:14px;font-weight:600;color:#1a1a2e;}
     .footer{background:#f8fafc;padding:16px 32px;text-align:center;font-size:11px;color:#94a3b8;}
     .divider{border:none;border-top:1px solid #e2e8f0;margin:20px 0;}
-  </style></head><body><div class="page">
+  <\/style><\/head><body><div class="page">
     <div class="header"><div class="logo">UNLI<span>M</span>ITED <small style="font-size:13px;font-weight:400;opacity:0.6;">Travel & Tourism</small></div></div>
     <div class="body">
       <p>Hello <strong>${customerName}</strong>,</p>
@@ -3194,7 +3220,7 @@ function buildRejectionEmailHTML(customerName, orderNumber, country, travelDate,
       <p style="font-size:13px;color:#64748b;text-align:center;">You may reapply or contact us for assistance:<br><a href="https://wa.me/9647502307506" style="color:#FF0A54;font-weight:700;">+964 750 230 7506</a></p>
     </div>
     <div class="footer">UNLIMITED Travel & Tourism · +964 750 230 7506 · support@unlimited-travel.iq</div>
-  </div></body></html>`;
+  </div><\/body><\/html>`;
 }
 // ---- USERS ----
 async function dbGetUsers() {
@@ -4003,22 +4029,15 @@ async function sendForgotOTP() {
   // Generate OTP
   _forgotOTP.code = String(Math.floor(100000 + Math.random() * 900000));
   _forgotOTP.email = email;
-  // Send reset code via EmailJS
+  // Send reset code via Resend
   try {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_name: email, to_email: email,
-        order_number: 'Reset Code: ' + _forgotOTP.code,
-        country:'—', travel_date:'—',
-        date: new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-        base_amount:'—', proc_amount:'—', total_amount:'—',
-        payment_method:'none', invoice_block:'none', status_block:'block',
-        approved_block:'block', rejected_block:'none', status:'', status_icon:'none',
-        message: 'Your password reset code is:\n\n' + _forgotOTP.code + '\n\nThis code expires in 10 minutes.',
-      });
-    }
-  } catch(e) {}
+    await sendResendEmail({
+      to: 'rayanbrqe7@gmail.com', // test mode
+      toName: email,
+      subject: '🔐 Password Reset Code — UNLIMITED Travel [TO: ' + email + ']',
+      html: buildOTPEmailHTML(email, _forgotOTP.code)
+    });
+  } catch(e) { console.error('Reset email error:', e); }
   showToast(_SVG_ICONS.info, 'Reset Code Sent!', 'Check your email for the 6-digit reset code.');
   // Show step 2
   document.getElementById('forgot-step-1').style.display = 'none';
@@ -4126,33 +4145,17 @@ async function doRegister() {
   setTimeout(() => { const inp = document.getElementById('otp-input'); if(inp) inp.focus(); }, 100);
   startResendTimer();
 
-  // Send OTP via EmailJS (reliable — same service used for invoices)
+  // Send OTP via Resend
   try {
-    if (typeof emailjs === 'undefined') throw new Error('EmailJS not loaded');
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_name:        name,
-      to_email:       email,
-      order_number:   'Verification Code: ' + _otp.code,
-      country:        '—',
-      travel_date:    '—',
-      date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-      base_amount:    '—',
-      proc_amount:    '—',
-      total_amount:   '—',
-      payment_method: 'none',
-      invoice_block:  'none',
-      status_block:   'block',
-      approved_block: 'block',
-      rejected_block: 'none',
-      status:         '',
-      status_icon:    'none',
-      message:        'Your verification code is:\n\n' + _otp.code + '\n\nEnter this code to complete your registration. It expires in 10 minutes.',
+    await sendResendEmail({
+      to: 'rayanbrqe7@gmail.com', // test mode
+      toName: name,
+      subject: '🔐 Your Verification Code — UNLIMITED Travel [TO: ' + email + ']',
+      html: buildOTPEmailHTML(name, _otp.code)
     });
-    showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email ' + email + ' for the 6-digit code');
+    showToast(_SVG_ICONS.success, 'Code Sent! 📧', 'Check your email for the 6-digit code');
   } catch(e) {
     console.error('OTP email error:', e);
-    // Fallback: show code in toast so user can still register
     showToast(_SVG_ICONS.info, 'Your Code: ' + _otp.code, 'Could not send email — use this code to verify');
   }
 }
@@ -4207,36 +4210,17 @@ async function completeRegistration() {
   setTimeout(() => nav('home'), 1200);
 }
 
-function resendOTP() {
+async function resendOTP() {
   _otp.code = generateOTP();
   startResendTimer();
   try {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        to_name:        _otp.name,
-        to_email:       _otp.email,
-        order_number:   'Verification Code: ' + _otp.code,
-        country:        '—',
-        travel_date:    '—',
-        date:           new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
-        base_amount:    '—',
-        proc_amount:    '—',
-        total_amount:   '—',
-        payment_method: 'none',
-        invoice_block:  'none',
-        status_block:   'block',
-        approved_block: 'block',
-        rejected_block: 'none',
-        status:         '',
-        status_icon:    'none',
-        message:        'Your new verification code is:\n\n' + _otp.code + '\n\nEnter this code to complete your registration. It expires in 10 minutes.',
-      }).then(() => {
-        showToast(_SVG_ICONS.success, 'Code Resent! 📧', 'New code sent to ' + _otp.email);
-      }).catch(() => {
-        showToast(_SVG_ICONS.info, 'New Code: ' + _otp.code, 'Email failed — use this code');
-      });
-    }
+    await sendResendEmail({
+      to: 'rayanbrqe7@gmail.com', // test mode
+      toName: _otp.name,
+      subject: '🔐 New Verification Code — UNLIMITED Travel [TO: ' + _otp.email + ']',
+      html: buildOTPEmailHTML(_otp.name, _otp.code)
+    });
+    showToast(_SVG_ICONS.success, 'Code Resent! 📧', 'New code sent to ' + _otp.email);
   } catch(e) {
     showToast(_SVG_ICONS.info, 'New Code: ' + _otp.code, 'Email failed — use this code');
   }
