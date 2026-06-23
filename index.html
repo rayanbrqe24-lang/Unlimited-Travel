@@ -1488,7 +1488,7 @@ input,select,textarea{font-size:16px!important;} /* Prevent iOS zoom on focus */
 </div>
 
 <!-- WhatsApp -->
-<a class="whatsapp-float" href="https://wa.me/9647513300022" target="_blank" title="WhatsApp">
+<a class="whatsapp-float" href="https://wa.me/9647513300044" target="_blank" title="WhatsApp">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
 </a>
 
@@ -1824,7 +1824,7 @@ input,select,textarea{font-size:16px!important;} /* Prevent iOS zoom on focus */
           <ul class="footer-links">
             <li><a href="tel:+9647513300022">+964 751 330 0022</a></li>
             <li><a href="mailto:operation@unlimited.travel">operation@unlimited.travel</a></li>
-            <li><a href="#">Baghdad, Al-Mansour</a></li>
+            <li><a href="https://maps.google.com/?q=5XM4+JWW,+Erbil,+Iraq" target="_blank">Erbil, Iraq — 5XM4+JWW</a></li>
             <li><a href="https://wa.me/9647513300022">WhatsApp Us</a></li>
           </ul>
         </div>
@@ -5286,7 +5286,7 @@ const EMAILJS_SERVICE_ID        = 'service_xipuk0u';
 const EMAILJS_TEMPLATE_ID       = 'template_6k80e4d';  // Invoice template
 const EMAILJS_STATUS_TEMPLATE_ID = 'template_6k80e4d'; // Status template (same or create new in EmailJS)
 const EMAILJS_PUBLIC_KEY         = 'vMT3KuoBpyK81gxIS';
-const MANAGER_EMAIL = 'operation@unlimited.travel';
+const MANAGER_EMAIL = 'shahab1harki11@gmail.com';
 const MANAGER_NAME  = 'UNLIMITED Operations';
 const ACCOUNTANT_EMAIL = 'accounting@unlimited.travel';
 
@@ -5336,13 +5336,27 @@ async function sendEmailInvoice(app) {
     });
     console.log('✅ Customer email sent:', res1.status, res1.text);
 
-    // Send to manager
-    const res2 = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      ...templateParams,
-      to_email: MANAGER_EMAIL,
-      to_name: MANAGER_NAME,
-    });
-    console.log('✅ Manager email sent:', res2.status, res2.text);
+    // Send simple notification to manager (not full invoice)
+    await sendResendEmail({
+      to: MANAGER_EMAIL,
+      toName: 'Manager',
+      subject: '💳 New Payment — ' + app.orderNumber,
+      html: `<div style="font-family:Arial,sans-serif;padding:20px;max-width:500px;">
+        <h3 style="color:#FF0A54;">💳 New Payment Received</h3>
+        <p>Hello Manager,</p>
+        <p>A new visa payment was completed:</p>
+        <ul>
+          <li><strong>Customer:</strong> ${app.customerName}</li>
+          <li><strong>Email:</strong> ${app.email}</li>
+          <li><strong>Order:</strong> ${app.orderNumber}</li>
+          <li><strong>Country:</strong> ${app.countryNameEn}</li>
+          <li><strong>Amount:</strong> ${amtDisplay}</li>
+          <li><strong>Travel Date:</strong> ${app.travelDate || '—'}</li>
+        </ul>
+        <p style="color:#64748b;font-size:12px;">This is an automated notification from UNLIMITED Travel.</p>
+      </div>`
+    }).catch(e => console.error('Manager notify error:', e));
+    console.log('✅ Manager notified:', MANAGER_EMAIL);
 
     showToast(_SVG_ICONS.success, 'Invoice Sent! 📧', 'Invoice emailed to ' + app.email);
 
@@ -7796,6 +7810,7 @@ async function confirmReject() {
   await updateAppStatus(_rejectData.orderNumber, 'Rejected');
 
   try {
+    // Send rejection to customer
     await sendResendEmail({
       to: _rejectData.email,
       toName: _rejectData.customerName,
@@ -7804,11 +7819,24 @@ async function confirmReject() {
       attachmentBase64: base64Content || undefined,
       attachmentName: _rejectData.file ? _rejectData.file.name : undefined
     });
+    // Send simple notification to manager
     await sendResendEmail({
       to: MANAGER_EMAIL,
-      toName: MANAGER_NAME,
-      subject: '[Manager Copy] Visa Rejected — ' + _rejectData.orderNumber,
-      html: buildRejectionEmailHTML(_rejectData.customerName, _rejectData.orderNumber, country, travelDate, reason),
+      toName: 'Manager',
+      subject: '❌ Visa Rejected — ' + _rejectData.orderNumber,
+      html: `<div style="font-family:Arial,sans-serif;padding:20px;max-width:500px;">
+        <h3 style="color:#FF0A54;">❌ Visa Rejected</h3>
+        <p>Hello Manager,</p>
+        <p>You rejected a visa application:</p>
+        <ul>
+          <li><strong>Customer:</strong> ${_rejectData.customerName}</li>
+          <li><strong>Email:</strong> ${_rejectData.email}</li>
+          <li><strong>Order:</strong> ${_rejectData.orderNumber}</li>
+          <li><strong>Country:</strong> ${country}</li>
+          <li><strong>Reason:</strong> ${reason}</li>
+        </ul>
+        <p style="color:#64748b;font-size:12px;">This is an automated notification from UNLIMITED Travel.</p>
+      </div>`
     });
     showToastSVG('success','Rejected & Notified','Rejection email sent to ' + _rejectData.email);
   } catch(e) {
@@ -7834,7 +7862,7 @@ async function confirmApproveWithFile() {
   var base64Content = _approveData.fileData ? _approveData.fileData.split(',')[1] : null;
 
   try {
-    // Send to customer with attachment via Resend
+    // Send to customer with visa document attached
     await sendResendEmail({
       to: _approveData.email,
       toName: _approveData.customerName,
@@ -7843,14 +7871,24 @@ async function confirmApproveWithFile() {
       attachmentBase64: base64Content,
       attachmentName: _approveData.file.name
     });
-    // Send copy to manager
+    // Send simple notification to manager (no attachment)
     await sendResendEmail({
       to: MANAGER_EMAIL,
-      toName: MANAGER_NAME,
-      subject: '[Manager Copy] Visa Approved — ' + _approveData.orderNumber,
-      html: buildApprovalEmailHTML(_approveData.customerName, _approveData.orderNumber, country, travelDate, note, true),
-      attachmentBase64: base64Content,
-      attachmentName: _approveData.file.name
+      toName: 'Manager',
+      subject: '✅ Visa Approved — ' + _approveData.orderNumber,
+      html: `<div style="font-family:Arial,sans-serif;padding:20px;max-width:500px;">
+        <h3 style="color:#10b981;">✅ Visa Approved</h3>
+        <p>Hello Manager,</p>
+        <p>You approved a visa application:</p>
+        <ul>
+          <li><strong>Customer:</strong> ${_approveData.customerName}</li>
+          <li><strong>Email:</strong> ${_approveData.email}</li>
+          <li><strong>Order:</strong> ${_approveData.orderNumber}</li>
+          <li><strong>Country:</strong> ${country}</li>
+          <li><strong>Travel Date:</strong> ${travelDate}</li>
+        </ul>
+        <p style="color:#64748b;font-size:12px;">This is an automated notification from UNLIMITED Travel.</p>
+      </div>`
     });
     showToastSVG('success','Approved & Sent!','Visa document emailed to ' + _approveData.email);
   } catch(e) {
