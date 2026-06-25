@@ -1,214 +1,339 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>RAYAN AI — Creative Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0a0a0f;
-  --surface:#12121a;
-  --surface2:#1a1a26;
-  --border:#ffffff0f;
-  --border2:#ffffff18;
-  --accent:#7c3aed;
-  --accent2:#a855f7;
-  --accent-glow:#7c3aed40;
-  --pink:#ec4899;
-  --cyan:#06b6d4;
-  --text:#f0f0f8;
-  --text2:#9090b0;
-  --text3:#505070;
-  --radius:12px;
-  --radius-lg:18px;
-  --font-display:'Syne',sans-serif;
-  --font-body:'Inter',sans-serif;
-}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body)}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;height:5px}
+/* ── THEMES ── */
+[data-theme="dark"]{
+  --bg:#0F1D2D;
+  --surface:#132233;
+  --surface2:#1a2d40;
+  --surface3:#0a1520;
+  --border:#ffffff0d;
+  --border2:#ffffff16;
+  --accent:#D86221;
+  --accent-hover:#e8732e;
+  --accent-dim:#D8622120;
+  --accent-dim2:#D8622135;
+  --text:#F2F2F2;
+  --text2:#a0b4c8;
+  --text3:#4a6278;
+  --shadow:0 4px 24px #00000040;
+}
+[data-theme="light"]{
+  --bg:#F2F2F2;
+  --surface:#ffffff;
+  --surface2:#e8edf2;
+  --surface3:#dde4eb;
+  --border:#0F1D2D14;
+  --border2:#0F1D2D20;
+  --accent:#D86221;
+  --accent-hover:#c55518;
+  --accent-dim:#D8622112;
+  --accent-dim2:#D8622122;
+  --text:#0F1D2D;
+  --text2:#3a5268;
+  --text3:#8aa0b4;
+  --shadow:0 4px 24px #0F1D2D18;
+}
+
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;transition:background .25s,color .25s}
+
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
 
-/* LAYOUT */
+/* ── LAYOUT ── */
 .app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:0}
+.sidebar{width:230px;min-width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
-.workspace{flex:1;overflow-y:auto;padding:24px;display:flex;gap:20px}
+.topbar{height:58px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.workspace{flex:1;overflow-y:auto;padding:20px;display:flex;gap:18px}
 
-/* SIDEBAR */
-.logo{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
-.logo-text{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.5px}
-.logo-text span{background:linear-gradient(135deg,var(--accent2),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo-sub{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+/* ── SIDEBAR ── */
+.logo{padding:22px 18px 18px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon svg{width:18px;height:18px;fill:#fff}
+.logo-text{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.3px;color:var(--text)}
+.logo-text span{color:var(--accent)}
+.logo-sub{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:4px;padding-left:44px}
 
-.nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px}
-.nav-section{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;padding:10px 8px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left}
-.nav-item:hover{background:var(--surface2);color:var(--text)}
-.nav-item.active{background:var(--accent-glow);color:var(--accent2);font-weight:500}
-.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.7}
-.nav-item.active svg{opacity:1}
+.nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.nav-label{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;padding:10px 8px 5px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif}
+.nav-item svg{width:16px;height:16px;flex-shrink:0}
+.nav-item:hover{background:var(--accent-dim);color:var(--text)}
+.nav-item.active{background:var(--accent-dim2);color:var(--accent);font-weight:600}
+.nav-item.active svg{stroke:var(--accent)}
 
-.api-box{margin:12px;padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)}
-.api-box label{font-size:11px;color:var(--text3);letter-spacing:.5px;display:block;margin-bottom:6px}
-.api-input{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:7px;font-size:12px;font-family:var(--font-body);outline:none}
-.api-input:focus{border-color:var(--accent)}
-.api-status{display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:var(--text3)}
-.api-dot{width:6px;height:6px;border-radius:50%;background:var(--text3)}
-.api-dot.ok{background:#22c55e}
+.sidebar-bottom{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.sidebar-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:8px;border:1px solid var(--border2);background:none;color:var(--text2);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.sidebar-btn:hover{border-color:var(--accent);color:var(--accent)}
+.sidebar-btn svg{width:14px;height:14px}
 
-/* TOPBAR */
-.tab-pills{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:9px}
-.tab-pill{padding:5px 14px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);transition:all .15s}
+/* ── TOPBAR ── */
+.studio-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--text);margin-right:auto}
+.tab-pills{display:flex;gap:3px;background:var(--surface2);padding:3px;border-radius:8px}
+.tab-pill{padding:5px 14px;border-radius:6px;font-size:12.5px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);transition:all .15s;font-family:'Inter',sans-serif}
 .tab-pill.active{background:var(--accent);color:#fff}
-.topbar-title{font-family:var(--font-display);font-weight:700;font-size:15px;margin-right:auto}
-.credits-badge{font-size:12px;color:var(--text2);padding:4px 10px;border:1px solid var(--border2);border-radius:99px}
+.theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border2);background:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.theme-btn svg{width:16px;height:16px}
 
-/* PANELS */
-.panel-left{width:300px;min-width:300px;display:flex;flex-direction:column;gap:16px}
-.panel-right{flex:1;display:flex;flex-direction:column;gap:16px}
+/* ── PANELS ── */
+.panel-left{width:290px;min-width:290px;display:flex;flex-direction:column;gap:14px}
+.panel-right{flex:1;display:flex;flex-direction:column;gap:14px;min-width:0}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
-.card-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+.card-title{font-size:10px;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* FORM ELEMENTS */
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+/* ── FORM ── */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .field:last-child{margin-bottom:0}
-.field label{font-size:12px;color:var(--text2);font-weight:500}
-textarea,input[type=text],select{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:9px;font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .15s;resize:none}
-textarea:focus,input[type=text]:focus,select:focus{border-color:var(--accent)}
-select option{background:var(--surface2)}
-textarea{height:100px;line-height:1.5}
+.field label{font-size:11.5px;color:var(--text2);font-weight:500}
+textarea,input[type=text],input[type=password],select{
+  width:100%;background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text);padding:9px 11px;border-radius:8px;font-size:13px;
+  font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;resize:none;
+}
+textarea:focus,input:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--surface)}
+textarea{height:95px;line-height:1.5}
 
-.row{display:flex;gap:10px}
-.row .field{flex:1}
+/* ── MODEL LIST ── */
+.model-list{display:flex;flex-direction:column;gap:3px;max-height:190px;overflow-y:auto}
+.model-opt{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .12s;border:1px solid transparent}
+.model-opt:hover{background:var(--surface2);color:var(--text)}
+.model-opt.selected{background:var(--accent-dim2);border-color:var(--accent);color:var(--accent)}
+.model-badge{font-size:9px;padding:2px 6px;border-radius:4px;background:var(--surface2);color:var(--text3);margin-left:auto;text-transform:uppercase;letter-spacing:.5px;border:1px solid var(--border2)}
+.model-opt.selected .model-badge{background:var(--accent);color:#fff;border-color:transparent}
 
-/* GENERATE BTN */
-.gen-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--pink));border:none;border-radius:10px;color:#fff;font-family:var(--font-display);font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:opacity .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px}
-.gen-btn:hover{opacity:.9}
-.gen-btn:active{transform:scale(.98)}
-.gen-btn:disabled{opacity:.4;cursor:not-allowed}
+/* ── RATIO & DURATION ── */
+.pill-row{display:flex;flex-wrap:wrap;gap:5px}
+.pill{padding:4px 11px;border:1px solid var(--border2);border-radius:6px;font-size:11.5px;cursor:pointer;color:var(--text2);transition:all .12s;background:none;font-family:'Inter',sans-serif}
+.pill:hover{border-color:var(--accent);color:var(--accent)}
+.pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* UPLOAD ZONE */
-.upload-zone{border:2px dashed var(--border2);border-radius:10px;padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.upload-zone:hover{border-color:var(--accent);background:var(--accent-glow)}
+/* ── UPLOAD ── */
+.upload-zone{border:2px dashed var(--border2);border-radius:10px;padding:24px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.upload-zone:hover,.upload-zone.dragging{border-color:var(--accent);background:var(--accent-dim)}
 .upload-zone.has-file{border-style:solid;border-color:var(--accent)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.upload-icon{font-size:28px;margin-bottom:6px}
-.upload-text{font-size:12px;color:var(--text2)}
-.upload-preview{max-width:100%;max-height:120px;border-radius:8px;object-fit:contain;margin-top:8px}
+.upload-icon{font-size:26px;margin-bottom:5px}
+.upload-hint{font-size:11.5px;color:var(--text3)}
+.upload-preview-img{max-width:100%;max-height:110px;border-radius:7px;object-fit:contain;margin-top:8px;display:none}
 
-/* OUTPUT AREA */
-.output-area{flex:1;min-height:400px;background:var(--surface2);border-radius:var(--radius-lg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.output-empty{text-align:center;color:var(--text3)}
-.output-empty .icon{font-size:48px;margin-bottom:12px;opacity:.3}
-.output-empty p{font-size:13px}
+/* ── GENERATE BTN ── */
+.gen-btn{width:100%;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;cursor:pointer;letter-spacing:.2px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 20px var(--accent-dim2)}
+.gen-btn:active{transform:translateY(0)}
+.gen-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ── OUTPUT ── */
+.output-area{flex:1;min-height:420px;background:var(--surface2);border-radius:14px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.output-empty{text-align:center;color:var(--text3);padding:20px}
+.empty-icon{width:64px;height:64px;margin:0 auto 14px;background:var(--accent-dim);border-radius:16px;display:flex;align-items:center;justify-content:center}
+.empty-icon svg{width:28px;height:28px;stroke:var(--accent);opacity:.6}
+.empty-text{font-size:13px;line-height:1.5}
+.empty-text strong{display:block;color:var(--text2);margin-bottom:4px;font-size:14px;font-family:'Space Grotesk',sans-serif;font-weight:600}
 
 .output-img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px}
 .output-video{max-width:100%;max-height:100%;border-radius:10px}
 
-/* PROGRESS */
-.progress-wrap{position:absolute;inset:0;background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-.spinner{width:44px;height:44px;border:3px solid var(--border2);border-top-color:var(--accent2);border-radius:50%;animation:spin .8s linear infinite}
+/* ── PROGRESS ── */
+.progress-wrap{position:absolute;inset:0;background:var(--surface2);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.progress-wrap.show{display:flex}
+.prog-ring{position:relative;width:52px;height:52px}
+.prog-ring svg{animation:spin .9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.progress-text{font-size:13px;color:var(--text2)}
-.progress-stage{font-size:11px;color:var(--text3);margin-top:-8px}
-.progress-bar-wrap{width:200px;height:3px;background:var(--border2);border-radius:99px;overflow:hidden}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--pink));border-radius:99px;animation:progpulse 2s ease-in-out infinite}
-@keyframes progpulse{0%{width:10%}50%{width:80%}100%{width:10%}}
+.prog-ring circle{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:60}
+.prog-track{position:absolute;inset:0}
+.prog-track circle{fill:none;stroke:var(--border2);stroke-width:3}
+.progress-label{font-size:13.5px;color:var(--text);font-weight:600;font-family:'Space Grotesk',sans-serif}
+.progress-sub{font-size:11.5px;color:var(--text3)}
+.progress-bar-bg{width:180px;height:3px;background:var(--border2);border-radius:99px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--accent);border-radius:99px;animation:barwave 2.2s ease-in-out infinite}
+@keyframes barwave{0%{width:8%}50%{width:75%}100%{width:8%}}
 
-/* ACTION BAR */
-.action-bar{display:flex;gap:8px;padding:12px 0 0}
-.action-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text2);font-size:12px;cursor:pointer;transition:all .15s;text-decoration:none}
-.action-btn:hover{border-color:var(--accent);color:var(--accent2)}
+/* ── ACTION BAR ── */
+.action-bar{display:none;gap:8px;flex-wrap:wrap}
+.action-bar.show{display:flex}
+.act-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text2);font-size:12px;cursor:pointer;transition:all .15s;text-decoration:none;font-family:'Inter',sans-serif}
+.act-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.act-btn svg{width:13px;height:13px;flex-shrink:0}
 
-/* HISTORY */
-.history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.history-thumb{aspect-ratio:1;background:var(--surface2);border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
-.history-thumb:hover{border-color:var(--accent)}
-.history-thumb img,.history-thumb video{width:100%;height:100%;object-fit:cover}
-.history-thumb .type-badge{position:absolute;top:4px;left:4px;font-size:9px;padding:2px 5px;border-radius:4px;background:#000a;color:#fff;text-transform:uppercase;letter-spacing:.5px}
+/* ── HISTORY ── */
+.history-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.h-thumb{aspect-ratio:1;background:var(--surface2);border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .15s;position:relative}
+.h-thumb:hover{border-color:var(--accent);transform:scale(1.02)}
+.h-thumb img,.h-thumb video{width:100%;height:100%;object-fit:cover}
+.h-badge{position:absolute;top:4px;left:4px;font-size:9px;padding:2px 5px;border-radius:4px;background:#000b;color:#fff;text-transform:uppercase}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:12px 18px;font-size:13px;color:var(--text);z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;max-width:320px}
+/* ── LOGIN SCREEN ── */
+.login-screen{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;transition:background .25s}
+.login-screen.hidden{display:none}
+.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:40px 36px;width:420px;max-width:100%;box-shadow:var(--shadow)}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.login-logo-icon{width:42px;height:42px;background:var(--accent);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.login-logo-icon svg{width:22px;height:22px;fill:#fff}
+.login-logo-text{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--text)}
+.login-logo-text span{color:var(--accent)}
+.login-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--text3);margin-bottom:28px;line-height:1.5;font-family:'Inter',sans-serif}
+.login-field{margin-bottom:16px}
+.login-field label{font-size:12px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px;font-family:'Inter',sans-serif}
+.login-field input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:11px 13px;border-radius:9px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.login-field input:focus{border-color:var(--accent)}
+.login-error{font-size:12px;color:#ef4444;margin-top:8px;display:none;font-family:'Inter',sans-serif}
+.login-error.show{display:block}
+.login-btn{width:100%;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:8px}
+.login-btn:hover{background:var(--accent-hover)}
+.login-btn:disabled{opacity:.5;cursor:not-allowed}
+/* ── API KEY SCREEN (one-time after login) ── */
+.apikey-screen{position:fixed;inset:0;background:#00000088;backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.apikey-screen.show{display:flex}
+.apikey-box{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:32px;width:420px;max-width:100%;box-shadow:var(--shadow)}
+.apikey-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
+.apikey-sub{font-size:12.5px;color:var(--text3);margin-bottom:22px;line-height:1.6;font-family:'Inter',sans-serif}
+.apikey-label{font-size:12px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px;font-family:'Inter',sans-serif}
+.apikey-input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 12px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.apikey-input:focus{border-color:var(--accent)}
+.apikey-hint{font-size:11.5px;color:var(--text3);margin-top:10px;line-height:1.6;font-family:'Inter',sans-serif}
+.apikey-save{width:100%;padding:12px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:18px}
+.apikey-save:hover{background:var(--accent-hover)}
+/* ── SETTINGS MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:#00000070;backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:28px;width:380px;max-width:90vw;box-shadow:var(--shadow)}
+.modal-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px}
+.modal-sub{font-size:12.5px;color:var(--text3);margin-bottom:22px;line-height:1.5;font-family:'Inter',sans-serif}
+.modal-field{margin-bottom:16px}
+.modal-field label{font-size:12px;color:var(--text2);font-weight:500;display:block;margin-bottom:6px;font-family:'Inter',sans-serif}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.btn-primary{flex:1;padding:11px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-ghost{padding:11px 18px;background:none;border:1px solid var(--border2);border-radius:9px;color:var(--text2);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:11px 16px;font-size:13px;color:var(--text);z-index:200;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px;box-shadow:var(--shadow)}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.error{border-color:#ef4444;color:#fca5a5}
 .toast.success{border-color:#22c55e;color:#86efac}
 
-/* MODEL GRID */
-.model-grid{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
-.model-opt{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .12s;border:1px solid transparent}
-.model-opt:hover{background:var(--surface2);color:var(--text)}
-.model-opt.selected{background:var(--accent-glow);border-color:var(--accent);color:var(--accent2)}
-.model-opt .badge{font-size:9px;padding:1px 5px;border-radius:4px;background:var(--border2);color:var(--text3);margin-left:auto;text-transform:uppercase;letter-spacing:.5px}
-.model-opt.selected .badge{background:var(--accent);color:#fff}
-
-/* RATIO PILLS */
-.ratio-pills{display:flex;flex-wrap:wrap;gap:5px}
-.ratio-pill{padding:4px 10px;border:1px solid var(--border2);border-radius:6px;font-size:11.5px;cursor:pointer;color:var(--text2);transition:all .12s}
-.ratio-pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* SECTION TAG */
-.section-tag{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text3);display:flex;align-items:center;gap:6px;margin-bottom:10px}
-.section-tag::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* STUDIO SWITCHER hidden panels */
-.studio-panel{display:none}
-.studio-panel.active{display:contents}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .sidebar{display:none}
-  .panel-left{width:260px;min-width:260px}
-}
-@media(max-width:700px){
-  .workspace{flex-direction:column}
-  .panel-left{width:100%;min-width:unset}
-}
+/* ── RESPONSIVE ── */
+@media(max-width:860px){.sidebar{display:none}.panel-left{width:250px;min-width:250px}}
+@media(max-width:650px){.workspace{flex-direction:column}.panel-left{width:100%;min-width:unset}.history-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="login-logo-text">RAYAN <span>AI</span></div>
+    </div>
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to access your creative studio.</div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-error" id="loginError">Incorrect email or password.</div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- API KEY SCREEN (one-time) -->
+<div class="apikey-screen" id="apikeyScreen">
+  <div class="apikey-box">
+    <div class="apikey-title">One last step</div>
+    <div class="apikey-sub">Enter your MUAPI key to enable generation. This is saved in your browser and never asked again.</div>
+    <label class="apikey-label">MUAPI API Key</label>
+    <input type="password" class="apikey-input" id="apikeyInput" placeholder="Enter your muapi.ai key..."/>
+    <div class="apikey-hint">
+      Get your key at <strong style="color:var(--accent)">muapi.ai</strong> → Dashboard → API Keys
+    </div>
+    <button class="apikey-save" onclick="saveApiKey()">Save & Start Creating</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-title">Settings</div>
+    <div class="modal-sub">Update your MUAPI API key if needed.</div>
+    <div class="modal-field">
+      <label>API Key</label>
+      <input type="password" id="keyInput" placeholder="Enter your muapi.ai key..."/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeSettings()">Cancel</button>
+      <button class="btn-primary" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
 <div class="app">
+
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-text">RAYAN <span>AI</span></div>
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="logo-text">RAYAN <span>AI</span></div>
+      </div>
       <div class="logo-sub">Creative Studio</div>
     </div>
+
     <nav class="nav">
-      <div class="nav-section">Studios</div>
-      <button class="nav-item active" onclick="switchStudio('image')">
+      <div class="nav-label">Studios</div>
+      <button class="nav-item active" id="nav-image" onclick="switchStudio('image',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
         Image Studio
       </button>
-      <button class="nav-item" onclick="switchStudio('video')">
+      <button class="nav-item" id="nav-video" onclick="switchStudio('video',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         Video Studio
       </button>
-      <button class="nav-item" onclick="switchStudio('i2v')">
+      <button class="nav-item" id="nav-i2v" onclick="switchStudio('i2v',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
         Image → Video
       </button>
-      <div class="nav-section" style="margin-top:8px">History</div>
-      <button class="nav-item" onclick="showHistory()">
+      <div class="nav-label" style="margin-top:8px">Outputs</div>
+      <button class="nav-item" onclick="toggleHistory()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.75"/></svg>
         Recent Outputs
       </button>
     </nav>
-    <div class="api-box">
-      <label>MUAPI KEY</label>
-      <input type="password" class="api-input" id="apiKeyInput" placeholder="mk-xxxxxxxxxx" oninput="saveKey(this.value)"/>
-      <div class="api-status">
-        <div class="api-dot" id="apiDot"></div>
-        <span id="apiStatusText">Enter your key</span>
-      </div>
+
+    <div class="sidebar-bottom">
+      <button class="sidebar-btn" onclick="openSettings()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </button>
+      <button class="sidebar-btn" onclick="doLogout()" title="Sign out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
     </div>
   </aside>
 
@@ -216,24 +341,27 @@ textarea{height:100px;line-height:1.5}
   <div class="main">
     <!-- TOPBAR -->
     <div class="topbar">
-      <div class="topbar-title" id="studioTitle">Image Studio</div>
-      <div class="tab-pills">
+      <div class="studio-title" id="studioTitle">Image Studio</div>
+      <div class="tab-pills" id="tabPills">
         <button class="tab-pill active" id="tab-t2i" onclick="switchMode('t2i')">Text → Image</button>
         <button class="tab-pill" id="tab-i2i" onclick="switchMode('i2i')">Image → Image</button>
       </div>
+      <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
     </div>
 
     <!-- WORKSPACE -->
-    <div class="workspace" id="workspace">
+    <div class="workspace">
 
-      <!-- LEFT PANEL -->
-      <div class="panel-left" id="leftPanel">
+      <!-- LEFT -->
+      <div class="panel-left">
 
-        <!-- MODEL SELECT -->
+        <!-- MODEL -->
         <div class="card">
           <div class="card-title">Model</div>
           <input type="text" id="modelSearch" placeholder="Search models..." oninput="filterModels()" style="margin-bottom:10px"/>
-          <div class="model-grid" id="modelGrid"></div>
+          <div class="model-list" id="modelList"></div>
         </div>
 
         <!-- PROMPT -->
@@ -244,41 +372,45 @@ textarea{height:100px;line-height:1.5}
           </div>
           <div class="field" id="negativeField">
             <label>Negative Prompt</label>
-            <textarea id="negativeInput" placeholder="What to avoid..." style="height:60px"></textarea>
+            <textarea id="negativeInput" placeholder="What to avoid..." style="height:56px"></textarea>
           </div>
         </div>
 
         <!-- SETTINGS -->
-        <div class="card" id="settingsCard">
+        <div class="card">
           <div class="card-title">Settings</div>
           <div class="field">
             <label>Aspect Ratio</label>
-            <div class="ratio-pills" id="ratioPills">
-              <div class="ratio-pill active" onclick="setRatio(this,'1:1')">1:1</div>
-              <div class="ratio-pill" onclick="setRatio(this,'16:9')">16:9</div>
-              <div class="ratio-pill" onclick="setRatio(this,'9:16')">9:16</div>
-              <div class="ratio-pill" onclick="setRatio(this,'4:3')">4:3</div>
-              <div class="ratio-pill" onclick="setRatio(this,'3:4')">3:4</div>
-              <div class="ratio-pill" onclick="setRatio(this,'21:9')">21:9</div>
+            <div class="pill-row" id="ratioPills">
+              <button class="pill active" onclick="setRatio(this,'1:1')">1:1</button>
+              <button class="pill" onclick="setRatio(this,'16:9')">16:9</button>
+              <button class="pill" onclick="setRatio(this,'9:16')">9:16</button>
+              <button class="pill" onclick="setRatio(this,'4:3')">4:3</button>
+              <button class="pill" onclick="setRatio(this,'3:4')">3:4</button>
+              <button class="pill" onclick="setRatio(this,'21:9')">21:9</button>
             </div>
           </div>
-          <!-- Video duration (hidden in image mode) -->
           <div class="field" id="durationField" style="display:none">
             <label>Duration</label>
-            <div class="ratio-pills">
-              <div class="ratio-pill active" onclick="setDuration(this,'5')">5s</div>
-              <div class="ratio-pill" onclick="setDuration(this,'8')">8s</div>
-              <div class="ratio-pill" onclick="setDuration(this,'10')">10s</div>
+            <div class="pill-row">
+              <button class="pill active" onclick="setDuration(this,'5')">5s</button>
+              <button class="pill" onclick="setDuration(this,'8')">8s</button>
+              <button class="pill" onclick="setDuration(this,'10')">10s</button>
             </div>
           </div>
-          <!-- Upload (for i2i/i2v modes) -->
           <div class="field" id="uploadField" style="display:none">
             <label id="uploadLabel">Source Image</label>
-            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
-              <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFileUpload(this)"/>
-              <div class="upload-icon">📁</div>
-              <div class="upload-text">Click to upload</div>
-              <img id="uploadPreview" class="upload-preview" style="display:none"/>
+            <div class="upload-zone" id="uploadZone"
+              ondragover="e=>{e.preventDefault();this.classList.add('dragging')}"
+              ondragleave="this.classList.remove('dragging')"
+              ondrop="handleDrop(event)"
+              onclick="document.getElementById('fileInput').click()">
+              <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFile(this.files[0])"/>
+              <div id="uploadPlaceholder">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-hint">Click or drag to upload</div>
+              </div>
+              <img id="uploadPreview" class="upload-preview-img"/>
             </div>
           </div>
         </div>
@@ -289,34 +421,44 @@ textarea{height:100px;line-height:1.5}
         </button>
       </div>
 
-      <!-- RIGHT PANEL -->
+      <!-- RIGHT -->
       <div class="panel-right">
         <!-- OUTPUT -->
         <div class="output-area" id="outputArea">
           <div class="output-empty" id="outputEmpty">
-            <div class="icon">✨</div>
-            <p>Your generation will appear here</p>
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div class="empty-text">
+              <strong>Ready to create</strong>
+              Choose a model, write a prompt,<br/>and hit Generate
+            </div>
           </div>
-          <div class="progress-wrap" id="progressWrap" style="display:none">
-            <div class="spinner"></div>
-            <div class="progress-text" id="progressText">Generating...</div>
-            <div class="progress-stage" id="progressStage">Submitting request</div>
-            <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+          <div class="progress-wrap" id="progressWrap">
+            <div class="prog-ring">
+              <svg viewBox="0 0 36 36" width="52" height="52">
+                <circle class="prog-track" cx="18" cy="18" r="16"/>
+                <circle cx="18" cy="18" r="16" stroke="var(--accent)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="60"/>
+              </svg>
+            </div>
+            <div class="progress-label" id="progressLabel">Generating...</div>
+            <div class="progress-sub" id="progressSub">Submitting request</div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
           </div>
         </div>
 
-        <!-- ACTION BAR -->
-        <div class="action-bar" id="actionBar" style="display:none">
-          <a class="action-btn" id="downloadBtn" href="#" download="rayan-ai-output">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <!-- ACTIONS -->
+        <div class="action-bar" id="actionBar">
+          <a class="act-btn" id="downloadBtn" href="#" download="rayan-ai-output">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download
           </a>
-          <button class="action-btn" onclick="useAsInput()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.75"/></svg>
+          <button class="act-btn" onclick="useAsInput()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.75"/></svg>
             Use as Input
           </button>
-          <button class="action-btn" onclick="copyUrl()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <button class="act-btn" onclick="copyUrl()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             Copy URL
           </button>
         </div>
@@ -331,466 +473,437 @@ textarea{height:100px;line-height:1.5}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── STATE ───────────────────────────────────────────
-const STATE = {
-  studio: 'image',  // image | video | i2v
-  mode: 't2i',      // t2i | i2i
+// ── STATE ──────────────────────────────────────────────
+const S = {
+  studio: 'image',
+  mode: 't2i',
   model: null,
   ratio: '1:1',
   duration: '5',
-  uploadedUrl: null,
   uploadedFile: null,
   outputUrl: null,
-  outputType: null, // image | video
+  outputType: null,
   history: JSON.parse(localStorage.getItem('rayan_history') || '[]'),
 };
 
-// ─── MODELS DATA ─────────────────────────────────────
+const API = 'https://api.muapi.ai';
+
+// ── MODELS ─────────────────────────────────────────────
 const MODELS = {
-  image: [
-    {id:'flux-dev', name:'Flux Dev', badge:'Popular'},
-    {id:'flux-schnell', name:'Flux Schnell', badge:'Fast'},
-    {id:'flux-kontext-pro-t2i', name:'Flux Kontext Pro', badge:'Pro'},
-    {id:'flux-kontext-max-t2i', name:'Flux Kontext Max', badge:'Max'},
-    {id:'gpt4o-text-to-image', name:'GPT-4o Image', badge:'OpenAI'},
-    {id:'midjourney-v7-text-to-image', name:'Midjourney v7', badge:'MJ'},
-    {id:'nano-banana', name:'Nano Banana', badge:''},
-    {id:'hidream-i1-fast', name:'HiDream i1 Fast', badge:'Fast'},
-    {id:'hidream-i1-full', name:'HiDream i1 Full', badge:''},
-    {id:'bytedance-seedream-v3', name:'Seedream v3', badge:'ByteDance'},
-    {id:'wan2.6-text-to-image', name:'Wan 2.6', badge:''},
-    {id:'hunyuan-image-3.0', name:'Hunyuan 3.0', badge:''},
-    {id:'minimax-image-01', name:'Minimax Image', badge:''},
-    {id:'kling-o1-text-to-image', name:'Kling O1', badge:''},
+  image:[
+    {id:'flux-dev-image',name:'Flux Dev',badge:'Popular'},
+    {id:'flux-schnell',name:'Flux Schnell',badge:'Fast'},
+    {id:'flux-kontext-pro',name:'Flux Kontext Pro',badge:'Pro'},
+    {id:'flux-kontext-max',name:'Flux Kontext Max',badge:'Max'},
+    {id:'gpt4o-text-to-image',name:'GPT-4o Image',badge:'OpenAI'},
+    {id:'midjourney-v7-text-to-image',name:'Midjourney v7',badge:'MJ'},
+    {id:'nano-banana-2',name:'Nano Banana 2',badge:''},
+    {id:'hidream-i1-fast',name:'HiDream i1 Fast',badge:'Fast'},
+    {id:'hidream-i1-full',name:'HiDream i1 Full',badge:''},
+    {id:'bytedance-seedream-v3',name:'Seedream v3',badge:''},
+    {id:'wan2.6-text-to-image',name:'Wan 2.6',badge:''},
+    {id:'hunyuan-image-3.0',name:'Hunyuan 3.0',badge:''},
+    {id:'minimax-image-01',name:'Minimax Image',badge:''},
+    {id:'kling-o1-text-to-image',name:'Kling O1',badge:''},
   ],
-  i2i: [
-    {id:'flux-kontext-dev-i2i', name:'Flux Kontext Dev', badge:''},
-    {id:'flux-kontext-pro-i2i', name:'Flux Kontext Pro', badge:'Pro'},
-    {id:'flux-kontext-max-i2i', name:'Flux Kontext Max', badge:'Max'},
-    {id:'nano-banana', name:'Nano Banana', badge:''},
-    {id:'wan2.6-image-to-image', name:'Wan 2.6 I2I', badge:''},
+  i2i:[
+    {id:'flux-kontext-dev',name:'Flux Kontext Dev',badge:''},
+    {id:'flux-kontext-pro',name:'Flux Kontext Pro',badge:'Pro'},
+    {id:'flux-kontext-max',name:'Flux Kontext Max',badge:'Max'},
+    {id:'nano-banana-2-edit',name:'Nano Banana 2 Edit',badge:''},
+    {id:'wan2.6-image-to-image',name:'Wan 2.6 I2I',badge:''},
   ],
-  video: [
-    {id:'kling-v3.0-pro-text-to-video', name:'Kling v3.0 Pro', badge:'Top'},
-    {id:'kling-v3.0-standard-text-to-video', name:'Kling v3.0 Std', badge:''},
-    {id:'kling-v2.6-pro-t2v', name:'Kling v2.6 Pro', badge:''},
-    {id:'veo3.1-text-to-video', name:'Veo 3.1', badge:'Google'},
-    {id:'veo3.1-fast-text-to-video', name:'Veo 3.1 Fast', badge:'Fast'},
-    {id:'veo3.1-lite-text-to-video', name:'Veo 3.1 Lite', badge:'Lite'},
-    {id:'seedance-v2.0-t2v', name:'Seedance v2.0', badge:'ByteDance'},
-    {id:'seedance-pro-t2v', name:'Seedance Pro', badge:''},
-    {id:'seedance-lite-t2v', name:'Seedance Lite', badge:'Fast'},
-    {id:'wan2.6-text-to-video', name:'Wan 2.6', badge:''},
-    {id:'wan2.5-text-to-video', name:'Wan 2.5', badge:''},
-    {id:'hunyuan-text-to-video', name:'Hunyuan Video', badge:''},
-    {id:'minimax-hailuo-2.3-pro-t2v', name:'Hailuo 2.3 Pro', badge:''},
-    {id:'runway-text-to-video', name:'Runway Gen', badge:''},
-    {id:'openai-sora-2-text-to-video', name:'Sora 2', badge:'OpenAI'},
+  video:[
+    {id:'kling-v3.0-pro-text-to-video',name:'Kling v3.0 Pro',badge:'Top'},
+    {id:'kling-v3.0-standard-text-to-video',name:'Kling v3.0 Std',badge:''},
+    {id:'kling-v2.6-pro-t2v',name:'Kling v2.6 Pro',badge:''},
+    {id:'veo3.1-text-to-video',name:'Veo 3.1',badge:'Google'},
+    {id:'veo3.1-fast-text-to-video',name:'Veo 3.1 Fast',badge:'Fast'},
+    {id:'veo3.1-lite-text-to-video',name:'Veo 3.1 Lite',badge:'Lite'},
+    {id:'seedance-v2.0-t2v',name:'Seedance v2.0',badge:''},
+    {id:'seedance-pro-t2v',name:'Seedance Pro',badge:''},
+    {id:'seedance-lite-t2v',name:'Seedance Lite',badge:'Fast'},
+    {id:'wan2.6-text-to-video',name:'Wan 2.6',badge:''},
+    {id:'wan2.5-text-to-video',name:'Wan 2.5',badge:''},
+    {id:'hunyuan-text-to-video',name:'Hunyuan Video',badge:''},
+    {id:'minimax-hailuo-02-pro-t2v',name:'Hailuo 2 Pro',badge:''},
+    {id:'runway-text-to-video',name:'Runway Gen',badge:''},
+    {id:'openai-sora-2-text-to-video',name:'Sora 2',badge:'OpenAI'},
   ],
-  i2v: [
-    {id:'kling-v3.0-pro-image-to-video', name:'Kling v3.0 Pro', badge:'Top'},
-    {id:'kling-v2.6-pro-i2v', name:'Kling v2.6 Pro', badge:''},
-    {id:'wan2.6-image-to-video', name:'Wan 2.6 I2V', badge:''},
-    {id:'wan2.5-image-to-video', name:'Wan 2.5 I2V', badge:''},
-    {id:'hunyuan-image-to-video', name:'Hunyuan I2V', badge:''},
-    {id:'seedance-pro-i2v', name:'Seedance Pro I2V', badge:''},
-    {id:'minimax-hailuo-02-pro-i2v', name:'Hailuo 2 Pro I2V', badge:''},
+  i2v:[
+    {id:'kling-v3.0-pro-image-to-video',name:'Kling v3.0 Pro',badge:'Top'},
+    {id:'kling-v2.6-pro-i2v',name:'Kling v2.6 Pro',badge:''},
+    {id:'wan2.6-image-to-video',name:'Wan 2.6 I2V',badge:''},
+    {id:'wan2.5-image-to-video',name:'Wan 2.5 I2V',badge:''},
+    {id:'hunyuan-image-to-video',name:'Hunyuan I2V',badge:''},
+    {id:'seedance-v2.0-i2v',name:'Seedance v2.0 I2V',badge:''},
+    {id:'minimax-hailuo-02-pro-i2v',name:'Hailuo 2 Pro I2V',badge:''},
   ]
 };
 
-const API_BASE = 'https://api.muapi.ai';
+// ── INIT ───────────────────────────────────────────────
+// ── LOGOUT ────────────────────────────────────────────
+function doLogout(){
+  sessionStorage.removeItem('rayan_auth');
+  location.reload();
+}
 
-// ─── INIT ─────────────────────────────────────────────
+// ── CREDENTIALS (hardcoded) ──────────────────────────
+const CREDS = { email:'Rayanbrqe11@gmail.com', pass:'rr11223344' };
+
 function init() {
-  const savedKey = localStorage.getItem('rayan_muapi_key');
-  if (savedKey) {
-    document.getElementById('apiKeyInput').value = savedKey;
-    updateApiStatus(true);
+  applyTheme(localStorage.getItem('rayan_theme') || 'dark');
+  const loggedIn = sessionStorage.getItem('rayan_auth') === '1';
+  if (!loggedIn) { showLogin(); return; }
+  bootApp();
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginError');
+  const btn   = document.getElementById('loginBtn');
+  if (email === CREDS.email && pass === CREDS.pass) {
+    sessionStorage.setItem('rayan_auth','1');
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    setTimeout(() => {
+      document.getElementById('loginScreen').classList.add('hidden');
+      bootApp();
+    }, 400);
+  } else {
+    err.classList.add('show');
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+function bootApp() {
+  const key = localStorage.getItem('rayan_key');
+  if (!key) {
+    document.getElementById('apikeyScreen').classList.add('show');
   }
   renderModels();
   renderHistory();
 }
 
-// ─── API KEY ──────────────────────────────────────────
-function saveKey(val) {
-  localStorage.setItem('rayan_muapi_key', val);
-  updateApiStatus(!!val.trim());
-}
-function getKey() {
-  return localStorage.getItem('rayan_muapi_key') || '';
-}
-function updateApiStatus(ok) {
-  document.getElementById('apiDot').className = 'api-dot' + (ok ? ' ok' : '');
-  document.getElementById('apiStatusText').textContent = ok ? 'Key saved' : 'Enter your key';
+function saveApiKey() {
+  const k = document.getElementById('apikeyInput').value.trim();
+  if (!k) { toast('Enter your API key','error'); return; }
+  localStorage.setItem('rayan_key', k);
+  document.getElementById('apikeyScreen').classList.remove('show');
+  toast('All set! Start creating.','success');
 }
 
-// ─── STUDIO SWITCHING ─────────────────────────────────
-function switchStudio(studio) {
-  STATE.studio = studio;
-  STATE.model = null;
-  STATE.mode = studio === 'i2v' ? 'i2v' : 't2i';
+// ── SETTINGS MODAL ────────────────────────────────────
+function openSettings() {
+  document.getElementById('keyInput').value = localStorage.getItem('rayan_key') || '';
+  document.getElementById('settingsModal').classList.add('show');
+}
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('show');
+}
+function saveSettings() {
+  const k = document.getElementById('keyInput').value.trim();
+  if (!k) { toast('Enter an API key','error'); return; }
+  localStorage.setItem('rayan_key', k);
+  closeSettings();
+  toast('API key updated','success');
+}
+function getKey() { return localStorage.getItem('rayan_key') || ''; }
 
-  // Nav items
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+// ── THEME ──────────────────────────────────────────────
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('rayan_theme', t);
+  const icon = document.getElementById('themeIcon');
+  icon.innerHTML = t === 'dark'
+    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+}
 
-  // Update topbar
-  const titles = {image:'Image Studio', video:'Video Studio', i2i:'Image → Video'};
-  document.getElementById('studioTitle').textContent = studio === 'i2v' ? 'Image → Video' : (studio === 'video' ? 'Video Studio' : 'Image Studio');
-
-  // Tab pills
-  const tabWrap = document.querySelector('.tab-pills');
-  if (studio === 'video') {
-    tabWrap.style.display = 'none';
-  } else if (studio === 'i2v') {
-    tabWrap.style.display = 'none';
-  } else {
-    tabWrap.style.display = 'flex';
-    document.getElementById('tab-t2i').textContent = 'Text → Image';
-    document.getElementById('tab-i2i').textContent = 'Image → Image';
+// ── STUDIO SWITCH ─────────────────────────────────────
+function switchStudio(studio, el) {
+  S.studio = studio;
+  S.model = null;
+  S.mode = studio === 'i2v' ? 'i2v' : 't2i';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const titles = {image:'Image Studio', video:'Video Studio', i2v:'Image → Video'};
+  document.getElementById('studioTitle').textContent = titles[studio];
+  const tabs = document.getElementById('tabPills');
+  tabs.style.display = (studio === 'image') ? 'flex' : 'none';
+  if(studio === 'image') {
+    document.querySelectorAll('.tab-pill').forEach(p=>p.classList.remove('active'));
+    document.getElementById('tab-t2i').classList.add('active');
   }
-
   updatePanels();
   renderModels();
   resetOutput();
 }
 
 function switchMode(mode) {
-  STATE.mode = mode;
-  document.querySelectorAll('.tab-pill').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + mode).classList.add('active');
+  S.mode = mode;
+  document.querySelectorAll('.tab-pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+mode).classList.add('active');
   updatePanels();
   renderModels();
 }
 
 function updatePanels() {
-  const isVideo = STATE.studio === 'video';
-  const isI2V = STATE.studio === 'i2v';
-  const isI2I = STATE.mode === 'i2i';
-  const needsUpload = isI2I || isI2V;
-
-  document.getElementById('durationField').style.display = (isVideo || isI2V) ? '' : 'none';
-  document.getElementById('uploadField').style.display = needsUpload ? '' : 'none';
-  document.getElementById('negativeField').style.display = isVideo ? 'none' : '';
-
-  if (isI2V) document.getElementById('uploadLabel').textContent = 'Start Frame Image';
-  if (isI2I) document.getElementById('uploadLabel').textContent = 'Source Image';
+  const isVid = S.studio==='video', isI2V = S.studio==='i2v', isI2I = S.mode==='i2i';
+  document.getElementById('durationField').style.display = (isVid||isI2V)?'':'none';
+  document.getElementById('uploadField').style.display = (isI2I||isI2V)?'':'none';
+  document.getElementById('negativeField').style.display = isVid?'none':'';
+  if(isI2V) document.getElementById('uploadLabel').textContent='Start Frame Image';
+  if(isI2I) document.getElementById('uploadLabel').textContent='Source Image';
 }
 
-// ─── MODELS ──────────────────────────────────────────
-function getModelList() {
-  if (STATE.studio === 'video') return MODELS.video;
-  if (STATE.studio === 'i2v') return MODELS.i2v;
-  if (STATE.mode === 'i2i') return MODELS.i2i;
+// ── MODELS ─────────────────────────────────────────────
+function getList() {
+  if(S.studio==='video') return MODELS.video;
+  if(S.studio==='i2v') return MODELS.i2v;
+  if(S.mode==='i2i') return MODELS.i2i;
   return MODELS.image;
 }
-
-function renderModels(filter = '') {
-  const list = getModelList();
-  const filtered = filter ? list.filter(m => m.name.toLowerCase().includes(filter.toLowerCase())) : list;
-  const grid = document.getElementById('modelGrid');
-  grid.innerHTML = filtered.map(m => `
-    <div class="model-opt ${STATE.model === m.id ? 'selected' : ''}" onclick="selectModel('${m.id}')">
+function renderModels(q='') {
+  const list = getList().filter(m=>!q||m.name.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('modelList').innerHTML = list.map(m=>`
+    <div class="model-opt ${S.model===m.id?'selected':''}" onclick="selectModel('${m.id}')">
       ${m.name}
-      ${m.badge ? `<span class="badge">${m.badge}</span>` : ''}
-    </div>
-  `).join('');
-  if (!STATE.model && filtered.length) {
-    selectModel(filtered[0].id, true);
-  }
+      ${m.badge?`<span class="model-badge">${m.badge}</span>`:''}
+    </div>`).join('');
+  if(!S.model && list.length) selectModel(list[0].id);
 }
-
-function selectModel(id, silent = false) {
-  STATE.model = id;
-  document.querySelectorAll('.model-opt').forEach(el => {
-    el.classList.toggle('selected', el.onclick.toString().includes(`'${id}'`));
+function selectModel(id) {
+  S.model = id;
+  document.querySelectorAll('.model-opt').forEach(el=>{
+    el.classList.toggle('selected', el.textContent.trim().startsWith(
+      (MODELS.image.concat(MODELS.i2i,MODELS.video,MODELS.i2v).find(m=>m.id===id)||{}).name||'__'
+    ));
   });
-  // re-render to highlight
   renderModels(document.getElementById('modelSearch').value);
 }
+function filterModels(){ renderModels(document.getElementById('modelSearch').value); }
 
-function filterModels() {
-  renderModels(document.getElementById('modelSearch').value);
-}
-
-// ─── SETTINGS ────────────────────────────────────────
-function setRatio(el, val) {
-  STATE.ratio = val;
-  document.querySelectorAll('.ratio-pill').forEach(p => p.classList.remove('active'));
+// ── SETTINGS CONTROLS ─────────────────────────────────
+function setRatio(el,val){
+  S.ratio=val;
+  document.querySelectorAll('#ratioPills .pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
 }
-function setDuration(el, val) {
-  STATE.duration = val;
-  el.closest('.ratio-pills').querySelectorAll('.ratio-pill').forEach(p => p.classList.remove('active'));
+function setDuration(el,val){
+  S.duration=val;
+  el.closest('.pill-row').querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
 }
 
-// ─── FILE UPLOAD ─────────────────────────────────────
-function handleFileUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  STATE.uploadedFile = file;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const prev = document.getElementById('uploadPreview');
-    prev.src = e.target.result;
-    prev.style.display = 'block';
-    document.querySelector('.upload-icon').style.display = 'none';
-    document.querySelector('.upload-text').style.display = 'none';
+// ── FILE UPLOAD ────────────────────────────────────────
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('dragging');
+  const f = e.dataTransfer.files[0];
+  if(f) handleFile(f);
+}
+function handleFile(file){
+  if(!file) return;
+  S.uploadedFile = file;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = document.getElementById('uploadPreview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('uploadPlaceholder').style.display = 'none';
     document.getElementById('uploadZone').classList.add('has-file');
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
 
-// ─── GENERATE ────────────────────────────────────────
-async function generate() {
+// ── GENERATE ───────────────────────────────────────────
+async function generate(){
   const key = getKey();
-  if (!key) { toast('Enter your MUAPI key first', 'error'); return; }
-  if (!STATE.model) { toast('Select a model', 'error'); return; }
+  if(!key){ openSettings(); return; }
+  if(!S.model){ toast('Select a model','error'); return; }
   const prompt = document.getElementById('promptInput').value.trim();
-  if (!prompt && STATE.studio !== 'i2v') { toast('Enter a prompt', 'error'); return; }
+  if(!prompt && S.studio!=='i2v'){ toast('Write a prompt','error'); return; }
+  const isVid=S.studio==='video', isI2V=S.studio==='i2v', isI2I=S.mode==='i2i';
+  if((isI2I||isI2V) && !S.uploadedFile){ toast('Upload an image first','error'); return; }
 
-  const isVideo = STATE.studio === 'video';
-  const isI2V = STATE.studio === 'i2v';
-  const isI2I = STATE.mode === 'i2i';
-  const needsUpload = isI2I || isI2V;
-
-  if (needsUpload && !STATE.uploadedFile) { toast('Upload an image first', 'error'); return; }
-
-  showProgress(true, isVideo || isI2V ? 'Generating video...' : 'Generating image...');
-  document.getElementById('genBtn').disabled = true;
+  showProg(true, isVid||isI2V ? 'Generating video...' : 'Generating image...');
+  document.getElementById('genBtn').disabled=true;
   resetOutput(false);
 
   try {
-    let uploadedUrl = null;
-    if (needsUpload && STATE.uploadedFile) {
-      setProgressStage('Uploading image...');
-      uploadedUrl = await uploadFile(STATE.uploadedFile, key);
+    let imgUrl=null;
+    if((isI2I||isI2V) && S.uploadedFile){
+      setSub('Uploading image...');
+      imgUrl = await uploadFile(S.uploadedFile, key);
     }
-
-    setProgressStage('Submitting to model...');
-
+    setSub('Submitting to model...');
     let result;
-    if (isI2V) {
-      result = await callVideoAPI(STATE.model, prompt, key, uploadedUrl, 'i2v');
-    } else if (isVideo) {
-      result = await callVideoAPI(STATE.model, prompt, key, null, 't2v');
-    } else if (isI2I) {
-      result = await callImageAPI(STATE.model, prompt, key, uploadedUrl, 'i2i');
-    } else {
-      result = await callImageAPI(STATE.model, prompt, key, null, 't2i');
-    }
+    if(isI2V) result = await callVideo(S.model,prompt,key,imgUrl);
+    else if(isVid) result = await callVideo(S.model,prompt,key,null);
+    else result = await callImage(S.model,prompt,key,isI2I?imgUrl:null);
 
-    const url = result.outputs?.[0] || result.url || result.output?.url;
-    if (!url) throw new Error('No output URL in response');
-
-    STATE.outputUrl = url;
-    STATE.outputType = (isVideo || isI2V) ? 'video' : 'image';
-    showOutput(url, STATE.outputType);
-    saveHistory(url, STATE.outputType, prompt);
-    toast('Generated successfully!', 'success');
-
-  } catch (err) {
-    console.error(err);
-    toast(err.message || 'Generation failed', 'error');
-    showProgress(false);
+    const url = result.outputs?.[0]||result.url||result.output?.url;
+    if(!url) throw new Error('No output URL');
+    S.outputUrl=url;
+    S.outputType=(isVid||isI2V)?'video':'image';
+    showOutput(url,S.outputType);
+    saveHistory(url,S.outputType,prompt);
+    toast('Done!','success');
+  } catch(e){
+    console.error(e);
+    toast(e.message||'Generation failed','error');
+    showProg(false);
   } finally {
-    document.getElementById('genBtn').disabled = false;
+    document.getElementById('genBtn').disabled=false;
   }
 }
 
-async function uploadFile(file, key) {
-  const form = new FormData();
-  form.append('file', file);
-  const res = await fetch(`${API_BASE}/api/v1/upload_file`, {
-    method: 'POST',
-    headers: { 'x-api-key': key },
-    body: form
-  });
-  if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
-  const d = await res.json();
-  return d.url || d.file_url || d.data?.url;
+async function uploadFile(file,key){
+  const fd=new FormData(); fd.append('file',file);
+  const r=await fetch(`${API}/api/v1/upload_file`,{method:'POST',headers:{'x-api-key':key},body:fd});
+  if(!r.ok) throw new Error(`Upload failed: ${r.status}`);
+  const d=await r.json(); return d.url||d.file_url||d.data?.url;
 }
 
-async function callImageAPI(model, prompt, key, imageUrl, mode) {
-  const payload = { prompt, aspect_ratio: STATE.ratio };
-  if (mode === 'i2i' && imageUrl) payload.image_url = imageUrl;
+async function callImage(model,prompt,key,imageUrl){
+  const body={prompt,aspect_ratio:S.ratio};
+  if(imageUrl) body.image_url=imageUrl;
+  const r=await fetch(`${API}/api/v1/${model}`,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key},body:JSON.stringify(body)});
+  if(!r.ok){const t=await r.text();throw new Error(`API error ${r.status}: ${t.slice(0,120)}`);}
+  const s=await r.json(); const rid=s.request_id||s.id; if(!rid) return s;
+  setSub('Processing...'); return await poll(rid,key);
+}
 
-  const endpoint = mode === 'i2i' ? model : model;
-  const res = await fetch(`${API_BASE}/api/v1/${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': key },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`API error ${res.status}: ${t.slice(0, 120)}`);
+async function callVideo(model,prompt,key,imageUrl){
+  const body={aspect_ratio:S.ratio,duration:S.duration};
+  if(prompt) body.prompt=prompt;
+  if(imageUrl) body.image_url=imageUrl;
+  const r=await fetch(`${API}/api/v1/${model}`,{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key},body:JSON.stringify(body)});
+  if(!r.ok){const t=await r.text();throw new Error(`API error ${r.status}: ${t.slice(0,120)}`);}
+  const s=await r.json(); const rid=s.request_id||s.id; if(!rid) return s;
+  setSub('Rendering video — this may take 1–3 minutes...');
+  return await poll(rid,key,900,3000);
+}
+
+async function poll(rid,key,max=120,interval=2000){
+  for(let i=0;i<max;i++){
+    await new Promise(r=>setTimeout(r,interval));
+    try{
+      const r=await fetch(`${API}/api/v1/predictions/${rid}/result`,{headers:{'x-api-key':key}});
+      if(!r.ok) continue;
+      const d=await r.json(); const st=(d.status||'').toLowerCase();
+      if(['completed','succeeded','success'].includes(st)) return d;
+      if(['failed','error'].includes(st)) throw new Error(d.error||'Generation failed');
+    }catch(e){if(i===max-1) throw e;}
   }
-  const sub = await res.json();
-  const rid = sub.request_id || sub.id;
-  if (!rid) return sub;
-  setProgressStage('Processing...');
-  return await poll(rid, key);
+  throw new Error('Timed out');
 }
 
-async function callVideoAPI(model, prompt, key, imageUrl, mode) {
-  const payload = {};
-  if (prompt) payload.prompt = prompt;
-  payload.aspect_ratio = STATE.ratio;
-  payload.duration = STATE.duration;
-  if (mode === 'i2v' && imageUrl) payload.image_url = imageUrl;
-
-  const res = await fetch(`${API_BASE}/api/v1/${model}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': key },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`API error ${res.status}: ${t.slice(0, 120)}`);
-  }
-  const sub = await res.json();
-  const rid = sub.request_id || sub.id;
-  if (!rid) return sub;
-  setProgressStage('Rendering video (this takes a few minutes)...');
-  return await poll(rid, key, 900, 3000);
-}
-
-async function poll(rid, key, max = 120, interval = 2000) {
-  for (let i = 0; i < max; i++) {
-    await sleep(interval);
-    const res = await fetch(`${API_BASE}/api/v1/predictions/${rid}/result`, {
-      headers: { 'x-api-key': key }
-    });
-    if (!res.ok) continue;
-    const d = await res.json();
-    const s = (d.status || '').toLowerCase();
-    if (['completed','succeeded','success'].includes(s)) return d;
-    if (['failed','error'].includes(s)) throw new Error(d.error || 'Generation failed');
-  }
-  throw new Error('Timed out waiting for result');
-}
-
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-// ─── OUTPUT ───────────────────────────────────────────
-function showOutput(url, type) {
-  showProgress(false);
-  document.getElementById('outputEmpty').style.display = 'none';
-  const area = document.getElementById('outputArea');
-
-  // Remove old output
-  area.querySelectorAll('.output-img,.output-video').forEach(el => el.remove());
-
-  if (type === 'video') {
-    const v = document.createElement('video');
-    v.src = url;
-    v.controls = true;
-    v.autoplay = true;
-    v.className = 'output-video';
+// ── OUTPUT ─────────────────────────────────────────────
+function showOutput(url,type){
+  showProg(false);
+  document.getElementById('outputEmpty').style.display='none';
+  const area=document.getElementById('outputArea');
+  area.querySelectorAll('.output-img,.output-video').forEach(e=>e.remove());
+  if(type==='video'){
+    const v=document.createElement('video');
+    v.src=url; v.controls=true; v.autoplay=true; v.className='output-video';
     area.appendChild(v);
-    document.getElementById('downloadBtn').href = url;
-    document.getElementById('downloadBtn').download = 'rayan-ai-video.mp4';
+    document.getElementById('downloadBtn').href=url;
+    document.getElementById('downloadBtn').download='rayan-ai.mp4';
   } else {
-    const img = document.createElement('img');
-    img.src = url;
-    img.className = 'output-img';
+    const img=document.createElement('img');
+    img.src=url; img.className='output-img';
     area.appendChild(img);
-    document.getElementById('downloadBtn').href = url;
-    document.getElementById('downloadBtn').download = 'rayan-ai-image.jpg';
+    document.getElementById('downloadBtn').href=url;
+    document.getElementById('downloadBtn').download='rayan-ai.jpg';
   }
-  document.getElementById('actionBar').style.display = 'flex';
+  document.getElementById('actionBar').classList.add('show');
 }
 
-function resetOutput(clearOutput = true) {
-  if (clearOutput) {
-    STATE.outputUrl = null;
-    document.getElementById('outputEmpty').style.display = '';
-    document.getElementById('actionBar').style.display = 'none';
-    document.getElementById('outputArea').querySelectorAll('.output-img,.output-video').forEach(el => el.remove());
+function resetOutput(clear=true){
+  if(clear){
+    S.outputUrl=null;
+    document.getElementById('outputEmpty').style.display='';
+    document.getElementById('actionBar').classList.remove('show');
+    document.getElementById('outputArea').querySelectorAll('.output-img,.output-video').forEach(e=>e.remove());
   }
 }
 
-function showProgress(show, text = 'Generating...') {
-  document.getElementById('progressWrap').style.display = show ? 'flex' : 'none';
-  document.getElementById('progressText').textContent = text;
-  if (!show) document.getElementById('progressStage').textContent = '';
+function showProg(show,label='Generating...'){
+  document.getElementById('progressWrap').classList.toggle('show',show);
+  document.getElementById('progressLabel').textContent=label;
 }
-function setProgressStage(t) {
-  document.getElementById('progressStage').textContent = t;
+function setSub(t){ document.getElementById('progressSub').textContent=t; }
+
+// ── ACTIONS ────────────────────────────────────────────
+function useAsInput(){
+  if(!S.outputUrl) return;
+  if(S.studio==='video') switchStudio('i2v',document.getElementById('nav-i2v'));
+  else switchMode('i2i');
+  document.getElementById('uploadPreview').src=S.outputUrl;
+  document.getElementById('uploadPreview').style.display='block';
+  document.getElementById('uploadPlaceholder').style.display='none';
+  document.getElementById('uploadZone').classList.add('has-file');
+  S.uploadedFile=null; S._directUrl=S.outputUrl;
+  toast('Set as input','success');
+}
+function copyUrl(){
+  if(!S.outputUrl) return;
+  navigator.clipboard.writeText(S.outputUrl).then(()=>toast('URL copied!','success'));
 }
 
-// ─── ACTIONS ─────────────────────────────────────────
-function useAsInput() {
-  if (!STATE.outputUrl) return;
-  // Switch to i2i or i2v and set image
-  if (STATE.studio === 'video') {
-    switchStudio('i2v');
-  } else {
-    switchMode('i2i');
-  }
-  // Set as upload preview
-  const prev = document.getElementById('uploadPreview');
-  prev.src = STATE.outputUrl;
-  prev.style.display = 'block';
-  // We can't set it as File, but we store URL for direct use
-  STATE.uploadedFile = null;
-  STATE._directUploadUrl = STATE.outputUrl;
-  toast('Output set as input', 'success');
-}
-
-function copyUrl() {
-  if (!STATE.outputUrl) return;
-  navigator.clipboard.writeText(STATE.outputUrl).then(() => toast('URL copied!', 'success'));
-}
-
-// ─── HISTORY ─────────────────────────────────────────
-function saveHistory(url, type, prompt) {
-  STATE.history.unshift({ url, type, prompt, ts: Date.now() });
-  STATE.history = STATE.history.slice(0, 18);
-  localStorage.setItem('rayan_history', JSON.stringify(STATE.history));
+// ── HISTORY ────────────────────────────────────────────
+function saveHistory(url,type,prompt){
+  S.history.unshift({url,type,prompt,ts:Date.now()});
+  S.history=S.history.slice(0,20);
+  localStorage.setItem('rayan_history',JSON.stringify(S.history));
   renderHistory();
 }
-
-function renderHistory() {
-  const grid = document.getElementById('historyGrid');
-  if (!STATE.history.length) return;
-  grid.innerHTML = STATE.history.map(item => `
-    <div class="history-thumb" onclick="loadFromHistory('${item.url}','${item.type}')">
-      <span class="type-badge">${item.type}</span>
-      ${item.type === 'video'
-        ? `<video src="${item.url}" muted></video>`
-        : `<img src="${item.url}" loading="lazy"/>`}
-    </div>
-  `).join('');
+function renderHistory(){
+  const g=document.getElementById('historyGrid');
+  g.innerHTML=S.history.map(item=>`
+    <div class="h-thumb" onclick="loadHistory('${item.url}','${item.type}')">
+      <span class="h-badge">${item.type}</span>
+      ${item.type==='video'?`<video src="${item.url}" muted></video>`:`<img src="${item.url}" loading="lazy"/>`}
+    </div>`).join('');
+}
+function toggleHistory(){
+  const c=document.getElementById('historyCard');
+  c.style.display=c.style.display==='none'?'':'none';
+}
+function loadHistory(url,type){
+  S.outputUrl=url; S.outputType=type; showOutput(url,type);
 }
 
-function showHistory() {
-  const card = document.getElementById('historyCard');
-  card.style.display = card.style.display === 'none' ? '' : 'none';
+// ── TOAST ──────────────────────────────────────────────
+let _tt;
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt);
+  _tt=setTimeout(()=>el.classList.remove('show'),3500);
 }
 
-function loadFromHistory(url, type) {
-  STATE.outputUrl = url;
-  STATE.outputType = type;
-  showOutput(url, type);
-}
+// ── CLOSE MODAL ON OVERLAY CLICK ──────────────────────
+document.getElementById('settingsModal').addEventListener('click',function(e){
+  if(e.target===this) closeSettings();
+});
 
-// ─── TOAST ───────────────────────────────────────────
-let toastTimer;
-function toast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (type ? ' ' + type : '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
-}
-
-// ─── START ────────────────────────────────────────────
 init();
 </script>
 </body>
